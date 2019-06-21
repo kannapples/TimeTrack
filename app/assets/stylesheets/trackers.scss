@@ -42,27 +42,31 @@ table#trackers {
   padding-right: 30px;
 }
 #scrum_tasks {
+  display: block;
   position: static;
   padding: 10px;
 }
 #daily_scrum_tasks {
-  position: static;
+  position: relative;
   float: left;
   text-align: center;
 }
 #weekly_scrum_tasks {
-  position: static;
+  position: relative;
   float: right;
   text-align: center;
 }
 #daily_trackers {
+  display: block;
   position: static;
+  width: 100%;
   padding: 10px;
 }
 #new_tracker_form {
 }
 div.table {
   display: table; 
+  width: 100%;
 }
 div.th {
   background-color: #4CAF50;

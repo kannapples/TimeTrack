@@ -22,8 +22,8 @@ class TrackersController < ApplicationController
       # @trackers = Tracker.where("month = ? AND CAST(strftime('%Y',date) AS integer) = ?",@month, @year).all.order("date DESC")
 
       #SCRUM TASKS
-      @weekly_goal_categories = ScrumTask.where("periodicity = ?","week").group(:category).pluck(:category)
-      @daily_task_categories = ScrumTask.where("periodicity = ?","day").group(:category).pluck(:category)
+      @weekly_goal_categories = ScrumTask.where("periodicity = ?","2").group(:category).pluck(:category)
+      @daily_task_categories = ScrumTask.where("periodicity = ?","1").group(:category).pluck(:category)
   end
 
   def month_index
@@ -153,11 +153,11 @@ class TrackersController < ApplicationController
   #########################################################################
 
     def get_weekly_goals category
-      return ScrumTask.where("periodicity = ? AND category = ?","week",category).all
+      return ScrumTask.where("periodicity = ? AND category = ?","2",category).all
     end
 
     def get_daily_tasks category
-      return ScrumTask.where("periodicity = ? AND category = ?","day",category).all
+      return ScrumTask.where("periodicity = ? AND category = ?","1",category).all
     end
 
   #########################################################################
