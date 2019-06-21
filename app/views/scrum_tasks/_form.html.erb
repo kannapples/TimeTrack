@@ -1,0 +1,37 @@
+<%= form_with(model: scrum_task, local: true) do |form| %>
+  <% if scrum_task.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(scrum_task.errors.count, "error") %> prohibited this scrum_task from being saved:</h2>
+
+      <ul>
+      <% scrum_task.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :periodicity %>
+    <%= form.select :periodicity, @task_recurrence %>
+  </div>
+
+  <div class="field">
+    <%= form.label :category %>
+    <%= form.text_field :category %>
+  </div>
+
+  <div class="field">
+    <%= form.label :task %>
+    <%= form.text_field :task %>
+  </div>
+
+  <div class="field">
+    <%= form.label :completed %>
+    <%= form.check_box :completed %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

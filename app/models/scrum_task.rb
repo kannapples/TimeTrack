@@ -1,0 +1,2 @@
+class ScrumTask < ApplicationRecord
+end

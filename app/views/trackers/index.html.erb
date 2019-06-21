@@ -1,0 +1,197 @@
+<body>
+
+<p id="notice"><%= notice %></p>
+
+<% prev_month_year = get_prev_month_year("-") %>
+<% next_month_year = get_prev_month_year("+") %>
+
+<div id="index_header">
+  <h3 id="display_date">
+    <%= Time.now.strftime('%m-%d-%Y')%><br>
+    <%= Time.now.strftime('%H:%M')%>
+  </h3>
+  <div id="link_dropdown">
+    <%= link_to "Trackers for Month", "month_index" %>
+  </div>
+</div>
+
+<div id="scrum_tasks">
+  <div id="weekly_scrum_tasks">
+    <h1>Weekly Goals <%= link_to fa_icon("plus"), new_scrum_task_path %></h1>
+    <div class="grid-container">
+      <% @weekly_goal_categories.each do |category| %> <!--loop through all weekly goals categories. @weekly_goal_categories set in tracker controller -->
+        <% weekly_goals = get_weekly_goals(category) %> <!-- for each category, find the associated goals. get_weekly_goals lives in tracker controller-->
+        <% weekly_goals.each do |goal| %> <!-- loop through all weekly goals -->
+          <div class="weekly_goal_cat">
+            <% if goal.completed then %> 
+              <span class="scrum_check_complete"> <!-- display closed circle check if completed -->
+                <i class="fas fa-check-circle"></i>
+              </span>
+            <% else %>
+              <span class="scrum_check_incomplete"> <!-- display open circle check as link to complete task function (found in scrum task controller) -->
+                <%= link_to fa_icon("check-circle", type: :regular), {:controller => "scrum_tasks", :action => "complete_task", :scrum_task => goal.id, :class => "scrum_check_circle"} %>
+              </span>
+            <% end %>
+            <span class="task_cat_title"><%= category %></span>
+            <span class="weekly_goal"><%= goal.task %></span>
+            <%= link_to fa_icon('edit') , edit_scrum_task_path(goal), :class=>"edit_icon"%> <!-- link to edit page for scrum task -->
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div> 
+
+
+
+  <div id="daily_scrum_tasks">
+    <h1>Daily Tasks <%= link_to fa_icon("plus"), new_scrum_task_path %></h1>
+    <div class="grid-container">
+      <% @daily_task_categories.each do |category| %> <!--loop through all daily task categories. @daily_task_categories set in tracker controller -->
+        <% daily_tasks = get_daily_tasks(category) %> <!-- for each category, find the associated tasks. get_daily_tasks lives in tracker controller-->
+        <% daily_tasks.each do |task| %> <!-- loop through all daily tasks -->
+          <div class="daily_task_cat">
+            <% if task.completed then %>
+              <span class="scrum_check_complete"> <!-- display closed circle check if completed -->
+                <i class="fas fa-check-circle"></i>
+              </span>
+            <% else %>
+              <span class="scrum_check_incomplete"> <!-- display open circle check as link to complete task function (found in scrum task controller) -->
+                <%= link_to fa_icon("check-circle", type: :regular), {:controller => "scrum_tasks", :action => "complete_task", :scrum_task => task.id} %>
+              </span>
+            <% end %>
+            <span class="task_cat_title"><%= category %></span>
+            <span class="daily_task"><%= task.task %></span> 
+            <%= link_to fa_icon('edit') , edit_scrum_task_path(task), :class=>"edit_icon"%> <!-- link to edit page for scrum task -->
+          </div>
+        <% end %> 
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div id="daily_trackers">
+  <div class="table">
+    <div class="table-caption">
+      <h1 id="month_title">Today's Trackers</h1>
+    </div>
+    <div class="th">
+      <div class="td day">Day</div>
+      <div class="td task">Task</div>
+      <div class="td subtask_1">Subtask</div>
+      <div class="td subtask_2">Description</div>
+      <div class="td hours">Hours</div>
+      <div class="td start_time">Start Time</div>
+      <div class="td end_time">End Time</div>
+      <div class="td payment">Payment</div>
+      <div class="td"></div>
+      <div class="td"></div>
+    </div>
+  </div>
+  <div id="new_tracker_form">
+    <%= form_for :tracker, remote: true do |form|%>
+
+      <%= content_tag :div, :class => "td day", :data => {:provide => 'datepicker', 'date-format' => 'yyyy-mm-dd', 'date-autoclose' => 'true'} do
+                      form.text_field :date, class: 'form-control', placeholder: 'YYYY-MM-DD', value: Time.now.strftime('%Y-%m-%d')
+                      end%>
+      <div class="td task"><%=form.select :task, [
+        'Band Management',
+        'Bass practice',
+        'Chores',
+        'Coding',
+        'Composition',
+        'Concert',
+        'Design',
+        'Gig',
+        'Guitar practice',
+        'Improv',
+        'Job Hunt',
+        'Leisure',
+        'Piano practice',
+        'Piano lesson',
+        'Recording',
+        'Robert Half',
+        'Sketch',
+        'Songwriting',
+        'Vacation',
+        'Voice practice',
+        'Workout'
+      ], class: 'form_new_cat_select' %></div>
+      <div class="td subtask_1"><%=form.select :subtask_1, [
+        '',
+        'Aerial',
+        'Apply to Jobs',
+        'Bad Mustard',
+        'Barley Wine',
+        'Bass Lesson',
+        'Bike',
+        'Capital Fitness',
+        'Charlie Painter gig',
+        'Classical',
+        'Cloud Swing',
+        'Cooking',
+        'Emails',
+        'Finances',
+        'Foxy Morons',
+        'Gig Prep',
+        'Grocery Shopping',
+        'Home Weights',
+        'House Blend',
+        'IFFY',
+        'Improv Piano',
+        'Improv Show',
+        'Insurance',
+        'The Lady Parts',
+        'Laundry',
+        'Lucid Dreaming',
+        'Memorizer',
+        'Nap',
+        'Object Writing',
+        'Reading',
+        'Ruby on Rails Coursera',
+        'Run',
+        'Sandhill Cranes',
+        'Thrawn Server',
+        'TimeTrack',
+        'Social Media',
+        'Solo Guitar set',
+        'Solo Transcription',
+        'Watch TV',
+        'Woodrow'
+      ] %></div>
+      <div class="td subtask_2"><%=form.text_field :subtask_2, class: 'form_new_text_select'%></div>
+      <div class="td hours"><%=form.text_field :hours, :size=>"10" %></div>
+      <div class="td start_time"><%=form.time_select :start_time, {minute_step: 30, :default => {:hour => '10', :minute => '30'}} %></div>
+      <div class="td end_time"><%=form.time_select :end_time, {minute_step: 30} %></div>
+      <div class="td payment"><%=form.text_field :payment, :size=>"10" %></div>
+      <div class="td"><%=form.submit %></div>
+    <% end %>
+    </div>
+  <div id="idx_trackers" class="table">
+    <% curr_day = Time.now.day %>
+    <% @day_trackers = get_days_trackers(curr_day) %> <!-- return an array of trackers for day i -->
+    <% if @day_trackers.empty? then %> <!-- if array is empty display 'no info' line -->
+      <div class="tr empty_day">
+        <% i_day = Date.new(@year, @month, curr_day) %>
+        <div class="td"><%= i_day.strftime("%a #{i_day.day.ordinalize}") %></div>
+        <div class="td">No Trackers Logged :(</div>
+      </div>
+    <% else %> <!-- if array is not empty, format and show all trackers for the day -->
+      <% @day_trackers.each do |tracker| %>
+        <div class="tr" id=<%=tracker.id%>>
+          <div class="td day"><%= tracker.date.strftime("%a #{tracker.date.day.ordinalize}") %></div>
+          <div class="td task"><%= tracker.task %></div>
+          <div class="td subtask_1"><%= tracker.subtask_1 %></div>
+          <div class="td subtask_2"><%= tracker.subtask_2 %></div>
+          <div class="td hours"><%= tracker.hours %></div>
+          <div class="td start_time"><%= tracker.start_time.strftime("%H:%M") %></div>
+          <div class="td end_time"><%= tracker.end_time.strftime("%H:%M") %></div>
+          <div class="td payment"><%= tracker.payment %></div>
+          <div class="td"><%= link_to 'Edit', edit_tracker_path(tracker), :remote => true %></div>
+          <div class="td"><%= link_to 'Destroy', tracker, method: :delete, data: { confirm: 'Are you sure?' } %></div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+</div>
+</body>

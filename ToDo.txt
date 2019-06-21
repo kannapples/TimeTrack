@@ -1,0 +1,31 @@
+Next on the list:
+
+TRACKERS
+1. jquery error messages
+
+4.5 Delete link changed to red X
+5. Change edit functionality: when you click on a field in the row, it takes you into edit mode
+7. Format category lists so that subcategories are specific to the category selected
+9. Add 'manage categories' settings option
+10. when 'new tracker' is clicked, doesn't go to form page. New line appears in table and fill out forms there.
+11. make date a required parameter
+
+13. Time on index page does not automatically update 
+14. Calendar that appears during date selection should float
+15. New trackers are ordered by date/ID not date/start-time
+
+scrum: boolean isn't being stored
+
+TRACKER REPORTING
+Day hours: how many hours total, show percentage of task. maybe horizontal stacked bar
+Month breakdown - generate as part of progress email.
+
+
+
+SCRUM
+1. Completed tasks: (daily) show up as crossed through. Then delete the next day.
+2. Completed tasks: (weekly) show up as crossed through. Generate email with weekly/monthly progress.
+
+
+
+

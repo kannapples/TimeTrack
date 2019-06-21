@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  periodicity: MyString
+  category: MyString
+  task: MyString
+  completed: false
+
+two:
+  periodicity: MyString
+  category: MyString
+  task: MyString
+  completed: false

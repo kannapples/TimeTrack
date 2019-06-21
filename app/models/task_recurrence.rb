@@ -1,0 +1,2 @@
+class TaskRecurrence < ApplicationRecord
+end

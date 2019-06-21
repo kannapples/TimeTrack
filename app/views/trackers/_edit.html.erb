@@ -1,0 +1,76 @@
+<%= form_for @tracker do |form| %>
+
+           <%= content_tag :div, :class => "td day", :data => {:provide => 'datepicker', 'date-format' => 'yyyy-mm-dd', 'date-autoclose' => 'true'} do
+                     form.text_field :date, class: 'form-control', placeholder: 'YYYY-MM-DD', value: @tracker.date
+                   end %>
+           <div class="td task"><%=form.select :task, [
+       'Band Management',
+       'Bass practice',
+       'Chores',
+       'Coding',
+       'Composition',
+       'Concert',
+       'Design',
+       'Gig',
+       'Guitar practice',
+       'Improv',
+       'Job Hunt',
+       'Leisure',
+       'Piano practice',
+       'Piano lesson',
+       'Recording',
+       'Robert Half',
+       'Sketch',
+       'Songwriting',
+       'Vacation',
+       'Voice practice',
+       'Workout'
+     ], :value => @tracker.task, class: 'form_new_cat_select' %></div>
+           <div class="td subtask_1"><%=form.select :subtask_1, [
+       '',
+       'Aerial',
+       'Apply to Jobs',
+       'Bad Mustard',
+       'Barley Wine',
+       'Bass Lesson',
+       'Capital Fitness',
+       'Charlie Painter gig',
+       'Classical',
+       'Cloud Swing',
+       'Cooking',
+       'Emails',
+       'Finances',
+       'Foxy Morons',
+       'Gig Prep',
+       'Grocery Shopping',
+       'Home Weights',
+       'House Blend',
+       'IFFY',
+       'Improv Piano',
+       'Improv Show',
+       'Insurance',
+       'The Lady Parts',
+       'Laundry',
+       'Lucid Dreaming',
+       'Memorizer',
+       'Nap',
+       'Object Writing',
+       'Reading',
+       'Ruby on Rails Coursera',
+       'Run',
+       'Sandhill Cranes',
+       'Thrawn Server',
+       'TimeTrack',
+       'Social Media',
+       'Solo Guitar set',
+       'Solo Transcription',
+       'Watch TV',
+       'Woodrow'
+     ], :value => @tracker.subtask_1 %></div>
+           <div class="td subtask_2"><%=form.text_field :subtask_2, :value => @tracker.subtask_2, class: 'form_new_text_select' %></div>
+           <div class="td hours"><%=form.text_field :hours, :value => @tracker.hours %></div>
+           <div class="td start_time"><%=form.time_select :start_time, {minute_step: 30, :default => {:hour => @tracker.start_time.hour, :minute => @tracker.start_time.min}} %></div>
+           <div class="td end_time"><%=form.time_select :end_time, {minute_step: 30, :default => {:hour => @tracker.end_time.hour, :minute => @tracker.end_time.min}} %></div>
+           <div class="td payment"><%=form.text_field :payment, :value => @tracker.payment %></div>
+           <div class="td"><%=form.submit %></div>
+       <% end %> 

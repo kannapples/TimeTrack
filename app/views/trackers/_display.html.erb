@@ -1,0 +1,12 @@
+        <td><%= @tracker.id %></td>
+
+        <td><%= @tracker.date.strftime("%a #{@tracker.date.day.ordinalize}") %></td>
+        <td><%= @tracker.task %></td>
+        <td><%= @tracker.subtask_1 %></td>
+        <td><%= @tracker.subtask_2 %></td>
+        <td><%= @tracker.hours %></td>
+        <td><%= @tracker.start_time.strftime("%H:%M") %></td>
+        <td><%= @tracker.end_time.strftime("%H:%M") %></td>
+        <td><%= @tracker.payment %></td>
+        <td><%= link_to "Edit", edit_track_path(:id => @tracker.id), :remote => true %>
+        <td><%= link_to 'Destroy', @tracker, method: :delete, data: { confirm: 'Are you sure?' } %></td>

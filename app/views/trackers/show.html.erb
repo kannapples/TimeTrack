@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @tracker.date %>
+</p>
+
+<p>
+  <strong>Task:</strong>
+  <%= @tracker.task %>
+</p>
+
+<p>
+  <strong>Subtask 1:</strong>
+  <%= @tracker.subtask_1 %>
+</p>
+
+<p>
+  <strong>Subtask 2:</strong>
+  <%= @tracker.subtask_2 %>
+</p>
+
+<p>
+  <strong>Hours:</strong>
+  <%= @tracker.hours %>
+</p>
+
+<p>
+  <strong>Start time:</strong>
+  <%= @tracker.start_time %>
+</p>
+
+<p>
+  <strong>End time:</strong>
+  <%= @tracker.end_time %>
+</p>
+
+<p>
+  <strong>Payment:</strong>
+  <%= @tracker.payment %>
+</p>
+
+<%= link_to 'Edit', edit_tracker_path(@tracker) %> |
+<%= link_to 'Back', trackers_path %>

@@ -1,0 +1,64 @@
+<%= javascript_include_tag "tracker_index" %>
+<body>
+<p id="notice"><%= notice %></p>
+<% prev_month_year = get_prev_month_year("-") %>
+<% next_month_year = get_prev_month_year("+") %>
+
+
+<table id="trackers">
+  <h3 id="display_date"><%= Time.now.strftime('%m-%d-%Y')%>
+  <br>
+  <%= Time.now.strftime('%H:%M')%></h3>
+  <caption>
+    <h1 id="month_title"><span id="prev_month_link"><%= link_to "<<", month_index_path(:month=>prev_month_year["month"], :year=>prev_month_year["year"])%></span>  <%= Date::MONTHNAMES[@month] + " " + @year.to_s %>  <span id="next_month_link"><%= link_to ">>" , month_index_path(:month=>next_month_year["month"], :year=>next_month_year["year"])%></span></h1>
+  </caption>
+  <thead>
+    <tr>
+      <th>Day</th>
+      <th>Task</th>
+      <th>Subtask</th>
+      <th>Description</th>
+      <th>Hours</th>
+      <th>Start time</th>
+      <th>End time</th>
+      <th>Payment</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody id="trackers_body">
+    <% end_of_month =  Date.civil(@year, @month, -1).day %> <!-- find the last day of the month -->
+    <% end_of_month = Time.now.day if @month == Time.now.month %> <!-- if current month, only display empty dates up to the current day -->
+    <% (end_of_month).downto(1) do |i| %> <!-- loop from last day of month to day 1 -->
+      <% @day_trackers = get_days_trackers(i) %> <!-- return an array of trackers for day i -->
+      <% if @day_trackers.empty? then %> <!-- if array is empty display 'no info' line -->
+        <tr class='empty_day'>
+          <% i_day = Date.new(@year, @month, i) %>
+          <td><%= i_day.strftime("%a #{i_day.day.ordinalize}") %></td>
+          <td colspan="9">No Trackers Logged :(</td>
+        </tr>
+      <% else %> <!-- if array is not empty, format and show all trackers for the day -->
+        <% @day_trackers.each do |tracker| %>
+          <tr id=<%=tracker.id%>>
+            <td><%= tracker.date.strftime("%a #{tracker.date.day.ordinalize}") %></td>
+            <td><%= tracker.task %></td>
+            <td><%= tracker.subtask_1 %></td>
+            <td><%= tracker.subtask_2 %></td>
+            <td><%= tracker.hours %></td>
+            <td><%= tracker.start_time.strftime("%H:%M") %></td>
+            <td><%= tracker.end_time.strftime("%H:%M") %></td>
+            <td><%= tracker.payment %></td>
+            <td><%= link_to "Edit", edit_track_path(tracker), :remote => true %></td>
+            <td><%= link_to 'Edit 2', edit_tracker_path(tracker), :remote => true %></td> 
+            <td><%= link_to 'Destroy', tracker, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    
+  </tbody>
+</table>
+
+<div id="place-for-edit-form-meow"></div>
+</body>
