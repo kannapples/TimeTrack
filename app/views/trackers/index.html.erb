@@ -15,9 +15,19 @@
   </div>
 </div>
 
-<div id="scrum_tasks">
+<div id="scrum_tasks" class="modal">
+
+<!-- Modal window for 'New' and 'Edit' scrum functionality -->
+  <div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal" role="document">
+      <div class="modal-content modal"></div>
+    </div>
+  </div>
+
+
   <div id="weekly_scrum_tasks">
-    <h1>Weekly Goals <%= link_to fa_icon("plus"), new_scrum_task_path %></h1>
+    <!-- link to trigger modal window for 'New' scrum functionality -->
+    <h1>Weekly Goals <%= link_to fa_icon("plus"), new_scrum_task_path(:task_recurrences_id => 2), {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'} %></h1>
     <div class="grid-container">
       <% @weekly_goal_categories.each do |category| %> <!--loop through all weekly goals categories. @weekly_goal_categories set in tracker controller -->
         <% weekly_goals = get_weekly_goals(category) %> <!-- for each category, find the associated goals. get_weekly_goals lives in tracker controller-->
@@ -34,7 +44,7 @@
             <% end %>
             <span class="task_cat_title"><%= category %></span>
             <span class="weekly_goal"><%= goal.task %></span>
-            <%= link_to fa_icon('edit') , edit_scrum_task_path(goal), :class=>"edit_icon"%> <!-- link to edit page for scrum task -->
+            <%= link_to fa_icon('edit') , edit_scrum_task_path(goal), {:class=>"edit_icon", :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'}%> <!-- link to modal window for 'Edit' scrum functionality -->
           </div>
         <% end %>
       <% end %>
@@ -44,7 +54,7 @@
 
 
   <div id="daily_scrum_tasks">
-    <h1>Daily Tasks <%= link_to fa_icon("plus"), new_scrum_task_path %></h1>
+    <h1>Daily Tasks <%= link_to fa_icon("plus"), new_scrum_task_path(:task_recurrences_id => 1), {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'} %></h1>
     <div class="grid-container">
       <% @daily_task_categories.each do |category| %> <!--loop through all daily task categories. @daily_task_categories set in tracker controller -->
         <% daily_tasks = get_daily_tasks(category) %> <!-- for each category, find the associated tasks. get_daily_tasks lives in tracker controller-->
@@ -61,7 +71,7 @@
             <% end %>
             <span class="task_cat_title"><%= category %></span>
             <span class="daily_task"><%= task.task %></span> 
-            <%= link_to fa_icon('edit') , edit_scrum_task_path(task), :class=>"edit_icon"%> <!-- link to edit page for scrum task -->
+            <%= link_to fa_icon('edit') , edit_scrum_task_path(task), {:class=>"edit_icon", :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'}%> <!-- link to modal window for 'Edit' scrum functionality -->
           </div>
         <% end %> 
       <% end %>

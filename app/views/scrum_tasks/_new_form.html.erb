@@ -11,27 +11,27 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="field modal">
     <%= form.label :periodicity %>
-    <%= form.select :periodicity, @task_recurrence %>
+    <%= form.select :task_recurrences_id, @task_recurrence %>
   </div>
 
-  <div class="field">
+  <div class="field modal">
     <%= form.label :category %>
     <%= form.text_field :category %>
   </div>
 
-  <div class="field">
+  <div class="field modal">
     <%= form.label :task %>
     <%= form.text_field :task %>
   </div>
 
-  <div class="field">
-    <%= form.label :completed %>
-    <%= form.check_box :completed %>
+  <div class="field modal">
+    <%= form.label :repeat_recurrence %>
+    <%= form.select :repeat_recurrences_id, @repeat_recurrence %>
   </div>
 
-  <div class="actions">
+  <div class="actions modal">
     <%= form.submit %>
   </div>
 <% end %>

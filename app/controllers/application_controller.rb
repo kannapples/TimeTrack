@@ -20,4 +20,5 @@ class ApplicationController < ActionController::Base
   #   def current_user
   #     @current_user ||= Tracker.find(session[:tracker_user_id])
   #   end
+
 end

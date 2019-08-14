@@ -62,7 +62,17 @@ table#trackers {
   width: 100%;
   padding: 10px;
 }
-#new_tracker_form {
+#modal-window {
+  display: none;
+  position: absolute;
+  left: 30%;
+  top: 25%;
+  z-index: 1;
+  padding: 20px;
+  color: black;
+  background-color: #e3e4e5;
+  border-radius: 25px;
+  border: 2px solid #79797a;
 }
 div.table {
   display: table; 
@@ -113,6 +123,13 @@ div.payment {
 .hide {
 	color: red;
 } 
+.blur {
+  -webkit-filter: blur(2px);
+-moz-filter: blur(2px);
+-o-filter: blur(2px);
+-ms-filter: blur(2px);
+filter: blur(2px); 
+}
 .form_new_text_select {
 	color:red;
 }

@@ -1,0 +1,6 @@
+$("#modal-window").find(".modal-content").html("<%= j (render 'new') %>");
+//var background = document.getElementsByTagName("BODY")[0];
+$("div:not(.modal)").addClass("blur");
+var modal_window = document.getElementById('modal-window');
+modal_window.classList.remove("blur");
+modal_window.style.display = "block"; //counteract the display: none property set by clicking outside the modal in application.js

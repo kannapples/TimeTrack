@@ -17,12 +17,29 @@ class ScrumTasksController < ApplicationController
   # GET /scrum_tasks/new
   def new
     @scrum_task = ScrumTask.new
-    @task_recurrence = TaskRecurrence.all.map{|c| [ c.name, c.id ] }
+    task_pd = params[:task_recurrences_id]
+    repeat_pd = params[:repeat_recurrences_id]
+    @task_recurrence = TaskRecurrence.where('id = ?', task_pd).map{|c| [ c.name, c.id ] } #only show recurrence based on which 'add' button was clicked
+    @repeat_recurrence = TaskRecurrence.all.map{|c| [ c.name, c.id ] }
+
+    respond_to do |format|
+      format.html
+      format.js
+
+  end
+
+    #respond_modal_with @scrum_task
   end
 
   # GET /scrum_tasks/1/edit
   def edit
     @task_recurrence = TaskRecurrence.all.map{|c| [ c.name, c.id ] }
+    @repeat_recurrence = TaskRecurrence.all.map{|c| [ c.name, c.id ] }
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # POST /scrum_tasks
@@ -44,27 +61,23 @@ class ScrumTasksController < ApplicationController
   # PATCH/PUT /scrum_tasks/1
   # PATCH/PUT /scrum_tasks/1.json
   def update
-    respond_to do |format|
-      if @scrum_task.update(scrum_task_params)
-        format.html { redirect_to @scrum_task, notice: 'Scrum task was successfully updated.' }
-        format.json { render :show, status: :ok, location: @scrum_task }
-      else
-        format.html { render :edit }
-        format.json { render json: @scrum_task.errors, status: :unprocessable_entity }
-      end
-    end
+    
+
+     respond_to do |format|
+       if @scrum_task.update(scrum_task_params)
+          format.html { redirect_to '/', notice: 'Scrum task was successfully updated.' }
+         format.json #{ render @trackers, status: :ok }
+       else
+         format.html { render :edit }
+         format.json { render json: @scrum_task.errors, status: :unprocessable_entity }
+       end
+     end
   end
 
   def complete_task
     @scrum_task = ScrumTask.find(params[:scrum_task])
-    respond_to do |format|
-      if @scrum_task.update_attribute(:completed,true)
-        format.html { redirect_to @scrum_task, notice: 'Scrum task was successfully updated.' }
-        format.json { render :show, status: :ok, location: @scrum_task }
-      else
-        format.html { render :edit }
-        format.json { render json: @scrum_task.errors, status: :unprocessable_entity }
-      end
+    if @scrum_task.update_attribute(:completed,true)
+      redirect_back(fallback_location: root_path)
     end
   end
 
@@ -89,6 +102,6 @@ class ScrumTasksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def scrum_task_params
-      params.require(:scrum_task).permit(:periodicity, :category, :task, :completed)
+      params.require(:scrum_task).permit(:task_recurrences_id, :category, :task, :completed, :repeat_recurrences_id)
     end
 end

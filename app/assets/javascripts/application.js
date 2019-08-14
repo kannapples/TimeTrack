@@ -12,7 +12,6 @@
 //
 //= require rails-ujs
 //= require jquery
-//= require jquery_ujs
 //= require bootstrap-datepicker
 //= require turbolinks
 //= require_tree .
@@ -23,5 +22,19 @@ function scrumTaskHover(task_id) {
 }
 
 function scrumTaskReset(task_id) {
-  <%= render 'task_reset', id: task_id %>
+  
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (!$(event.target).closest('#modal-window').length)  {
+  	document.getElementById('modal-window').style.display = "none";
+    $("div:not(.modal)").removeClass("blur");
+  }
+}
+
+// When the user clicks the X in the top left corner, close the modal
+function modalXClose() {
+	document.getElementById('modal-window').style.display = 'none';
+	$("div:not(.modal)").removeClass("blur");
 }
