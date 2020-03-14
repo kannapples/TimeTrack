@@ -1,0 +1,82 @@
+// Place all the styles related to the Trackers controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+/*
+*= require bootstrap-datepicker
+*/
+
+#daily_trackers {
+  box-sizing: border-box;
+  width: 95%;
+  position: relative;
+  margin: auto;
+  text-align: center;
+  background: #E0E0E0;
+}
+#tracker_title {
+  text-align: center;
+}
+
+div.table {
+  display: table; 
+  width: 100%;
+}
+div.th {
+  background-color: #4CAF50;
+  color: white;
+  text-align: left;
+  display: table-row;
+  padding: 0px 25px 0px 25px; 
+}
+div.tr {
+  display: table-row; 
+}
+div.tr:hover {
+  background-color: #f5f5f5;
+}
+div.td {
+  border-bottom: 1px solid #ddd;
+  padding: 0px 25px 0px 25px; 
+  display: table-cell; 
+}
+div.day {
+  width: 135px;
+}
+div.task {
+  width: 135px;
+}
+div.subtask_1 {
+  width: 155px;
+}
+div.description {
+  width: 135px;
+}
+div.hours {
+  width: 70px;
+}
+div.start_time {
+  width: 110px;
+}
+div.end_time {
+  width: 110px;
+}
+div.payment {
+  width: 70px;
+}
+
+.blur {
+  -webkit-filter: blur(2px);
+-moz-filter: blur(2px);
+-o-filter: blur(2px);
+-ms-filter: blur(2px);
+filter: blur(2px); 
+}
+.form_new_text_select {
+	color:red;
+}
+.selected {
+  background-color: #e3e3e3;
+}
+.form_item {
+  display: block;
+}

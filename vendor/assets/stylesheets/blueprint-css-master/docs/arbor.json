@@ -1,0 +1,16 @@
+{
+  "name": "blueprint-css docs",
+  "tasks": {
+    "install": "npm",
+    "lint": "npm run lint",
+    "test": "npm run test",
+    "build": "npm run build",
+    "build--prod": "npm run build",
+    "deploy": "npm run deploy"
+  },
+  "external": [
+    "https://nodejs.org/",
+    "https://firebase.google.com/"
+  ],
+  "dependencies": []
+}

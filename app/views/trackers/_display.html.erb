@@ -3,7 +3,7 @@
         <td><%= @tracker.date.strftime("%a #{@tracker.date.day.ordinalize}") %></td>
         <td><%= @tracker.task %></td>
         <td><%= @tracker.subtask_1 %></td>
-        <td><%= @tracker.subtask_2 %></td>
+        <td><%= @tracker.description %></td>
         <td><%= @tracker.hours %></td>
         <td><%= @tracker.start_time.strftime("%H:%M") %></td>
         <td><%= @tracker.end_time.strftime("%H:%M") %></td>

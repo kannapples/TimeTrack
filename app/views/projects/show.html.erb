@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Project Name:</strong>
+  <%= @project.name %>
+</p>
+
+<p>
+  <strong>Project Umbrella:</strong>
+  <%= @project.project_umbrella_id %>
+ </p>
+
+<p>
+  <strong>Start Date:</strong>
+  <%= @project.start_date %>
+</p>
+
+<p>
+  <strong>Completion Goal Date:</strong>
+  <%= @project.completion_goal_date %>
+</p>
+
+<p>
+  <strong>Associated Project Modules:</strong>
+  
+</p>
+
+<%= link_to 'Edit', edit_project_path(@project) %> |
+<%= link_to 'Back', projects_path %>

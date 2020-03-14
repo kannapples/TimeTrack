@@ -1,4 +1,8 @@
- $("#new_tracker_form").hide();
- $("#<%= @tracker.id %>").replaceWith("<%= j render 'edit' %>");
+// populate modal
+$('#tracker-modal-window-body').html("<%= j render partial: 'trackers/edit_form', locals: {tracker: @tracker} %>");
 
-  // alert("tracker!: <%= @tracker.id %>");
+// render modal
+$('#tracker-modal-window').modal('show');
+
+
+

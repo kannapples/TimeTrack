@@ -11,13 +11,18 @@
 </p>
 
 <p>
-  <strong>Task:</strong>
-  <%= @scrum_task.task %>
+  <strong>Name:</strong>
+  <%= @scrum_task.name %>
 </p>
 
 <p>
   <strong>Completed?:</strong>
   <%= @scrum_task.completed %>
+</p>
+
+<p>
+  <strong>Active?:</strong>
+  <%= @scrum_task.active %>
 </p>
 
 <%= link_to 'Edit', edit_scrum_task_path(@scrum_task) %> |

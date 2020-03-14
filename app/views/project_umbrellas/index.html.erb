@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Project Umbrellas</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @project_umbrellas.each do |project_umbrella| %>
+      <tr>
+        <td><%= project_umbrella.name %></td>
+        <td><%= link_to 'Show', project_umbrella %></td>
+        <td><%= link_to 'Edit', edit_project_umbrella_path(project_umbrella) %></td>
+        <td><%= link_to 'Destroy', project_umbrella, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Project Umbrella', new_project_umbrella_path %>

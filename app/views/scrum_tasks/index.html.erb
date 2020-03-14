@@ -5,11 +5,17 @@
 <table>
   <thead>
     <tr>
+      <th>ID</th>
       <th>Periodicity</th>
       <th>Category</th>
-      <th>Task</th>
+      <th>Project Umbrella</th>
+      <th>Project</th>
+      <th>Project Module</th>
+      <th>Name</th>
       <th>Repeat Recurrence</th>
+      <th>Is Daily Task?</th>
       <th>Completed?</th>
+      <th>Active?</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -17,11 +23,35 @@
   <tbody>
     <% @scrum_tasks.each do |scrum_task| %>
       <tr>
+        <td><%= scrum_task.id %></td>
         <td><%= scrum_task.task_recurrences_id %></td>
-        <td><%= scrum_task.category %></td>
-        <td><%= scrum_task.task %></td>
+        <td><% if !scrum_task.project_module.nil? then %>
+              <% if !scrum_task.project_module.project.nil? then %>
+                <% if !scrum_task.project_module.project.project_umbrella.nil? then %>
+                  <%= scrum_task.project_module.project.project_umbrella.name %>
+                <% end %>
+              <% end %>
+            <% end %>
+        </td>
+        <td><% if !scrum_task.project_umbrella_id.nil? then %>
+              <%= ProjectUmbrella.find(scrum_task.project_umbrella_id).name %>
+            <%end%>
+        </td>
+        <td><% if !scrum_task.project_module.nil? then %>
+              <% if !scrum_task.project_module.project.nil? then %>
+                <%= scrum_task.project_module.project.name %>
+              <% end %>
+            <% end %>
+         </td>
+        <td><% if !scrum_task.project_module.nil? then %>
+              <%= scrum_task.project_module.name %>
+            <% end %>
+        </td>
+        <td><%= scrum_task.name %></td>
         <td><%= scrum_task.repeat_recurrences_id %></td>
+        <td><%= scrum_task.is_daily_task %></td>
         <td><%= scrum_task.completed %></td>
+        <td><%= scrum_task.active %></td>
         <td><%= link_to 'Show', scrum_task %></td>
         <td><%= link_to 'Edit', edit_scrum_task_path(scrum_task) %></td>
         <td><%= link_to 'Destroy', scrum_task, method: :delete, data: { confirm: 'Are you sure?' } %></td>

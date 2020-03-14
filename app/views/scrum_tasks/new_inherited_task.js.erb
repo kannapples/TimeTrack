@@ -1,0 +1,6 @@
+// populate modal
+document.getElementById("scrum-modal-title").innerHTML="New Scrum Task";
+$('#scrum-modal-window-body').html("<%= j render partial: 'scrum_tasks/new_inherited_form', locals: {scrum_task: @scrum_task, project_umbrella: @project_umbrella, project: @project, project_module: @project_module} %>");
+
+// render modal
+$('#scrum-modal-window').modal('show');

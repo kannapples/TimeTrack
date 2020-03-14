@@ -1,0 +1,49 @@
+<%= javascript_include_tag "project_selectors" %> <!-- PULL IN FUNCTIONALITY FOR LIMITING SELECTION LISTS BASED ON PREVIOUS SELECTION -->
+
+<!-- INITIALIZATION -->
+    <% tracker = tracker %> <!-- generate local variable from local pulled in from render partial in new.js.erb. local variable isn't recognized if I don't have this line included -->
+    <% if tracker.nil? then tracker = Tracker.new end%> <!-- null handling to satisfy compiler -->
+
+    <% @scrum_tasks = ScrumTask.all %>
+    <% @recurrence = TaskRecurrence.all.map{|c| [ c.name, c.id ] } %>
+    <% @project_umbrellas = ProjectUmbrella.all %>
+    <% @projects = Project.all %>
+    <% @project_modules = ProjectModule.all %>
+
+<!-- FORM FIELDS -->
+<%= form_for tracker do |form| %>
+
+    <%= content_tag :div, :class => "td day", :data => {:provide => 'datepicker', 'date-format' => 'yyyy-mm-dd', 'date-autoclose' => 'true'} do
+        form.text_field :date, class: 'form-control', placeholder: 'YYYY-MM-DD', value: Time.now.strftime('%Y-%m-%d')
+    end %><br>
+    <div class="td project_umbrella" id="tracker_new_project_umbrella_selector">
+        <%= form.select :project_umbrella_id, options_from_collection_for_select(@project_umbrellas, "id", "name") + options_for_select(["Add New..."]), prompt: "(Select a Project Umbrella)" %>
+    </div><br>
+    <div class="td project" id="tracker_new_project_selector">
+        <%= form.grouped_collection_select :project_id, ProjectUmbrella.order(:name), :projects, :name, :id, :name, {:prompt => "(Select a Project)", :include_blank => "Add New..."} %>
+    </div><br>
+    <div class="td project_module" id="tracker_new_project_module_selector">
+        <%= form.grouped_collection_select :project_module_id, Project.order(:name), :project_modules, :name, :id, :name, {:prompt => "(Select a Project Module)", :include_blank => "Add New..."} %>
+    </div><br>
+    <div class="td scrum_task" id="tracker_new_scrum_task_selector">
+        <%= form.grouped_collection_select :scrum_task_id, ProjectModule.order(:name), :scrum_tasks, :name, :id, :name, {:prompt => "(Select a Scrum Task)", :include_blank => "Add New..."} %>
+    </div><br>
+    <div class="td description">
+        <%=form.text_field :description, class: 'form_new_text_select'%>
+    </div><br>
+    <div class="td hours">
+        <%=form.text_field :hours, :size=>"10" %>
+    </div><br>
+    <div class="td start_time">
+        <%=form.time_select :start_time, {minute_step: 30, :default => {:hour => '10', :minute => '30'}} %>
+    </div><br>
+    <div class="td end_time">
+        <%=form.time_select :end_time, {minute_step: 30} %>
+    </div><br>
+    <div class="td payment">
+        <%=form.text_field :payment, :size=>"10" %>
+    </div><br>
+    <div class="td actions">
+        <%= form.submit %>
+    </div>
+<% end %>

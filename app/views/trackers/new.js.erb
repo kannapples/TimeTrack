@@ -1,0 +1,5 @@
+// populate modal
+$('#tracker-modal-window-body').html("<%= j render partial: 'trackers/new_form', locals: {tracker: @tracker} %>");
+
+// render modal
+$('#tracker-modal-window').modal('show');

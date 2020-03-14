@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  description: MyString
+  start_date: 2019-08-23
+  completion_goal_date: 2019-08-23
+
+two:
+  description: MyString
+  start_date: 2019-08-23
+  completion_goal_date: 2019-08-23

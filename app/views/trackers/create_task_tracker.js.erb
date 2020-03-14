@@ -1,0 +1,6 @@
+// populate modal
+document.getElementById("tracker-modal-title").innerHTML="New Tracker";
+$('#tracker-modal-window-body').html("<%= j render partial: 'trackers/new_inherited_form', locals: {task: @task} %>");
+
+// render modal
+$('#tracker-modal-window').modal('show');

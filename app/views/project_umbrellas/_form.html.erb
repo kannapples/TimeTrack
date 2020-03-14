@@ -1,0 +1,22 @@
+<%= form_with(model: project_umbrella, local: true) do |form| %>
+  <% if project_umbrella.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(project_umbrella.errors.count, "error") %> prohibited this project_umbrella from being saved:</h2>
+
+      <ul>
+      <% project_umbrella.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

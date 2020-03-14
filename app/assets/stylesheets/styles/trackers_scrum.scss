@@ -1,0 +1,184 @@
+#nonmodal_content {
+  display: relative;
+}
+#scrum_tasks {
+  position: relative;
+  padding: 10px;
+}
+#daily_scrum_tasks {
+  box-sizing: border-box;
+  position: relative;
+  float: left;
+  text-align: center;
+}
+#scrum_tasks {
+  box-sizing: border-box;
+  width: 95%;
+  position: relative;
+  margin: auto;
+  text-align: center;
+  background: #429B45;
+}
+a.add_new_btn {
+  background-color: black;
+  color: white;
+  margin-left: 10px;
+  margin-bottom: 5px;
+}
+a.add_new_btn:hover {
+  color: #5BD35F;
+}
+#scrum-today-tasks-btn {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+#scrum-weekly-tasks-btn {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+button.scrum-toggle-btn {
+  font-size: 20px;
+  width: 6em;
+  height: 2em;
+  display: inline block;
+  margin: -0.1em;
+}
+button.active-scrum-toggle-btn{
+  background-color: #A9A9A9;
+  color: black;
+}
+#task_heading {
+  padding: 20px 0 0 0;
+  margin-bottom: 20px;
+}
+#completed_check {
+  font-size: 20px;
+  float: left;
+}
+button.new_btn {
+  background-color: #000;
+  border-color: #000;
+  color: #E0E0E0;
+  margin: 0px 10px;
+}
+.grid-container {
+  display: grid;
+  position: relative;
+  grid-gap: 10px;
+  grid-template-columns: 180px 180px 180px;
+  padding: 10px;
+  justify-content: center;
+}
+div.task_box {
+  padding: 0px;
+  height: 200px;
+}
+div.daily_task_cat {
+  border: 2px solid black;
+  position: relative;
+  box-sizing:border-box;
+  margin: 10px;
+  padding: 0px;
+  background-color: #E0E0E0;
+}
+.weekly_goal_cat {
+  border: 2px solid black;
+  background-color: #FFF;
+  position: relative;
+  margin: auto;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+.weekly_goal_outstanding {
+  
+}
+div.weekly_goal_completed {
+  background-color: #000;
+  border: 2px solid black;
+  position: relative;
+  box-sizing:border-box;
+  margin: 10px;
+  color: white;
+}
+.weekly_goal {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.fa-check-circle{
+  opacity: .8;
+  z-index: 1;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+.completed-check {
+  position: relative;
+  background: #fff;
+  width: 100%;
+}
+.task_cat_title {
+  display: block;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
+  letter-spacing: 3px;
+  font-size: 12px;
+  color: black;
+}
+.task_project {
+  display: block;
+  padding-top: 0px;
+  padding-bottom: 10px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+}
+.completed_task_project {
+  display: block;
+  padding-top: 0px;
+  padding-bottom: 10px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+}
+.completed_daily_task {
+  text-decoration: none;
+  color: white;
+}
+button > .today-task-clock {
+  position: absolute;
+  bottom: 0.1em;
+  right: 0.1em;
+}
+.scrum_task_menu {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+button.daily_task_btn {
+  height: 100%;
+  width: 100%;
+  padding: 0px 15px;
+  color: black;
+}
+button.daily_task_btn:hover {
+  background-color: #5BD35F;
+  border-color: #5BD35F;
+  color: black;
+}
+button.unassoc_task_btn {
+  
+  width: 100%;
+  padding: 0px 15px;
+  color: black;
+}
+button.unassoc_task_btn:hover {
+  background-color: #5BD35F;
+  border-color: #5BD35F;
+  color: black;
+}
+.project-content {
+  width: 100%;
+}

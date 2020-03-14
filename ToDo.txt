@@ -1,31 +1,46 @@
 Next on the list:
+3. 'Today' FX: add a button that toggles view between week's tasks and todays tasks
+2. fix 'complete task' fx. incorporate creating a tracker from completing a task, including pre-populating fields.
+
+SCRUM
+2. AFter deleting, need to refresh the page - it gets stuck currently.
+
 
 TRACKERS
-1. jquery error messages
-
 4.5 Delete link changed to red X
 5. Change edit functionality: when you click on a field in the row, it takes you into edit mode
-7. Format category lists so that subcategories are specific to the category selected
 9. Add 'manage categories' settings option
-10. when 'new tracker' is clicked, doesn't go to form page. New line appears in table and fill out forms there.
+10. when 'new tracker' is clicked, doesn't go to form page. triggers popup
 11. make date a required parameter
-
 13. Time on index page does not automatically update 
-14. Calendar that appears during date selection should float
 15. New trackers are ordered by date/ID not date/start-time
-
-scrum: boolean isn't being stored
 
 TRACKER REPORTING
 Day hours: how many hours total, show percentage of task. maybe horizontal stacked bar
 Month breakdown - generate as part of progress email.
 
 
-
-SCRUM
-1. Completed tasks: (daily) show up as crossed through. Then delete the next day.
-2. Completed tasks: (weekly) show up as crossed through. Generate email with weekly/monthly progress.
-
-
+SCRUM CRON
+1. Completed tasks: (daily) mark inactive or delete the next day
+2. Completed tasks: (weekly) Generate email with weekly/monthly progress. 
+3. Monthly - popup with inactivated weekly goals. prompt to delete or re-activate.
 
 
+PHONE FUNCTIONALITY
+1. for time increments, have buttons for 0.5 / 1 / 2 / more. Allow additive choice, so for 1.5, you would choose 0.5 and 1.
+2. This should be more heavily weighted on the time tracking and less on the scrum?
+3. To do list (daily tasks) should be easily accesible here
+
+COLOR SCHEME
+BRIGHT GREEN: 71C659
+MED GREEN: 7BAE7F
+DARK GREEN: 4E6E5D
+MUTED GREEN MD: BBE1C3
+MUTED GREEN DK: B4D2BA
+
+or...
+BRIGHT GREEN: 4CAF50
+SIENNA: 561C1C
+LIGHT GREEN: 7DDF64
+KHAKI GREEN: C0DF85
+PEACH: DEB986

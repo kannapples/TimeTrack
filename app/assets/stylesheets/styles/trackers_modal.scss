@@ -1,0 +1,11 @@
+#scrum-modal-window {
+  background-color: white;
+  width: 50%;
+  height: 50%;
+}
+#scrum-modal-window .modal-body {
+  display: block;
+}
+.modal-body {
+	pointer-events: auto;
+}

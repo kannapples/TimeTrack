@@ -27,14 +27,8 @@ function scrumTaskReset(task_id) {
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-  if (!$(event.target).closest('#modal-window').length)  {
-  	document.getElementById('modal-window').style.display = "none";
-    $("div:not(.modal)").removeClass("blur");
+  if (!$(event.target).closest('#scrum-modal-window').length)  {
+  	$("#scrum-modal-window").display = "none";
   }
 }
 
-// When the user clicks the X in the top left corner, close the modal
-function modalXClose() {
-	document.getElementById('modal-window').style.display = 'none';
-	$("div:not(.modal)").removeClass("blur");
-}

@@ -1,37 +1,68 @@
-<%= form_with(model: scrum_task, local: true) do |form| %>
-  <% if scrum_task.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(scrum_task.errors.count, "error") %> prohibited this scrum_task from being saved:</h2>
+<%= javascript_include_tag "project_selectors" %> <!-- PULL IN FUNCTIONALITY FOR LIMITING SELECTION LISTS BASED ON PREVIOUS SELECTION -->
 
-      <ul>
-      <% scrum_task.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+  <!-- ERROR HANDLING -->
+     
+  <!-- INITIALIZATION -->
+  <% scrum_task = scrum_task %> <!-- generate local variable from local pulled in from render partial in new.js.erb. local variable isn't recognized if I don't have this line included -->
+ <!--  <% weekly_goal = weekly_goal %> -->
+    <% if scrum_task.nil? then scrum_task = ScrumTask.new end%> <!-- null handling to satisfy compiler -->
+  <% @recurrence = TaskRecurrence.all.map{|c| [ c.name, c.id ] } %>
+  <%  @project_umbrellas = ProjectUmbrella.all %>
+  <% @projects = Project.all %>
+  <% @project_modules = ProjectModule.all %>
+
+
+  <!-- FORM FIELDS -->
+<%= form_for scrum_task do |form| %>
+
+    <div class="field">
+      <%= form.label :periodicity %>
+      <%= form.select :task_recurrences_id, @recurrence %>
+    </div> 
+
+    <div class="field">
+      <%= form.label :project_umbrella %>
+      <%= form.select :project_umbrella_id, options_from_collection_for_select(@project_umbrellas, "id", "name") + options_for_select(["Add New..."]), prompt: "(Select a Project Umbrella)" %>
     </div>
+
+    <div class="field" id="scrum_task_new_project_selector">
+      <%= form.label :project %>
+      <%= form.grouped_collection_select :project_id, ProjectUmbrella.order(:name), :projects, :name, :id, :name, {:prompt => "(Select a Project)", :include_blank => "Add New..."} %>
+    </div>
+
+    <div class="field" id="scrum_task_new_project_module_selector">
+      <%= form.label :project_module %>
+      <%= form.grouped_collection_select :project_module_id, Project.order(:name), :project_modules, :name, :id, :name, {:prompt => "(Select a Project Module)", :include_blank => "Add New..."} %>
+    </div>
+
+    <div class="field">
+      <%= form.label :name %>
+      <%= form.text_field :name %>
+    </div>
+
+    <div class="field">
+      <%= form.label :repeat_recurrence %>
+      <%= form.select :repeat_recurrences_id, @recurrence %>
+    </div>
+
+    <div>
+      <%= form.hidden_field :active, :value => true %>
+    </div>
+
+    <div class="field">
+      Add to 'Today's Tasks':
+      <%= form.check_box :is_daily_task %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+
   <% end %>
+</div>
 
-  <div class="field modal">
-    <%= form.label :periodicity %>
-    <%= form.select :task_recurrences_id, @task_recurrence %>
-  </div>
+  <!-- INTENDED AS CONTAINER FOR 'NEW' DIALOGUE WITHIN MODAL -->
+  <div id="new_project_wrapper" class="">
+<!--   </div>
 
-  <div class="field modal">
-    <%= form.label :category %>
-    <%= form.text_field :category %>
-  </div>
-
-  <div class="field modal">
-    <%= form.label :task %>
-    <%= form.text_field :task %>
-  </div>
-
-  <div class="field modal">
-    <%= form.label :repeat_recurrence %>
-    <%= form.select :repeat_recurrences_id, @repeat_recurrence %>
-  </div>
-
-  <div class="actions modal">
-    <%= form.submit %>
-  </div>
-<% end %>
+</div> -->

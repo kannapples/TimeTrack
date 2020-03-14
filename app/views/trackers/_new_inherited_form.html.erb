@@ -1,0 +1,66 @@
+<%= javascript_include_tag "project_selectors" %> <!-- PULL IN FUNCTIONALITY FOR LIMITING SELECTION LISTS BASED ON PREVIOUS SELECTION -->
+<%= javascript_include_tag "modals_dropdowns" %> <!-- ALLOWS USER TO COMPLETE A TASK -->
+
+<!-- INITIALIZATION -->
+    <% scrum_task = task %> <!-- generate local variable from local pulled in from render partial in edit.js.erb. -->
+    <% tracker = Tracker.new %> 
+    <%  %> <!-- default the month number from the date into the month column -->
+<!-- FORM FIELDS -->
+<%= form_for tracker do |form| %>
+
+  <div>Tracker ID: <%= tracker.id %></div>
+
+  <%= content_tag :div, :class => "form_item day", :data => {:provide => 'datepicker', 'date-format' => 'yyyy-mm-dd', 'date-autoclose' => 'true'} do
+    form.text_field :date, class: 'form-control', placeholder: 'YYYY-MM-DD', value: tracker.date
+  end %>
+  <div class="form_item" id="project_umbrella_select">
+  	<% project_umbrella = ProjectUmbrella.find(task.project_umbrella_id) %>
+  	
+  	Project Umbrella: <%= project_umbrella.name %>
+
+    <%= form.hidden_field :project_umbrella_id, :value=> project_umbrella.id %>
+  </div>
+  <div class="form_item" id="project_select">
+    <% project = Project.find(task.project_id) %>
+  	
+  	Project: <%= project.name %>
+  	
+    <%= form.hidden_field :project_id, :value=> project.id %>
+  </div>
+  <div class="form_item" id="project_module_select">
+    <% project_module = ProjectModule.find(task.project_module_id) %>
+  	
+  	Project Module: <%= project_module.name %>
+  	
+    <%= form.hidden_field :project_module_id, :value=> project_module.id %>
+  </div>
+  <div class="form_item">
+  	Task: <%= task.name %>
+  	
+    <%= form.hidden_field :scrum_task_id, :value=> task.id %>
+  </div>
+  <br><div class="form_item">
+    <%=form.text_field :description, :value => tracker.description, class: 'form_new_text_select' %>
+  </div>
+  <br><div class="form_item">
+    <%=form.text_field :hours, :value => tracker.hours %>
+  </div>
+  <br><div class="form_item">
+    <%=form.time_select :start_time, {minute_step: 30}, :value => tracker.start_time %>
+  </div>
+  <br><div class="form_item">
+    <%=form.time_select :end_time, {minute_step: 30}, :value => tracker.end_time %>
+  </div>
+  <br><div class="form_item">
+    <%=form.text_field :payment, :value => tracker.payment %>
+  </div>
+  <br><div class="form_item">
+  	<%= form.fields_for scrum_task do |task_form| %>
+		<%= task_form.label :completed %>
+		<%= task_form.check_box :completed %>
+    <% end %>
+  </div>
+  <br><div class="form_item">
+    <%=form.submit %>
+  </div>
+<% end %> 

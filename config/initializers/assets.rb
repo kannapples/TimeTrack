@@ -13,3 +13,5 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # folder are already added.
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 Rails.application.config.assets.precompile += %w( tracker_index.js )
+Rails.application.config.assets.precompile += %w( project_selectors.js )
+Rails.application.config.assets.precompile += %w( modals_dropdowns.js )
