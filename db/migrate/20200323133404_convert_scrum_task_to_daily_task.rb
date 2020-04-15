@@ -2,7 +2,7 @@ class ConvertScrumTaskToDailyTask < ActiveRecord::Migration[5.2]
   def change
   	rename_table :scrum_tasks, :daily_tasks
   	rename_column :daily_tasks, :project_module_id, :weekly_goal_id
-  	add_index :daily_tasks, :weekly_goal_id
+  	# add_index :daily_tasks, :weekly_goal_id
   	# rename_index :daily_tasks, :index_scrum_tasks_on_project_module_id, :index_scrum_tasks_on_weekly_goal_id
   	rename_column :trackers, :project_module_id, :weekly_goal_id
   	rename_column :trackers, :scrum_task_id, :daily_task_id
