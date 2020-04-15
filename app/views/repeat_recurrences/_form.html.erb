@@ -1,0 +1,22 @@
+<%= form_with(model: repeat_recurrence, local: true) do |form| %>
+  <% if repeat_recurrence.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(repeat_recurrence.errors.count, "error") %> prohibited this task_recurrence from being saved:</h2>
+
+      <ul>
+      <% repeat_recurrence.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

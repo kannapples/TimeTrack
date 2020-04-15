@@ -1,0 +1,15 @@
+example_id                                        | status | run_time        |
+------------------------------------------------- | ------ | --------------- |
+./spec/requests/daily_tasks_spec.rb[1:1:1]        | passed | 2.57 seconds    |
+./spec/requests/project_umbrellas_spec.rb[1:1:1]  | passed | 0.00812 seconds |
+./spec/requests/projects_spec.rb[1:1:1]           | passed | 0.01567 seconds |
+./spec/requests/trackers_spec.rb[1:1:1]           | passed | 0.36973 seconds |
+./spec/requests/weekly_goals_spec.rb[1:1:1]       | passed | 0.00916 seconds |
+./spec/views/trackers/index.html.erb_spec.rb[1:1] | passed | 2.44 seconds    |
+./spec/views/trackers/index.html.erb_spec.rb[1:2] | passed | 0.11178 seconds |
+./spec/views/trackers/index.html.erb_spec.rb[1:3] | passed | 0.08647 seconds |
+./spec/views/trackers/index.html.erb_spec.rb[1:4] | passed | 0.10495 seconds |
+./spec/views/trackers/index.html.erb_spec.rb[1:5] | passed | 0.09006 seconds |
+./spec/views/trackers/index.html.erb_spec.rb[1:6] | passed | 0.09619 seconds |
+./spec/views/trackers/index.html.erb_spec.rb[1:7] | passed | 0.12058 seconds |
+./spec/views/trackers/index.html.erb_spec.rb[1:8] | passed | 0.59342 seconds |

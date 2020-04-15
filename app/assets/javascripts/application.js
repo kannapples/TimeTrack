@@ -16,19 +16,45 @@
 //= require turbolinks
 //= require_tree .
 
-function scrumTaskHover(task_id) {
+
+function dailyTaskHover(task_id) {
   task = document.getElementById(task_id);
   task.innerHTML = "HELLO WORLD!";
 }
 
-function scrumTaskReset(task_id) {
+function dailyTaskReset(task_id) {
   
 }
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-  if (!$(event.target).closest('#scrum-modal-window').length)  {
-  	$("#scrum-modal-window").display = "none";
+  if (!$(event.target).closest('#daily-task-modal-window').length)  {
+  	$("#daily-task-modal-window").display = "none";
   }
 }
 
+function delete_pu_children(project_umbrella_id, assoc_projects, assoc_wgs_list) {
+	var retVal = confirm('Deleting this Project Umbrella will also delete the following Projects: ' + assoc_projects + "and Weekly Goals: " + assoc_wgs_list + "\n\nWould you like to continue?");
+	if( retVal == true ) {
+    $.ajax({
+  		url: "/delete_project_umbrella_and_projects",
+  		type: "post",
+  		data: { project_umbrella_id: project_umbrella_id, authenticity_token: $('[name="csrf-token"]')[0].content} //NEED VALID AUTHENTICITY TOKEN
+		})
+    } else {
+        return false;
+    }
+}
+
+function delete_p_children(project_id, assoc_wgs) {
+  var retVal = confirm('Deleting this Project will also delete the following Weekly Goals: ' + assoc_wgs + "\n\nWould you like to continue?");
+  if( retVal == true ) {
+    $.ajax({
+      url: "/delete_project_and_wgs",
+      type: "post",
+      data: { project_id: project_id, authenticity_token: $('[name="csrf-token"]')[0].content} //NEED VALID AUTHENTICITY TOKEN
+    })
+    } else {
+        return false;
+    }
+}

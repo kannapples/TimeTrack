@@ -1,0 +1,47 @@
+<%= form_with(model: project, local: true) do |form| %>
+  <% if project.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(project.errors.count, "error") %> prohibited this project from being saved:</h2>
+
+      <ul>
+      <% project.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <% if !@project_umbrella.nil? then %> <!-- if 'new project' is called from 'new Project Umbrella' section, default in project umbrella -->
+      Project Umbrella: <%= @project_umbrella.name %>
+
+      <%= form.hidden_field :project_umbrella_id, :value=> @project_umbrella.id %>
+    <% else %> <!-- if 'new project' is called from Projects section, display full project umbrella list -->
+      <%= form.label :associated_project_umbrella %>
+      <%=form.select :project_umbrella_id, ProjectUmbrella.all.collect {|pu| [ pu.name, pu.id ] } %>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :start_date %>
+    <%= content_tag :div, :class => "date_select", :data => {:provide => 'datepicker', 'date-format' => 'yyyy-mm-dd', 'date-autoclose' => 'true'} do
+      form.text_field :start_date, class: 'form-control', placeholder: 'YYYY-MM-DD', value: Time.now.strftime('%Y-%m-%d')
+    end%>
+  </div>
+
+  <div>
+    <%= form.label :completion_goal_date %>
+    <%= content_tag :div, :class => "date_select", :data => {:provide => 'datepicker', 'date-format' => 'yyyy-mm-dd', 'date-autoclose' => 'true'} do
+      form.text_field :completion_goal_date, class: 'form-control', placeholder: 'YYYY-MM-DD', value: Time.now.strftime('%Y-%m-%d')
+    end%>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -2,7 +2,7 @@
 <%= javascript_include_tag "modals_dropdowns" %> <!-- ALLOWS USER TO COMPLETE A TASK -->
 
 <!-- INITIALIZATION -->
-    <% scrum_task = task %> <!-- generate local variable from local pulled in from render partial in edit.js.erb. -->
+    <% daily_task = task %> <!-- generate local variable from local pulled in from render partial in edit.js.erb. -->
     <% tracker = Tracker.new %> 
     <%  %> <!-- default the month number from the date into the month column -->
 <!-- FORM FIELDS -->
@@ -27,17 +27,17 @@
   	
     <%= form.hidden_field :project_id, :value=> project.id %>
   </div>
-  <div class="form_item" id="project_module_select">
-    <% project_module = ProjectModule.find(task.project_module_id) %>
+  <div class="form_item" id="weekly_goal_select">
+    <% weekly_goal = WeeklyGoal.find(task.weekly_goal_id) %>
   	
-  	Project Module: <%= project_module.name %>
+  	Weekly Goal: <%= weekly_goal.name %>
   	
-    <%= form.hidden_field :project_module_id, :value=> project_module.id %>
+    <%= form.hidden_field :weekly_goal_id, :value=> weekly_goal.id %>
   </div>
   <div class="form_item">
   	Task: <%= task.name %>
   	
-    <%= form.hidden_field :scrum_task_id, :value=> task.id %>
+    <%= form.hidden_field :daily_task_id, :value=> task.id %>
   </div>
   <br><div class="form_item">
     <%=form.text_field :description, :value => tracker.description, class: 'form_new_text_select' %>
@@ -55,7 +55,7 @@
     <%=form.text_field :payment, :value => tracker.payment %>
   </div>
   <br><div class="form_item">
-  	<%= form.fields_for scrum_task do |task_form| %>
+  	<%= form.fields_for daily_task do |task_form| %>
 		<%= task_form.label :completed %>
 		<%= task_form.check_box :completed %>
     <% end %>

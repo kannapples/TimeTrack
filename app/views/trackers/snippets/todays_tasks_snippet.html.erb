@@ -1,0 +1,48 @@
+<!-- DISPLAY TODAYS TASKS -->
+
+<div id="daily_tasks" class="project-content">  
+  <div class="container-fluid">
+    <div class="row">
+      <% todays_tasks = get_todays_tasks %> <!-- return all tasks marked true for 'is_daily_task' -->
+      <% todays_tasks.each do |task| %> <!-- loop through all daily tasks -->
+        <% unless task.completed %>
+          <div class="col-md-4">
+            <div class="daily_task_cat">
+              <button type="button" class="nav-button daily_task_btn" data-toggle="dropdown">
+                <span class="task_project"><%= task.project.name %></span>
+                <span class="daily_task"><%= task.name %></span> 
+                <i class="far fa-clock today-task-clock"></i>
+              </button> 
+              <div class="dropdown-menu">
+                <%= link_to 'Edit Task', {:controller => "daily_tasks", :action => "edit", :id => task.id}, remote: true %> <!--link to modal window for 'Edit' task functionality -->
+                <br><% if task.is_today_task == true then %>
+                  <%= link_to "Remove from Today's Tasks", {:controller => "daily_tasks", :action => "remove_today_task", :daily_task => task.id} %>
+                <% else %>
+                  <%= link_to "Mark for Today's Tasks", {:controller => "daily_tasks", :action => "mark_today_task", :daily_task => task.id} %>
+                <% end %>
+                <br><%= link_to "Complete Task", complete_task_path(task_id: task.id) %>
+                <br><%= link_to "Add Tracker", create_task_tracker_path(task_id: task.id), remote: true %>
+                <br><%= link_to "Delete Task", {:controller => "daily_tasks", :action => "delete_task", :daily_task => task.id}, data: {confirm: "Are you sure you want to delete this Daily Task?"}  %>
+
+              </div> <!-- end dropdown-menu -->  
+            </div> <!-- end daily_task_cat -->
+          </div> <!-- end col-md-4 -->
+        <% else %>
+          <% if task.active %>
+            <div id="weekly_goal_completed" class="weekly_goal_completed col-sm-4">
+              <div id="completed_check"><%= fa_icon('check-circle') %></div>
+              <span class="completed_task_project">
+                <% if !task.weekly_goal.nil? then %>
+                  <% if !task.weekly_goal.project.nil? then %>
+                    <%= task.weekly_goal.project.name %>
+                  <% end %>
+                <% end %>
+              </span>
+              <span class="completed_daily_task"><%= task.name %></span>
+            </div> <!-- end weekly_goal_completed -->
+          <% end %>
+        <% end %>
+      <% end %>
+    </div> <!-- row -->
+  </div> <!-- container -->
+</div> <!-- end daily_tasks -->

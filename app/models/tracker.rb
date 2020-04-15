@@ -1,7 +1,8 @@
 class Tracker < ApplicationRecord
 
-	belongs_to :scrum_task, optional: true;
-	accepts_nested_attributes_for :scrum_task #this allows the 'add tracker' button in the task section to complete a task
+	belongs_to :daily_task, optional: true
+    belongs_to :project, optional: true
+	accepts_nested_attributes_for :daily_task #this allows the 'add tracker' button in the task section to complete a task
 
 	 # after_initialize :get_month
 

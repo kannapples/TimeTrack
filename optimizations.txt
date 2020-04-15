@@ -1,9 +1,9 @@
-1. assigning globals 'Project.all', 'ProjectModule.all', AND 'ScrumTask.all' for every update/new/edit action seems irrelevant
+1. assigning globals 'Project.all', 'WeeklyGoal.all', AND 'DailyTask.all' for every update/new/edit action seems irrelevant
 2. 
 
 
 questions for presentation:
 	1. my global accessing is probably sloppy?
-	2. helper methods for scrum tasks in tracker controller... this is probably wrong... ?
-	3. tracker model chaining... for storage, is it good practice to just store the scrum_task_id when thats all users input? I can get the rest of the info by chaining if i need to report on it. 
+	2. helper methods for daily tasks in tracker controller... this is probably wrong... ?
+	3. tracker model chaining... for storage, is it good practice to just store the daily_task_id when thats all users input? I can get the rest of the info by chaining if i need to report on it. 
 	

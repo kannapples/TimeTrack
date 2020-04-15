@@ -1,26 +1,42 @@
 Next on the list:
-3. 'Today' FX: add a button that toggles view between week's tasks and todays tasks
-2. fix 'complete task' fx. incorporate creating a tracker from completing a task, including pre-populating fields.
+1. 'Create Task' should then have a follow-up to select 'New Daily task' or 'New Weekly Goal'
+1. projects - fix 'complete task' fx. incorporate creating a tracker from completing a task, including pre-populating fields.
+2. tracker - Delete link changed to red X, also add icon for edit
+- what happens when you delete a project that has a weekly task associated. Should there be a popup warning the user that the weekly task will be deleted too? Same with deleting weekly tasks. 
+3. tracker - Add 'manage categories' settings option
+4. 'Add to daily tasks' in create daily task popup doesn't work
+5. default in today's date in 'add tracker' modal
+6. hide 'completed' check box for 'add tracker' modal
+- go through and delete all 'show' fucntionality, who needs it
+4. CSS
+5. Add a 'todo list' item for daily tasks. Can access and check off items on this list. Todo items would be transfers to next day's task if you complete the task today.
 
-SCRUM
-2. AFter deleting, need to refresh the page - it gets stuck currently.
-
+DAILY TASKS
+2. AFter deleting, need to refresh the page - it gets stuck currently. same goes for completing a task.
+3. go through and fix naming conventions
+4. if user hasn't identifying tasks to do today yet, have popup when they first log in asking if they want to assign daily tasks. Maybe used stripped-down table for tasks with a big 'add' button. 
+5. color-code project umbrellas
+6. week view - block display where if there are 2 tasks under 1 project, and then 1 task under 1 project, they are all displayed in line with different colors bucketing them into projects. 
 
 TRACKERS
-4.5 Delete link changed to red X
-5. Change edit functionality: when you click on a field in the row, it takes you into edit mode
-9. Add 'manage categories' settings option
-10. when 'new tracker' is clicked, doesn't go to form page. triggers popup
+
 11. make date a required parameter
 13. Time on index page does not automatically update 
 15. New trackers are ordered by date/ID not date/start-time
+
+PROJECTS
+- eventually, change edit to modal
 
 TRACKER REPORTING
 Day hours: how many hours total, show percentage of task. maybe horizontal stacked bar
 Month breakdown - generate as part of progress email.
 
+USER ACCOUNTS
+1. add a bootstrap jumbotron for a welcome tutorial
 
-SCRUM CRON
+
+
+DAILY TASK CRON
 1. Completed tasks: (daily) mark inactive or delete the next day
 2. Completed tasks: (weekly) Generate email with weekly/monthly progress. 
 3. Monthly - popup with inactivated weekly goals. prompt to delete or re-activate.
@@ -28,7 +44,7 @@ SCRUM CRON
 
 PHONE FUNCTIONALITY
 1. for time increments, have buttons for 0.5 / 1 / 2 / more. Allow additive choice, so for 1.5, you would choose 0.5 and 1.
-2. This should be more heavily weighted on the time tracking and less on the scrum?
+2. This should be more heavily weighted on the time tracking and less on the daily tasks?
 3. To do list (daily tasks) should be easily accesible here
 
 COLOR SCHEME

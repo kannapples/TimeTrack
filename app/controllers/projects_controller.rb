@@ -9,8 +9,8 @@ class ProjectsController < ApplicationController
     #PROJECT UMBRELLAS
     @project_umbrellas = ProjectUmbrella.all
 
-    #PROJECT MODULES
-    @project_modules = ProjectModule.all
+    #WEEKLY GOALS
+    @weekly_goals = WeeklyGoal.all
   end
 
   # GET /projects/1
@@ -21,7 +21,9 @@ class ProjectsController < ApplicationController
   # GET /projects/new
   def new
     @project = Project.new
-    @project_umbrellas = ProjectUmbrella.all
+    if !params[:project_umbrella_id].nil? then
+      @project_umbrella = ProjectUmbrella.find(params[:project_umbrella_id]) #if project_umbrella was passed in from project umbrella create function
+    end
   end
 
   # GET /projects/1/edit
@@ -36,7 +38,9 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
-        format.html { redirect_to @project, notice: 'Project was successfully created.' }
+        # When a new project is created, its most likely because you also want to create a new weekly goal under that project. Redirect to Weekly Goal Creation Page to save clicks.
+        format.html { redirect_to new_weekly_goal_path(:project_id => @project.id, :project_umbrella_id => @project.project_umbrella_id), notice: 'Project umbrella was successfully created.' }
+        
         format.json { render :show, status: :created, location: @project }
       else
         format.html { render :new }
@@ -50,7 +54,7 @@ class ProjectsController < ApplicationController
   def update
     respond_to do |format|
       if @project.update(project_params)
-        format.html { redirect_to @project, notice: 'Project was successfully updated.' }
+        format.html { redirect_to projects_url, notice: 'Project was successfully updated.' }
         format.json { render :show, status: :ok, location: @project }
       else
         format.html { render :edit }
@@ -59,14 +63,39 @@ class ProjectsController < ApplicationController
     end
   end
 
+
   # DELETE /projects/1
   # DELETE /projects/1.json
   def destroy
-    @project.destroy
-    respond_to do |format|
-      format.html { redirect_to projects_url, notice: 'Project was successfully destroyed.' }
-      format.json { head :no_content }
+    if @project.children? #warn user about deleting project umbrella with associated projects
+        project_id = @project.id.to_s
+        assoc_wgs = @project.get_children_string
+        
+        respond_to do |format|
+          format.html
+          format.js { render :js => "delete_p_children("+project_id+","+assoc_wgs+");" } #confirmation window about whether to delete all children
+        end
+   
+    else
+      @project.destroy
+      respond_to do |format|
+        format.html { redirect_to projects_url, notice: 'Project was successfully destroyed.' }
+        format.json { head :no_content }
+      end
     end
+  end
+
+  def delete_project_and_wgs
+      project = Project.find(params[:project_id]) #find project based on ajax call parameter
+      assoc_wgs = project.get_children # get all associated weekly goals
+      WeeklyGoal.destroy(assoc_wgs.map(&:id)) #destroy all associated projects
+
+      project.destroy #destroy project umbrella
+
+      respond_to do |format|
+        format.html { redirect_to projects_url, notice: 'Project was successfully destroyed.' }
+        format.json { head :no_content }
+      end
   end
 
 
@@ -87,6 +116,6 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:name, :start_date, :completion_goal_date, :project_umbrella_id, :project_modules)
+      params.require(:project).permit(:name, :start_date, :completion_goal_date, :project_umbrella_id, :weekly_goals)
     end
 end

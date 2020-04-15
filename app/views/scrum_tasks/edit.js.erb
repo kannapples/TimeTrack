@@ -1,7 +1,0 @@
-// populate modal
-document.getElementById("scrum-modal-title").innerHTML="Edit Scrum Task";
-
-$('#scrum-modal-window-body').html("<%= j render partial: 'scrum_tasks/edit_form', locals: {scrum_task: @scrum_task} %>");
-
-// render modal
-$('#scrum-modal-window').modal('show');

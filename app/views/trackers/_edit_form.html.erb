@@ -1,34 +1,34 @@
-<%= javascript_include_tag "project_selectors" %> <!-- PULL IN FUNCTIONALITY FOR LIMITING SELECTION LISTS BASED ON PREVIOUS SELECTION -->
+<%= javascript_include_tag "project_selectors" %> <!-- PULL IN FUNCTIONALITY FOR LIMITING SELECTION LISTS BASED ON PREVIOUS SELECTION --> 
 
 <!-- INITIALIZATION -->
     <% tracker = tracker %> <!-- generate local variable from local pulled in from render partial in edit.js.erb. local variable isn't recognized if I don't have this line included -->
     <% if tracker.nil? then tracker = Tracker.new end%> <!-- null handling to satisfy compiler -->
 
-    <% @scrum_tasks = ScrumTask.all %>
-    <% @recurrence = TaskRecurrence.all.map{|c| [ c.name, c.id ] } %>
+    <% @daily_tasks = DailyTask.all %>
     <% @project_umbrellas = ProjectUmbrella.all %>
     <% @projects = Project.all %>
-    <% @project_modules = ProjectModule.all %>
+    <% @weekly_goals = WeeklyGoal.all %>
 
 <!-- FORM FIELDS -->
 <%= form_for tracker do |form| %>
 
-  <div>Tracker ID: <%= tracker.id %></div>
-
   <%= content_tag :div, :class => "td day", :data => {:provide => 'datepicker', 'date-format' => 'yyyy-mm-dd', 'date-autoclose' => 'true'} do
     form.text_field :date, class: 'form-control', placeholder: 'YYYY-MM-DD', value: tracker.date
   end %>
-  <br><div class="td" id="project_umbrella_select">
-    <%=form.select :project_umbrella_id, ProjectUmbrella.all.collect {|pu| [ pu.name, pu.id ] }, :value => tracker.project_umbrella_id , class: 'form_new_cat_select' %>
+
+  <br><div>
+    <%= form.label :project_umbrella %>
+    <%=form.select :project_umbrella_id, ProjectUmbrella.all.collect {|pu| [ pu.name, pu.id ] }, :value => tracker.project_umbrella_id %>
   </div>
+
   <br><div class="td" id="project_select">
     <%= form.select :project_id, Project.all.collect{ | p | [p.name, p.id] }, :value => tracker.project_id %>
   </div>
-  <br><div class="td" id="project_module_select">
-    <%=form.select :project_module_id, ProjectModule.all.collect {|pm| [ pm.name, pm.id ] }, :value => tracker.project_module_id %>
+  <br><div class="td" id="weekly_goal_select">
+    <%=form.select :weekly_goal_id, WeeklyGoal.all.collect {|wg| [ wg.name, wg.id ] }, :value => tracker.weekly_goal_id %>
   </div>
-  <br><div class="td scrum_task">
-    <%= form.select :scrum_task_id, ScrumTask.all.collect{ | st | [st.name, st.id] }, :value => tracker.scrum_task_id %>
+  <br><div class="td daily_task">
+    <%= form.select :daily_task_id, DailyTask.all.collect{ | dt | [dt.name, dt.id] }, :value => tracker.daily_task_id %>
   </div>
   <br><div class="td description">
     <%=form.text_field :description, :value => tracker.description, class: 'form_new_text_select' %>

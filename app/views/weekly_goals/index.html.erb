@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Weekly Goals</h1>
+
+<table>
+  <thead>
+    <tr>
+      <td>Project Umbrella</td>
+      <td>Project</td>
+      <td>Name</td>
+      <td>Repeat Recurrence</td>
+      <td>Completed?</td>
+      <td>Active?</td>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @weekly_goals.each do |weekly_goal| %>
+      <tr>
+        <td><%= weekly_goal.project_umbrella_id %></td>
+        <td><%= weekly_goal.project_id %></td>
+        <td><%= weekly_goal.name %></td>
+        <td><%= weekly_goal.repeat_recurrence_id %></td>
+        <td><%= weekly_goal.completed %></td>
+        <td><%= weekly_goal.active %></td>
+        <td><%= link_to 'Show', weekly_goal %></td>
+        <td><%= link_to 'Edit', edit_weekly_goal_path(weekly_goal) %></td>
+        <td><%= link_to 'Destroy', weekly_goal, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Weekly Goal', new_weekly_goal_path %>

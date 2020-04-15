@@ -1,116 +1,174 @@
-<p id="notice"><%= notice %></p>
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<h1>Projects</h1>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>  
 
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Project Umbrella</th>
-      <th>Start Date</th>
-      <th>Completion Goal Date</th>
-      <th>Associated Project Modules</th>
-      <th>Associated Tasks</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+  <!-- JAVASCRIPT (assets/javascripts) -->
+  <%= javascript_include_tag "project_selectors" %>
+  <%= javascript_include_tag "modals_dropdowns" %>
+</head>
+<body>
+  <p id="notice"><%= notice %></p>
 
-  <tbody>
-    <% @projects.each do |project| %>
+  <!-- BOOTSTRAP - NAVBAR -->
+  <nav class="navbar navbar-light bg-light">
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary nav-button" data-toggle="dropdown"><%= fa_icon('bars')%></button>
+      <div class="dropdown-menu">
+        <%= link_to "Home", "/", method: :get %>
+        <%= link_to "Trackers for Month", "month_index", method: :get %>
+      </div>
+    </div>
+
+    <span class="navbar-brand mb-0 h1">TimeTrack</span>
+
+    <div>
+      <%= Time.now.strftime('%m-%d-%Y')%><br>
+      <%= Time.now.strftime('%H:%M')%>
+    <div>
+  </nav>
+      
+
+
+
+  <h1>Project Umbrellas</h1>
+
+  <table>
+    <thead>
       <tr>
-        <td><%= project.id %></td>
-        <td><%= project.name %></td>
-        <td><%= project.project_umbrella.name %></td>
-        <td><%= project.start_date %></td>
-        <td><%= project.completion_goal_date %></td>
-        <td><%  project.project_modules.each do |project_module| %>
-              <%= project_module.name %><br>
-            <% end %> 
-        </td>
-        <td><% project.scrum_tasks.each do |task| %>
-              <%= task.name %><br>
+        <th>Name</th>
+        <th>Associated Projects</th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @project_umbrellas.each do |project_umbrella| %>
+        <tr>
+          <td><%= project_umbrella.name %></td>
+          <td><%  project_umbrella.projects.each do |project| %>
+                <%= project.name %><br>
+              <% end %> 
+          </td>
+          <td><%= link_to 'Edit', edit_project_umbrella_path(project_umbrella) %></td>
+          <td><%= link_to 'Destroy', project_umbrella, method: :delete, data: { confirm: 'Are you sure?' }, remote: true %></td> <!--link to modal window for 'Destroy' task functionality -->
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <br><br>
+
+  <%= link_to 'New Project Umbrella', new_project_umbrella_path %>
+
+  <br><br>
+
+  <h1>Projects</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Project Umbrella</th>
+        <th>Start Date</th>
+        <th>Completion Goal Date</th>
+        <th>Associated Weekly Goal</th>
+        <th>Associated Daily Tasks</th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @projects.each do |project| %>
+        <tr>
+          <td><%= project.id %></td>
+          <td><%= project.name %></td>
+          <td>
+            <% if !project.project_umbrella.nil? then %>
+              <%= project.project_umbrella.name %>
             <% end %>
-        </td>
-        <td><%= link_to 'Show', project %></td>
-        <td><%= link_to 'Edit', edit_project_path(project) %></td>
-        <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<br>
+          </td>
+          <td><%= project.start_date %></td>
+          <td><%= project.completion_goal_date %></td>
+          <td><%  project.weekly_goals.each do |weekly_goal| %>
+                <%= weekly_goal.name %><br>
+              <% end %> 
+          </td>
+          <td><% project.daily_tasks.each do |task| %>
+                <%= task.name %><br>
+              <% end %>
+          </td>
+          <td><%= link_to 'Edit', edit_project_path(project) %></td>
+          <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }, remote: true %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <br>
 
-<%= link_to 'New Project', new_project_path %>
+  <%= link_to 'New Project', new_project_path %>
 
-<br><br>
+  <br><br>
 
-<h1>Project Modules</h1>
+  <h1>Weekly Goals</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Associated Project</th>
-      <th>Name</th>
-      <th>Start Date</th>
-      <th>Completion Goal Date</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @project_modules.each do |project_module| %>
+  <table>
+    <thead>
       <tr>
-        <td>
-          <% if !project_module.project.nil? then %>
-            <%= project_module.project.name %>
-          <% end %>
-        </td>
-        <td><%= project_module.name %></td>
-        <td><%= project_module.start_date %></td>
-        <td><%= project_module.completion_goal_date %></td>
-        <td></td>
-        <td><%= link_to 'Show', project_module %></td>
-        <td><%= link_to 'Edit', edit_project_module_path(project_module) %></td>
-        <td><%= link_to 'Destroy', project_module, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Project Umbrella</th>
+        <th>Project</th>
+        <th>Name</th>
+        <th>Repeat Recurrence</th>
+        <th>Completed</th>
+        <th>Active</th>
+        <th colspan="2"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br><br>
+    <tbody>
+      <% @weekly_goals.each do |weekly_goal| %>
+        <tr>
+          <td>
+            <% if !weekly_goal.project.nil? then %>
+              <% if !weekly_goal.project.project_umbrella.nil? then %>
+                <%= weekly_goal.project.project_umbrella.name %>
+              <% end %>
+            <% end %>
+          </td>
+          <td>
+            <% if !weekly_goal.project.nil? then %>
+              <%= weekly_goal.project.name %>
+            <% end %>
+          </td>
+          <td><%= weekly_goal.name %></td>
+          <td>
+            <% if !weekly_goal.repeat_recurrence_id.nil? then %>
+              <%= RepeatRecurrence.find(weekly_goal.repeat_recurrence_id).name %>
+            <% end %>
+          </td>
+          <td><%= weekly_goal.completed %></td>
+          <td><%= weekly_goal.active %></td>
+          <td><%= link_to 'Edit', edit_weekly_goal_path(weekly_goal) %></td>
+          <td><%= link_to 'Destroy', weekly_goal, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<%= link_to 'New Project Module', new_project_module_path %>
+  <br><br>
 
-<br><br>
+  <%= link_to 'New Weekly Goal', new_weekly_goal_path %>
 
-<h1>Project Umbrellas</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Associated Projects</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @project_umbrellas.each do |project_umbrella| %>
-      <tr>
-        <td><%= project_umbrella.name %></td>
-        <td><%  project_umbrella.projects.each do |project| %>
-              <%= project.name %><br>
-            <% end %> 
-        </td>
-        <td><%= link_to 'Show', project_umbrella %></td>
-        <td><%= link_to 'Edit', edit_project_umbrella_path(project_umbrella) %></td>
-        <td><%= link_to 'Destroy', project_umbrella, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br><br>
-
-<%= link_to 'New Project Umbrella', new_project_umbrella_path %>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @daily_task.category %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @daily_task.name %>
+</p>
+
+<p>
+  <strong>Completed?:</strong>
+  <%= @daily_task.completed %>
+</p>
+
+<p>
+  <strong>Active?:</strong>
+  <%= @daily_task.active %>
+</p>
+
+<%= link_to 'Edit', edit_daily_task_path(@daily_task) %> |
+<%= link_to 'Back', daily_tasks_path %>

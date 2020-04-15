@@ -1,0 +1,6 @@
+// populate modal
+document.getElementById("task-goal-modal-title").innerHTML="New Weekly Goal";
+$('#task-goal-modal-window-body').html("<%= j render partial: 'weekly_goals/new_form', locals: {weekly_goal: @weekly_goal} %>");
+
+// render modal
+$('#task-goal-modal-window').modal('show');

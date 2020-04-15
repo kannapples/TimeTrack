@@ -21,19 +21,39 @@
     <% prev_month_year = get_prev_month_year("-") %>
     <% next_month_year = get_prev_month_year("+") %>
 
+    <!-- BOOTSTRAP - NAVBAR -->
+    <nav class="navbar navbar-light bg-light">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary nav-button" data-toggle="dropdown"><%= fa_icon('bars')%></button>
+        <div class="dropdown-menu">
+          <%= link_to "Home", "/", method: :get %>
+          <br><%= link_to "Project List", :controller => "projects", :action => "index" %>
+        </div>
+      </div>
+
+      <span class="navbar-brand mb-0 h1">TimeTrack</span>
+
+      <div>
+        <%= Time.now.strftime('%m-%d-%Y')%><br>
+        <%= Time.now.strftime('%H:%M')%>
+      <div>
+    </nav>
+
+    <h1 id="month-title"><span id="prev-month-link"><%= link_to "<<", month_index_path(:month=>prev_month_year["month"], :year=>prev_month_year["year"])%></span>  <%= Date::MONTHNAMES[@month] + " " + @year.to_s %>  <span id="next-month-link"><%= link_to ">>" , month_index_path(:month=>next_month_year["month"], :year=>next_month_year["year"])%></span></h1>
+    <button id="new_tracker_btn"type="button" class="btn btn-info btn-md new_btn" data-toggle="modal" data-target="#tracker-modal-window">Add Trackers</button>
+
     <!-- Modal window for 'New' and 'Edit' tracker functionality -->
-    <div id="tracker-modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div id="tracker-modal-window" class="modal hide fade" role="dialog" aria-labelledby="tracker-modal-window" aria-hidden="true">
       <div id="modal-dialog" class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">New Tracker</h4>
             <i class="fas fa-times" data-dismiss="modal" onclick="modalXClose()"></i>
+            <h4 class="modal-title" id="tracker-modal-title"></h4>
           </div>
-          <div class="modal-body">
-            <%= render 'trackers/new_form', tracker: @tracker %>
+          <div id="tracker-modal-window-body" class="modal-body">
+            
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Save changes</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
@@ -41,25 +61,19 @@
     </div> <!-- end tracker-modal-window -->
 
 
-    <table id="monthly_trackers">
-      <h3 id="display_date"><%= Time.now.strftime('%m-%d-%Y')%>
-      <br>
-      <%= Time.now.strftime('%H:%M')%></h3>
-      <caption>
-        <h1 id="month_title"><span id="prev_month_link"><%= link_to "<<", month_index_path(:month=>prev_month_year["month"], :year=>prev_month_year["year"])%></span>  <%= Date::MONTHNAMES[@month] + " " + @year.to_s %>  <span id="next_month_link"><%= link_to ">>" , month_index_path(:month=>next_month_year["month"], :year=>next_month_year["year"])%></span></h1>
-      </caption>
+      
+    <table id="monthly-trackers">
       <thead>
         <tr>
-          <th>Day</th>
+          <th>Date</th>
           <th>Project Umbrella</th>
           <th>Project</th>
-          <th>Project Module</th>
-          <th>Scrum Task</th>
-          <th>Description</th>
+          <th>Weekly Goal</th>
+          <th>Daily Task</th>
+          <th colspan="2">Description</th>
           <th>Hours</th>
           <th>Start time</th>
           <th>End time</th> 
-          <th>Payment</th>
           <th colspan="2"></th>
         </tr>
       </thead>
@@ -73,30 +87,46 @@
             <tr class='empty_day'>
               <% i_day = Date.new(@year, @month, i) %>
               <td><%= i_day.strftime("%a #{i_day.day.ordinalize}") %></td>
-              <td colspan="9"><button id="new_tracker_btn"type="button" class="btn btn-info btn-md new_btn" data-toggle="modal" data-target="#tracker-modal-window">Add Trackers</button></td>
+              <td colspan="11" class="no-track-msg">No Trackers Entered</td>
             </tr>
           <% else %> <!-- if array is not empty, format and show all trackers for the day -->
             <% @day_trackers.each do |tracker| %>
               <tr id=<%=tracker.id%>>
                 <td><%= tracker.date.strftime("%a #{tracker.date.day.ordinalize}") %></td>
-                <td><%= tracker.project_umbrella_id %></td>
-                <td><%= tracker.project_id %></td>
-                <td><%= tracker.project_module_id %></td>
-                <td><%= tracker.scrum_task_id %></td>
-                <td><%= tracker.description %></td>
+                <td>
+                  <% if !tracker.project.nil? then %>
+                    <% if !tracker.project.project_umbrella.nil? then %>
+                      <%= tracker.project.project_umbrella.name %>
+                    <% end %>
+                  <% end %>
+                </td>
+                <td>
+                  <% if !tracker.project.nil? then %>
+                    <%= tracker.project.name %>
+                  <% end %>
+                </td>
+                <td>
+                  <% if !tracker.daily_task.nil? then %>
+                    <% if !tracker.daily_task.weekly_goal.nil? then %>
+                      <%= tracker.daily_task.weekly_goal.name %>
+                    <% end %>
+                  <% end %>
+                </td>
+                <td>
+                  <% if !tracker.daily_task.nil? then %>
+                    <%= tracker.daily_task.name %>
+                  <% end %>
+                </td>
+                <td colspan="2"><%= tracker.description %></td>
                 <td><%= tracker.hours %></td>
                 <td><%= tracker.start_time.strftime("%H:%M") %></td>
                 <td><%= tracker.end_time.strftime("%H:%M") %></td>
-                <td><%= tracker.payment %></td>
-                <td><%= link_to "Edit", edit_track_path(tracker), :remote => true %></td>
-                <td><%= link_to 'Edit 2', edit_tracker_path(tracker), :remote => true %></td> 
+                <td><%= link_to "Edit", edit_tracker_path(tracker.id), :remote => true %></td>
                 <td><%= link_to 'Destroy', tracker, method: :delete, data: { confirm: 'Are you sure?' } %></td>
               </tr>
             <% end %>
           <% end %>
-        <% end %>
-
-        
+        <% end %>  
       </tbody>
     </table>
 

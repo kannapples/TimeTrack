@@ -1,0 +1,7 @@
+// populate modal
+document.getElementById("task-goal-modal-title").innerHTML="Edit Weekly Goal";
+ 
+$('#task-goal-modal-window-body').html("<%= j render partial: 'weekly_goals/edit_form', locals: {weekly_goal: @weekly_goal} %>");
+
+// render modal
+$('#task-goal-modal-window').modal('show');

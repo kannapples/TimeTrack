@@ -1,10 +1,47 @@
-//// SCRUM TASK MODAL ///////////////////
+////////////////////////////////////////////////////
+////////     PROJECT SELECTORS    /////////////////
+////  FUNCTIONALITY FOR LIMITING SELECTION LISTS BASED ON PREVIOUS SELECTION
+///////////////////////////////////////////////////
+
+
+//// WEEKLY GOAL PAGE /////////////////
 
 //// PROJECT UMBRELLA LEVEL SELECTOR //////////////
 jQuery(function() {
-  return $('select[name="scrum_task[project_umbrella_id]').change(function() {
+  return $('select[name="weekly_goal[project_umbrella_id]').change(function() {
 
-    var $sel = $('select[name="scrum_task[project_id]"'),
+    var $sel = $('select[name="weekly_goal[project_id]"'),
+    val = $(this).val(),
+    project_umbrella = $('option:selected', this).text();
+
+    if (project_umbrella == 'Add New...' ) {
+      document.location.href = "/project_umbrellas/new";
+    } else {
+      $('span > optgroup', $sel).unwrap();
+      if (val !== '%') {
+        $('optgroup:not([label="' + project_umbrella + '"])', $sel).wrap('<span/>');
+      }
+    }
+  });
+});
+jQuery(function() {
+  return $('select[name="weekly_goal[project_id]').change(function() {
+
+    project = $('option:selected', this).text();
+
+    if (project == 'Add New...' ) {
+      document.location.href = "/projects/new";
+    } 
+  });
+});
+
+//// DAILY TASK MODAL ///////////////////
+
+//// PROJECT UMBRELLA LEVEL SELECTOR //////////////
+jQuery(function() {
+  return $('select[name="daily_task[project_umbrella_id]').change(function() {
+
+    var $sel = $('select[name="daily_task[project_id]"'),
     val = $(this).val(),
     project_umbrella = $('option:selected', this).text();
 
@@ -21,9 +58,9 @@ jQuery(function() {
 
 //// PROJECT LEVEL SELECTOR //////////////
 jQuery(function() {
-  return $('select[name="scrum_task[project_id]').change(function() {
+  return $('select[name="daily_task[project_id]').change(function() {
 
-    var $sel = $('select[name="scrum_task[project_module_id]"'),
+    var $sel = $('select[name="daily_task[weekly_goal_id]"'),
     val = $(this).val(),
     project = $('option:selected', this).text();
 
@@ -39,15 +76,15 @@ jQuery(function() {
 });
 
 
-  //// PROJECT MODULE LEVEL SELECTOR ////////
+  //// WEEKLY GOAL LEVEL SELECTOR ////////
 
 jQuery(function() {
-  return $('select[name="scrum_task[project_module_id]"').change(function() {
+  return $('select[name="daily_task[weekly_goal_id]"').change(function() {
 
-    project_module = $('option:selected', this).text();
+    weekly_goal = $('option:selected', this).text();
 
-    if (project_module == 'Add New...' ) {
-      document.location.href = "/project_modules/new";
+    if (weekly_goal == 'Add New...' ) {
+      document.location.href = "/weekly_goals/new";
     } 
   });
 });  
@@ -78,7 +115,7 @@ jQuery(function() {
 jQuery(function() {
   return $('select[name="tracker[project_id]').change(function() {
 
-    var $sel = $('select[name="tracker[project_module_id]"'),
+    var $sel = $('select[name="tracker[weekly_goal_id]"'),
     val = $(this).val(),
     project = $('option:selected', this).text();
 
@@ -94,38 +131,38 @@ jQuery(function() {
 });
 
 
-  //// PROJECT MODULE LEVEL SELECTOR ////////
+  //// WEEKLY GOAL LEVEL SELECTOR ////////
 
 jQuery(function() {
-  return $('select[name="tracker[project_module_id]"').change(function() {
+  return $('select[name="tracker[weekly_goal_id]"').change(function() {
 
-    var $sel = $('select[name="tracker[scrum_task_id]"'),
+    var $sel = $('select[name="tracker[daily_task_id]"'),
     val = $(this).val(),
-    project_module = $('option:selected', this).text();
+    weekly_goal = $('option:selected', this).text();
 
-    if (project_module == 'Add New...' ) {
-      document.location.href = "/project_modules/new";
+    if (weekly_goal == 'Add New...' ) {
+      document.location.href = "/weekly_goals/new";
     } else {
       $('span > optgroup', $sel).unwrap();
       if (val !== '%') {
-        $('optgroup:not([label="' + project_module + '"])', $sel).wrap('<span/>');
+        $('optgroup:not([label="' + weekly_goal + '"])', $sel).wrap('<span/>');
       }
     }
   });
 }); 
 
-  //// SCRUM TASK LEVEL SELECTOR ////////
+  //// DAILY TASK LEVEL SELECTOR ////////
 
 jQuery(function() {
-  return $('select[name="tracker[scrum_task_id]"').change(function() {
+  return $('select[name="tracker[daily_task_id]"').change(function() {
 
-    scrum_task = $('option:selected', this).text();
+    daily_task = $('option:selected', this).text();
 
-    if (scrum_task == 'Add New...' ) {
-      $("#scrum-modal-window").removeClass("hide"); //make the div visible
-      $("#scrum-modal-window").find(".modal-content").html("<%= j (render '/scrum_tasks/new') %>");
+    if (daily_task == 'Add New...' ) {
+      $("#task-goal-modal-window").removeClass("hide"); //make the div visible
+      $("#task-goal-modal-window").find(".modal-content").html("<%= j (render '/daily_tasks/new') %>");
       $("div:not(.modal)").addClass("blur");
-      var modal_window = document.getElementById('scrum-modal-window');
+      var modal_window = document.getElementById('task-goal-modal-window');
       modal_window.classList.remove("blur");
     } 
   });

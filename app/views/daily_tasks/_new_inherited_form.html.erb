@@ -1,0 +1,66 @@
+<%= javascript_include_tag "project_selectors" %> <!-- PULL IN FUNCTIONALITY FOR LIMITING SELECTION LISTS BASED ON PREVIOUS SELECTION -->
+
+  <!-- ERROR HANDLING -->
+     
+  <!-- INITIALIZATION -->
+  <% daily_task = daily_task %> <!-- generate local variable from local pulled in from render partial in new.js.erb. local variable isn't recognized if I don't have this line included -->
+  <% if daily_task.nil? then daily_task = DailyTask.new end%> <!-- null handling to satisfy compiler -->
+
+  <% project = project %>
+  <% project_umbrella = project_umbrella %>
+  <% weekly_goal = weekly_goal %>
+  <% recurrence = RepeatRecurrence.all.map{|c| [ c.name, c.id ] } %>
+
+
+  <!-- FORM FIELDS -->
+<%= form_for daily_task do |form| %>
+
+    <div class="field">
+      Project Umbrella: <%= project_umbrella.name %>
+
+      <%= form.hidden_field :project_umbrella_id, :value=> project_umbrella.id %> 
+      
+    </div>
+
+    <div class="field" id="daily_task_new_project_selector">
+      Project: <%= project.name %>
+
+      <%= form.hidden_field :project_id, :value=> project.id %>     
+    </div>
+
+    <div class="field" id="daily_task_new_weekly_goal_selector">
+      Weekly Goal: <%= weekly_goal.name %>
+
+      <%= form.hidden_field :weekly_goal_id, :value=> weekly_goal.id %> 
+    </div>
+
+    <div class="field">
+      <%= form.label(:name, "Daily Task Name: ") %> 
+      <%= form.text_field :name %>
+    </div>
+
+    <div class="field">
+      <%= form.hidden_field :repeat_recurrence_id, :value => 1 %>
+    </div>
+
+    <div>
+      <%= form.hidden_field :active, :value=> true %>
+    </div>
+
+    <div class="field">
+      Add to 'Today's Tasks':
+      <%= form.check_box :is_today_task %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+
+  <% end %>
+</div>
+
+  <!-- INTENDED AS CONTAINER FOR 'NEW' DIALOGUE WITHIN MODAL -->
+  <div id="new_project_wrapper" class="">
+<!--   </div>
+
+</div> -->

@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Repeat Recurrences</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @repeat_recurrences.each do |repeat_recurrence| %>
+      <tr>
+        <td><%= repeat_recurrence.name %></td>
+        <td><%= link_to 'Show', repeat_recurrence %></td>
+        <td><%= link_to 'Edit', edit_repeat_recurrence_path(repeat_recurrence) %></td>
+        <td><%= link_to 'Destroy', repeat_recurrence, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Task Recurrence', new_repeat_recurrence_path %>

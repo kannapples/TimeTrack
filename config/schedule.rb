@@ -22,6 +22,6 @@ set :environment, "development"
 set :output, "log/cron.log"
 
 every 5.minutes do
-	runner "ScrumTask.nightly_task_processing"
+	runner "DailyTask.nightly_task_processing"
 	rake "run_nightly_batch"
 end 

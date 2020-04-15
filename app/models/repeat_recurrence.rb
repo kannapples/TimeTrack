@@ -1,0 +1,4 @@
+class RepeatRecurrence < ApplicationRecord
+
+	
+end

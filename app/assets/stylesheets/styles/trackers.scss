@@ -5,15 +5,16 @@
 *= require bootstrap-datepicker
 */
 
-#daily_trackers {
+#daily-trackers {
   box-sizing: border-box;
   width: 95%;
   position: relative;
   margin: auto;
   text-align: center;
   background: #E0E0E0;
+  margin-bottom: 5em;
 }
-#tracker_title {
+#tracker-title {
   text-align: center;
 }
 
@@ -39,30 +40,6 @@ div.td {
   padding: 0px 25px 0px 25px; 
   display: table-cell; 
 }
-div.day {
-  width: 135px;
-}
-div.task {
-  width: 135px;
-}
-div.subtask_1 {
-  width: 155px;
-}
-div.description {
-  width: 135px;
-}
-div.hours {
-  width: 70px;
-}
-div.start_time {
-  width: 110px;
-}
-div.end_time {
-  width: 110px;
-}
-div.payment {
-  width: 70px;
-}
 
 .blur {
   -webkit-filter: blur(2px);
@@ -71,12 +48,6 @@ div.payment {
 -ms-filter: blur(2px);
 filter: blur(2px); 
 }
-.form_new_text_select {
-	color:red;
-}
 .selected {
   background-color: #e3e3e3;
-}
-.form_item {
-  display: block;
 }

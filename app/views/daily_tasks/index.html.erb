@@ -1,0 +1,63 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Daily Tasks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Category</th>
+      <th>Project Umbrella</th>
+      <th>Project</th>
+      <th>Weekly Goal</th>
+      <th>Name</th>
+      <th>Repeat Recurrence</th>
+      <th>Is Today Task?</th>
+      <th>Completed?</th>
+      <th>Active?</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @daily_tasks.each do |daily_task| %>
+      <tr>
+        <td><%= daily_task.id %></td>
+        <td><% if !daily_task.weekly_goal.nil? then %>
+              <% if !daily_task.weekly_goal.project.nil? then %>
+                <% if !daily_task.weekly_goal.project.project_umbrella.nil? then %>
+                  <%= daily_task.weekly_goal.project.project_umbrella.name %>
+                <% end %>
+              <% end %>
+            <% end %>
+        </td>
+        <td><% if !daily_task.project_umbrella_id.nil? then %>
+              <%= ProjectUmbrella.find(daily_task.project_umbrella_id).name %>
+            <%end%>
+        </td>
+        <td><% if !daily_task.weekly_goal.nil? then %>
+              <% if !daily_task.weekly_goal.project.nil? then %>
+                <%= daily_task.weekly_goal.project.name %>
+              <% end %>
+            <% end %>
+         </td>
+        <td><% if !daily_task.weekly_goal.nil? then %>
+              <%= daily_task.weekly_goal.name %>
+            <% end %>
+        </td>
+        <td><%= daily_task.name %></td>
+        <td><%= daily_task.repeat_recurrence_id %></td>
+        <td><%= daily_task.is_today_task %></td>
+        <td><%= daily_task.completed %></td>
+        <td><%= daily_task.active %></td>
+        <td><%= link_to 'Show', daily_task %></td>
+        <td><%= link_to 'Edit', edit_daily_task_path(daily_task) %></td>
+        <td><%= link_to 'Destroy', daily_task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Daily Task', new_daily_task_path %>

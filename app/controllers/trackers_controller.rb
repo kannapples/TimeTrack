@@ -1,7 +1,7 @@
 class TrackersController < ApplicationController
   before_action :set_tracker, only: [:show, :edit, :update, :destroy]
 
-  helper_method :get_prev_month_year, :get_days_trackers, :get_weekly_goals, :get_daily_tasks, :get_unassoc_daily_tasks, :new_scrum_task_initialize, :complete_task, :get_todays_tasks
+  helper_method :get_prev_month_year, :get_days_trackers, :get_weekly_goals, :get_daily_tasks, :get_unassoc_daily_tasks, :new_daily_task_initialize, :complete_task, :get_todays_tasks
 
 
   # GET /trackers
@@ -20,14 +20,14 @@ class TrackersController < ApplicationController
         @year=year.to_i
       end
 
-      #SCRUM TASKS
-      # => Group Scrum Tasks by Project Umbrella for grouped display in index
-      @weekly_goal_categories = ProjectUmbrella.joins(:projects => [:project_modules => [:scrum_tasks]]).pluck(:name).uniq #avoid duplicates
+      #WEEKLY GOALS
+      # => Group Weekly Goals by Project Umbrella for grouped display in index
+      @weekly_goal_categories = ProjectUmbrella.joins(:projects => [:weekly_goals]).pluck(:name).uniq #avoid duplicates
 
       #PROJECT INFRASTRUCTURE
       @projects = Project.all 
-      @project_modules = ProjectModule.all 
-      @scrum_tasks = ScrumTask.all 
+      @weekly_goals = WeeklyGoal.all 
+      @daily_tasks = DailyTask.all 
 
 
   end
@@ -51,24 +51,24 @@ class TrackersController < ApplicationController
 
   # GET /trackers/new
   def new
+    #initialize globals
     @tracker = Tracker.new
-
-    #PROJECT INFRASTRUCTURE
-      @projects = Project.all 
-      @project_modules = ProjectModule.all 
-      @scrum_tasks = ScrumTask.all 
+    @projects = Project.all 
+    @weekly_goals = WeeklyGoal.all 
+    @daily_tasks = DailyTask.all 
   end
 
   # GET /trackers/1/edit
-  def edit #edit button skips this because of remote:true in index.html, which takes you straight to edit.js.erb
-    #PROJECT INFRASTRUCTURE
+  def edit 
+    #initialize globals
       @tracker = Tracker.find(params[:id])
       @projects = Project.all 
-      @project_modules = ProjectModule.all 
-      @scrum_tasks = ScrumTask.all 
+      @weekly_goals = WeeklyGoal.all 
+      @daily_tasks = DailyTask.all 
+
       respond_to do |format|
         format.js 
-        format.html
+        format.html { redirect_to '/', notice: 'Tracker was successfully updated.' }
         format.json
       end
 
@@ -95,7 +95,7 @@ class TrackersController < ApplicationController
 
   def create_task_tracker
 
-    @task = ScrumTask.find(params[:task_id])
+    @task = DailyTask.find(params[:task_id])
 
     respond_to do |format|
       format.json
@@ -109,26 +109,13 @@ class TrackersController < ApplicationController
   def update
     #PROJECT INFRASTRUCTURE
       @projects = Project.all 
-      @project_modules = ProjectModule.all 
-      @scrum_tasks = ScrumTask.all 
+      @weekly_goals = WeeklyGoal.all 
+      @daily_tasks = DailyTask.all 
 
     respond_to do |format|
       if @tracker.update(tracker_params)
-        format.html { redirect_to @tracker, notice: 'Tracker was successfully updated.' }
-        format.json { render :show, status: :ok, location: @tracker }
-      else
-        format.html { render :edit }
-        format.json { render json: @tracker.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def update_tracker
-    respond_to do |format|
-      format.js
-      if @tracker.save
-        format.html { redirect_to @tracker, notice: 'Tracker updated.' }
-        format.json { render :show, status: :ok, location: @tracker }
+        format.html { redirect_to request.referer, notice: 'Tracker was successfully updated.' } #refresh page where 'edit' button was clicked
+        format.json #{ render :show, status: :ok, location: @tracker }
       else
         format.html { render :edit }
         format.json { render json: @tracker.errors, status: :unprocessable_entity }
@@ -141,24 +128,16 @@ class TrackersController < ApplicationController
   def destroy
     @tracker.destroy
     respond_to do |format|
-      format.html { redirect_to trackers_url, notice: 'Tracker was successfully destroyed.' }
+      format.html { redirect_to request.referer, notice: 'Tracker was successfully destroyed.' } #refresh page where 'edit' button was clicked
       format.json { head :no_content }
     end
   end
 
-  def complete_task
-    @scrum_task = ScrumTask.find(params[:task_id])
-    @scrum_task.update_attribute(:completed,true)
-    respond_to do |format|
-      format.html { redirect_to '/', notice: 'Scrum task was successfully completed.' }
-      format.json { head :no_content }
-    end
-  end
 
   def complete_task_from_tracker
-    @scrum_task.update_attribute(:completed,true)
+    @daily_task.update_attribute(:completed,true)
     respond_to do |format|
-      format.html { redirect_to '/', notice: 'Scrum task was successfully completed.' }
+      format.html { redirect_to '/', notice: 'Daily Task was successfully completed.' }
       format.json { head :no_content }
     end
   end
@@ -197,44 +176,33 @@ class TrackersController < ApplicationController
     end
 
   #########################################################################
-  ####                 HELPER METHODS FOR SCRUM TASKS                  ####
+  ####        HELPER METHODS FOR DAILY TASKS AND WEEKLY GOALS          ####
   #########################################################################
 
   #remember that join references the model, but where references the table
     def get_weekly_goals proj_umbr_nm
-      # return ScrumTask.where("task_recurrences_id = ? AND category = ? AND active = ?","2",category,true).all
-      return ScrumTask.where(:scrum_tasks => {:task_recurrences_id => "2", :active => true}).joins(:project_module => [:project => [:project_umbrella]]).where(:project_umbrellas => {:name => proj_umbr_nm}).all
+      return WeeklyGoal.where(:weekly_goals => {:active => true}).joins(:project => [:project_umbrella]).where(:project_umbrellas => {:name => proj_umbr_nm}).all
     end
 
     def get_daily_tasks project_id 
-      # return ScrumTask.where("task_recurrences_id = ? AND category = ? AND active = ?","1",category,true).all
-      return ScrumTask.where(:scrum_tasks => {:task_recurrences_id => "1", :active => true}).joins(:project_module => :project).where(:projects => {:id => project_id}).all
+      return DailyTask.where(:daily_tasks => {:active => true}).joins(:weekly_goal => :project).where(:projects => {:id => project_id}).all
     end
 
     def get_todays_tasks
-      return ScrumTask.where("is_daily_task = ?", true).all
+      return DailyTask.where("is_today_task = ?", true).all
     end
 
     def get_unassoc_daily_tasks 
-      # find scrum tasks that do not have a weekly task that shares the same project
+      # find daily tasks that do not have a weekly task that shares the same project
       unassoc_daily_tasks = []
       # loop through all daily tasks
-      ScrumTask.where("task_recurrences_id = ? AND active = ?", "1", true).each do |daily_task| 
+      DailyTask.where("active = ?", true).each do |daily_task| 
         # if there is not weekly task associated with the same project, add to array
-        unless ScrumTask.where("task_recurrences_id = ? AND active = ? AND project_umbrella_id = ?", "2", true, daily_task.project_umbrella_id).exists?
+        unless WeeklyGoal.where("active = ? AND project_umbrella_id = ?", true, daily_task.project_umbrella_id).exists?
           unassoc_daily_tasks.push(daily_task)
         end
       end
       return unassoc_daily_tasks
-    end
-
-    def new_scrum_task_initialize task_recurrences_id
-      @task_recurrence = TaskRecurrence.where('id = ?', task_recurrences_id).map{|c| [ c.name, c.id ] } #only show recurrence based on which 'add' button was clicked
-      @repeat_recurrence = TaskRecurrence.all.map{|c| [ c.name, c.id ] }
-    
-      @project_umbrellas = ProjectUmbrella.all
-      @projects = Project.all
-      @project_modules = ProjectModule.all
     end
 
   #########################################################################
@@ -243,6 +211,6 @@ class TrackersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tracker_params
-      params.require(:tracker).permit(:date, :task, :subtask_1, :description, :hours, :start_time, :end_time, :payment, :month, :project_id, :project_module_id, :scrum_task_id, :project_umbrella_id, scrum_task_attributes:[:completed])
+      params.require(:tracker).permit(:date, :task, :subtask_1, :description, :hours, :start_time, :end_time, :payment, :month, :project_id, :weekly_goal_id, :daily_task_id, :project_umbrella_id, daily_task_attributes:[:completed])
     end
 end

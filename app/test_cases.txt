@@ -1,0 +1,124 @@
+Test Cases
+1. Links in Top Left
+	a. Month Index
+		1. page loads when click on link
+		2. Add Trackers button will load modal (can we test for this?)
+		3. confirm that new tracker is created from modal
+		4. confirm that new tracker is displayed correctly in month index table
+		5. 'Edit' link will load modal WITH prepopulated values from tracker
+		6. confirm that redirect takes you back to month index page
+		7. confirm that new tracker is edited
+		8. confirm that 'Delete' link will display confirm modal
+		9. confirm that redirect takes you back to month index page
+		10. confirm that new tracker is deleted
+		11. Prev month link works, takes to previous month
+		12. if Prev month is clicked 12 times, will display last year
+		13. Next month link works, takes to next month
+		14. if next month is clicked 12 times, will display next year
+		15. link in top left - 'home' will take you to home page, where you can immediately click another link
+		16. link in top left - 'project list' will take you to projects page 
+	b. Project List
+		1. page loads when click on link
+		2. Project Umbrellas (pu1/p1/wg1 pu2 pu3 pu4)
+			a. new button will go to new page
+			b. confirm that back button redirects to projet page, then go to new page again
+			c. confirm that redirect takes you to new project page
+			d. confirm that 'back' button returns to project page, then do steps a through c again and skip step c
+			e. confirm that project umbrella is defaulted and non-selectable for new project
+			f. create test project and confirm that redirect takes you to new weekly goal page
+			g. confirm that project umbrella and project are defaulted and non-selectable for new weekly goal
+			h. create test weekly goal and confirm that redirect takes you to project page
+			i. confirm that new project umbrella is displayed correctly
+			j. confirm that new project is displayed correctly
+			k. confirm that new weekly goal is displayed correctly
+			l. edit button will go to edit page
+			m. confirm that back button redirects to project page, then go to edit page again
+			i. confirm that values are prepopulated correctly
+			n. confirm that redirect takes you back to project page
+			o. confirm that project umbrella is edited
+		2. Projects (pu1/p2/wg2 pu2/p3 pu3/p4)
+			a. new button will go to new page
+			b. confirm that back button redirects to project page, then go to new page again
+			c. confirm that redirect takes you to weekly goal page
+			d. confirm that 'back'button returns to project page, then do steps a through c again and skip step d
+			d. confirm that project umbrella and project are defaulted and non-selectable for new weekly goal
+			e. create test weekly goal and confirm that redirect takes you to project page
+			g. confirm that new project is displayedc correctly
+			h. confirm that new weekly goal is displayed correctly
+			g. edit button will go to edit page
+			h. confirm that back button redirects to project page, then go to edit page again
+			i. confirm that values are prepopulated correctly
+			j. confirm that redirect takes you back to project page
+			k. confirm that project is edited
+		3. Weekly Goals (pu1/p2/wg3 pu2/p3/wg1)
+			a. new button will go to new page
+			b. confirm that back button redirects to project page, then go to new page again
+			c. associate new weekly goal with new project umbrella
+			d. confirm that when you select a project umbrella, the list of available projects filters down to just the 2 new projects
+			e. associate new weekly goal with new project
+			f. confirm that redirect takes you back to project page
+			g. confirm that new weekly goal is displayed correctly in weekly goal table and project table
+			h. edit button will go to edit page
+			i. confirm that back button redirects to project page, then go to edit page again
+			j. confirm that selecting a different project will filter down the list of available projects
+			k. confirm that redirect takes you back to project page
+			l. confirm that weekly goal is edited
+			m. delete link will display confirm modal
+			n. confirm that weekly goal is deleted
+		4. Project (2)
+			a. Delete project with no weekly goal
+				1. confirm that 'Delete' link will display confirm modal
+				2. confirm that redirect takes you back to project page
+				3. confirm that project is deleted.
+			b. Delete project with weekly goal
+				1. confirm that 'Delete' link will display confirm modal
+				2. confirm that popup showing project and wg name shows up with confirm modal
+				3. confirm that 'Cancel' does not delete project, then redo steps 1 and 2
+				3. confirm that redirect takes you back to project page
+				4. confirm that project and weekly goal are deleted.
+		5. Project Umbrella (2)
+			a. Delete project umbrella with no project
+				1. confirm that 'Delete' link will display confirm modal
+				2. confirm that redirect takes you back to project page
+				3. confirm that projeuct umbrella is delted.
+			b. Delete project umbrella with project but no weekly goal
+				1. confirm that 'Delete' link will display confirm modal
+				2. confirm that popup showing project umbrella and project name shows up with confirm modal
+				3. confirm that 'Cancel' does not delete project, then redo steps 1 and 2
+				4. confirm that redirect takes you back to project page
+				5. confirm that project umbrella and project are deleted
+			c. Delete project umbrella with project and weekly goal
+				1. confirm that 'Delete link will display confirm modal'
+				2. confirm that popup showing project umbrella, project, and wg name shows up with confirm modal
+				3. confirm that 'cancel does not delte project umbrella', then redo steps 1 and 2
+				4. confirm that redirect takes you back to project page
+				5. confirm that project umbrella, project, and weekly goal are deleted
+		6. link in top left - 'home' will take you to home page, where you can immediately click another link
+	c. NT Process - will do later
+2. Weekly Goals and Daily Tasks
+	a. 'This Week' link displays hidden div containing week goals
+	b.  create new goal with plus sign
+		1. confirm that 'new' link opens up modal
+		2. confirm that selecting 'add new' in the project umbrella selector leads to new project umbrella page
+		3. create new project umbrella, then click back. Navigate back to weekly goals page
+		4. open up new modal again, then select new project umbrella
+		5. confirm that selecting 'add new' in the project selector leads to new project page
+		6. confirm that project umbrella is prepopulated in new project page **I don't think there is a way to do this currently - wait for modal fx
+		7. create new project, then click back. Navigate back to weekly goals page
+		8. create weekly goal, and confirm that redirect takes you to home
+	c. Dropdown menu in weekly goal
+		1. Edit Goal
+			a. select dropdown menu, then edit goal. confirm that link creates modal
+			b. confirm that values are prepopulated in edit form
+			c. confirm that selecting a different project will filter the list of available projects
+			d. confirm that redirect takes you to home page
+		2. New Daily Task
+			a. 
+		3. Delete Goal
+		4. Complete Goal
+3. Today Tasks
+
+4. Trackers
+5. NT Process
+
+

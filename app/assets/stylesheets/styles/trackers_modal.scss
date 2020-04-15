@@ -1,11 +1,29 @@
-#scrum-modal-window {
+/* MODAL WINDOW FOR NEW/EDIT TASK/GOAL */
+#task-goal-modal-window {
   background-color: white;
   width: 50%;
   height: 50%;
 }
-#scrum-modal-window .modal-body {
+#task-goal-modal-window .modal-body {
   display: block;
 }
 .modal-body {
 	pointer-events: auto;
+}
+
+/* DROPDOWN MENUS FOR TASK AND GOAL BUTTONS */
+.dropdown-menu .task-dropdown-item {
+	text-decoration: none;
+	color: black;
+	padding-left: 8px;
+}
+.dropdown-menu button:hover, .dropdown-menu .task-dropdown-item:hover {
+	background-color: #5BD35F;	
+}
+.dropdown-menu button {
+	display: block;
+	width: 100%;
+	border: none;
+	background-color: white;
+	text-align: left;
 }
