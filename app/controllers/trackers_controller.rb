@@ -171,8 +171,10 @@ class TrackersController < ApplicationController
       return incr_month
     end
 
+
     def get_days_trackers i
-      @day_trackers = Tracker.where("CAST(strftime('%Y',date) AS integer) = ? AND month = ? AND CAST(strftime('%d',date) AS integer) = ?",@year,@month, i).all.order("date DESC")
+      @day_trackers = Tracker.where("CAST(EXTRACT(YEAR FROM CURRENT_DATE) AS integer) = ? AND month = ? AND CAST(EXTRACT(DAY FROM CURRENT_DATE) AS integer) = ?",@year, @month, i).all.order("date DESC")
+     # @day_trackers = Tracker.where("CAST(strftime('%Y',date) AS integer) = ? AND month = ? AND CAST(strftime('%d',date) AS integer) = ?",@year,@month, i).all.order("date DESC")
     end
 
   #########################################################################

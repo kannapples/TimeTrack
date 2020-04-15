@@ -5,4 +5,4 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-TaskRecurrence.create([{ name: 'day'},{ name: 'week'},{ name: 'month'}])
+#TaskRecurrence.create([{ name: 'day'},{ name: 'week'},{ name: 'month'}])
