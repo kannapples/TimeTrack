@@ -1,0 +1,8 @@
+// populate modal
+document.getElementById("task-goal-modal-title2").innerHTML="New Daily Task";
+$('#task-goal-modal-window-body2').html("<%= j render partial: 'daily_tasks/new_form', locals: {daily_task: @daily_task, weekly_goal: @weekly_goal} %>");
+
+
+
+// // render modal
+// $('#task-goal-modal-window2').modal('show');

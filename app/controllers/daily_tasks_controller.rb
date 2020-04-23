@@ -27,6 +27,14 @@ class DailyTasksController < ApplicationController
     end
   end
 
+  def new_inherited_task
+    @weekly_goal = WeeklyGoal.find_by(:name => params[:weekly_goal_name])
+    respond_to do |format|
+     format.html
+     format.js { render :action => 'new2'}
+    end
+  end
+
   # GET /daily_tasks/1/edit
   def edit
     @daily_task = DailyTask.find(params[:id])
@@ -86,7 +94,7 @@ class DailyTasksController < ApplicationController
   def update
      respond_to do |format|
        if @daily_task.update(daily_task_params)
-          format.html { redirect_to '/', notice: 'Daily Task was successfully updated.' }
+         format.html { redirect_to '/', notice: 'Daily Task was successfully updated.' }
          format.json #{ render @trackers, status: :ok }
        else
          format.html { render :edit }
@@ -99,7 +107,16 @@ class DailyTasksController < ApplicationController
     @daily_task = DailyTask.find(params[:task_id])
     @daily_task.update_attribute(:completed,true)
     respond_to do |format|
-      format.html { redirect_to request.referer, notice: 'Daily Task was successfully completed.' }
+      format.html { redirect_to '/', notice: 'Daily Task was successfully completed.' }
+      format.json { head :no_content }
+    end
+  end
+
+  def undo_complete_task
+    @daily_task = DailyTask.find(params[:task_id])
+    @daily_task.update_attribute(:completed,false)
+    respond_to do |format|
+      format.html { redirect_to '/', notice: 'Undo Complete task successful.' }
       format.json { head :no_content }
     end
   end
@@ -158,7 +175,7 @@ class DailyTasksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def daily_task_params
-      params.require(:daily_task).permit(:name, :completed, :repeat_recurrence_id, :active, :project_id, :weekly_goal_id, :project_umbrella_id, :is_today_task)
+      params.require(:daily_task).permit(:name, :completed, :repeat_recurrence_id, :active, :project_id, :weekly_goal_id, :weekly_goal_name, :project_umbrella_id, :is_today_task)
     end
 
   end

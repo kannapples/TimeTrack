@@ -4,50 +4,49 @@
 /*
 *= require bootstrap-datepicker
 */
-
 #daily-trackers {
-  box-sizing: border-box;
-  width: 95%;
-  position: relative;
-  margin: auto;
-  text-align: center;
-  background: #E0E0E0;
-  margin-bottom: 5em;
+  width: 100%;
+  border-radius: 1.7em 1.7em 0em 0em !important;
+  overflow: hidden;
+  text-align: left;
+}
+#table-header{
+  margin-bottom: 1em;
+  background-color: #E0F3FF;
+
 }
 #tracker-title {
   text-align: center;
 }
 
-div.table {
-  display: table; 
-  width: 100%;
-}
-div.th {
-  background-color: #4CAF50;
-  color: white;
+th {
   text-align: left;
-  display: table-row;
-  padding: 0px 25px 0px 25px; 
+  padding: 0.5em 1em 0px 0.5em; 
 }
-div.tr {
-  display: table-row; 
+tr { 
 }
 div.tr:hover {
   background-color: #f5f5f5;
 }
 div.td {
-  border-bottom: 1px solid #ddd;
+  //border-bottom: 1px solid #ddd;
   padding: 0px 25px 0px 25px; 
   display: table-cell; 
 }
 
-.blur {
-  -webkit-filter: blur(2px);
--moz-filter: blur(2px);
--o-filter: blur(2px);
--ms-filter: blur(2px);
-filter: blur(2px); 
-}
 .selected {
   background-color: #e3e3e3;
+}
+@media (max-width: 767px) {
+  table, thead, tbody { 
+    display: block; 
+  }
+  th, td {
+    display: none;
+  }
+  .tracker-xs-visible {
+    display: inline-block;
+  }
+
+
 }

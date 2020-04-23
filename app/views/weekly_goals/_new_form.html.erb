@@ -1,4 +1,5 @@
 <%= javascript_include_tag "project_selectors" %> <!-- PULL IN FUNCTIONALITY FOR LIMITING SELECTION LISTS BASED ON PREVIOUS SELECTION -->
+<%= javascript_include_tag "modals_dropdowns" %>
 
 <!-- INITIALIZE VARIABLES -->
 <% weekly_goal = weekly_goal %> <!-- generate local variable from local pulled in from render partial in new.js.erb. local variable isn't recognized if I don't have this line included -->
@@ -22,45 +23,49 @@
   <% end %>
 
   <!-- FORM FIELDS -->
-  <div>
+  <div class="modal-field">
     <% if !@project_umbrella.nil? then %> <!-- if 'new weekly goal' is called from 'new Project' section, default in project umbrella -->
-      Project Umbrella: <%= @project_umbrella.name %>
+      <%= form.label :project_umbrella, 'Project Umbrella: '+@project_umbrella.name %>
 
       <%= form.hidden_field :project_umbrella_id, :value=> @project_umbrella.id %>
     <% else %> <!-- if 'new project' is called from Projects section, display full project umbrella list -->
-      <%= form.label :project_umbrella %>
+      <%= form.label :project_umbrella, 'Project Umbrella: ' %>
       <%= form.select :project_umbrella_id, options_from_collection_for_select(project_umbrellas, "id", "name") + options_for_select(["Add New..."]), prompt: "(Select a Project Umbrella)" %>
     <% end %>
   </div>
 
-  <div>
+  <div class="modal-field">
     <% if !@project.nil? then %> <!-- if 'new weekly goal' is called from 'new Project' section, default in project -->
-      Project: <%= @project.name %>
+      <%= form.label :project, 'Project: '+@project.name %>
 
       <%= form.hidden_field :project_id, :value=> @project.id %>
     <% else %> <!-- if 'new weekly goal' is called from Projects section, display full project list -->
-      <%= form.label :project %>
+      <%= form.label :project, 'Project: ' %>
        <%= form.grouped_collection_select :project_id, ProjectUmbrella.order(:name), :projects, :name, :id, :name, {:prompt => "(Select a Project)", :include_blank => "Add New..."} %>
     <% end %>
   </div>
 
-  <div>
-    <%= form.label :name %>
+  <div class="modal-field">
+    <%= form.label :name, 'Name: ' %>
     <%= form.text_field :name %>
   </div>
 
-  <div>
-    <%= form.label :repeat_recurrence %>
+  <div class="modal-field">
+    <%= form.label :repeat_recurrence, 'Repeat Recurrence: ' %>
     <%= form.select :repeat_recurrence_id, options_for_select(RepeatRecurrence.all.collect{ | rr | [rr.name, rr.id] }) %>
   </div>
 
-  <div>
+  <div class="modal-field">
     <%= form.hidden_field :active, :value => true %>
     <%= form.hidden_field :completed, :value => false %>
   </div>
 
 
-  <div class="actions">
-    <%= form.submit %>
+  <div class="modal-actions modal-footer">
+    <%= form.submit 'Create Weekly Goal', {:class => 'btn btn-secondary modal-create-task-btn', 'data-toggle' => "modal", 
+      :href => "#task-goal-modal-window2", :onclick => "cascadeWGModal();"} %>
+
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
   </div>
+
 <% end %>

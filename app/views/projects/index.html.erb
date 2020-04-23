@@ -8,9 +8,11 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>  
+  
 
   <!-- JAVASCRIPT (assets/javascripts) -->
   <%= javascript_include_tag "project_selectors" %>
@@ -21,27 +23,23 @@
 
   <!-- BOOTSTRAP - NAVBAR -->
   <nav class="navbar navbar-light bg-light">
-    <div class="btn-group">
-      <button type="button" class="btn btn-primary nav-button" data-toggle="dropdown"><%= fa_icon('bars')%></button>
-      <div class="dropdown-menu">
-        <%= link_to "Home", "/", method: :get %>
-        <%= link_to "Trackers for Month", "month_index", method: :get %>
-      </div>
-    </div>
 
-    <span class="navbar-brand mb-0 h1">TimeTrack</span>
+    <span class="navbar-brand mb-0 h1"><%= link_to "TimeTrack", "/", method: :get %></span>
 
-    <div>
-      <%= Time.now.strftime('%m-%d-%Y')%><br>
-      <%= Time.now.strftime('%H:%M')%>
-    <div>
+    
   </nav>
       
 
 
 
   <h1>Project Umbrellas</h1>
-
+<div class="action-button-container">
+      <div id="project-view-all-trackers" class="action-button">
+        <%= link_to "month_index", method: :get, id: "tracker-index-nav-month-tracker-link" do %>
+          <i class="fas fa-calendar-alt" data-toggle="tooltip" data-placement="bottom" title="View All Trackers"></i>
+        <% end %>
+      </div>
+    </div>
   <table>
     <thead>
       <tr>
@@ -131,6 +129,7 @@
         <th>Repeat Recurrence</th>
         <th>Completed</th>
         <th>Active</th>
+        <th>Associated Daily Tasks</th>
         <th colspan="2"></th>
       </tr>
     </thead>
@@ -158,6 +157,10 @@
           </td>
           <td><%= weekly_goal.completed %></td>
           <td><%= weekly_goal.active %></td>
+          <td><% weekly_goal.daily_tasks.each do |task| %>
+                <%= task.name %><br>
+              <% end %>
+          </td>
           <td><%= link_to 'Edit', edit_weekly_goal_path(weekly_goal) %></td>
           <td><%= link_to 'Destroy', weekly_goal, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>

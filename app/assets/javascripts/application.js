@@ -17,15 +17,6 @@
 //= require_tree .
 
 
-function dailyTaskHover(task_id) {
-  task = document.getElementById(task_id);
-  task.innerHTML = "HELLO WORLD!";
-}
-
-function dailyTaskReset(task_id) {
-  
-}
-
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
   if (!$(event.target).closest('#daily-task-modal-window').length)  {
@@ -58,3 +49,28 @@ function delete_p_children(project_id, assoc_wgs) {
         return false;
     }
 }
+
+function hideCompletedTaskGoals(mode) {
+  if (mode == 'task') {
+    var div_obj = $('#today-completed-tasks-container');
+  } else {
+    var div_obj = $('#completed-goals-container');
+  }
+
+  if (div_obj.hasClass('inactive-task-content-toggle')) {
+    div_obj.removeClass('inactive-task-content-toggle');
+    $('#'+mode+'-eye-icon').replaceWith('<i id="'+mode+'-eye-icon" class="fas fa-eye-slash"></i>');
+  } else {
+    div_obj.addClass('inactive-task-content-toggle');
+    $('#'+mode+'-eye-icon').replaceWith('<i id="'+mode+'-eye-icon" class="fas fa-eye"></i>');
+  }
+};
+
+
+//INITIALIZE TOOLTIPS
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+
+

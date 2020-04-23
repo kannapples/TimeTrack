@@ -1,7 +1,7 @@
 class TrackersController < ApplicationController
   before_action :set_tracker, only: [:show, :edit, :update, :destroy]
 
-  helper_method :get_prev_month_year, :get_days_trackers, :get_weekly_goals, :get_daily_tasks, :get_unassoc_daily_tasks, :new_daily_task_initialize, :complete_task, :get_todays_tasks
+  helper_method :get_prev_month_year, :get_days_trackers, :get_outstanding_weekly_goals, :get_completed_weekly_goals, :get_daily_tasks, :get_unassoc_daily_tasks, :new_daily_task_initialize, :complete_task, :get_todays_outstanding_tasks, :get_todays_completed_tasks
 
 
   # GET /trackers
@@ -173,7 +173,7 @@ class TrackersController < ApplicationController
 
 
     def get_days_trackers i
-      @day_trackers = Tracker.where("CAST(EXTRACT(YEAR FROM CURRENT_DATE) AS integer) = ? AND month = ? AND CAST(EXTRACT(DAY FROM CURRENT_DATE) AS integer) = ?",@year, @month, i).all.order("date DESC")
+      @day_trackers = Tracker.where("CAST(EXTRACT(YEAR FROM date) AS integer) = ? AND month = ? AND CAST(EXTRACT(DAY FROM date) AS integer) = ?",@year, @month, i).all.order("date DESC")
      # @day_trackers = Tracker.where("CAST(strftime('%Y',date) AS integer) = ? AND month = ? AND CAST(strftime('%d',date) AS integer) = ?",@year,@month, i).all.order("date DESC")
     end
 
@@ -182,16 +182,27 @@ class TrackersController < ApplicationController
   #########################################################################
 
   #remember that join references the model, but where references the table
-    def get_weekly_goals proj_umbr_nm
-      return WeeklyGoal.where(:weekly_goals => {:active => true}).joins(:project => [:project_umbrella]).where(:project_umbrellas => {:name => proj_umbr_nm}).all
+    def get_outstanding_weekly_goals 
+      includesOutsDT = WeeklyGoal.where('weekly_goals.id IN (?)', DailyTask.where("completed = ? AND active = ?",false,true).select(:weekly_goal_id))
+      return includesOutsDT.all.order('weekly_goals.project_umbrella_id DESC')
     end
 
-    def get_daily_tasks project_id 
-      return DailyTask.where(:daily_tasks => {:active => true}).joins(:weekly_goal => :project).where(:projects => {:id => project_id}).all
+    def get_completed_weekly_goals 
+      excludesOutsDT = WeeklyGoal.where('weekly_goals.id NOT IN (?)', DailyTask.where("completed = ? AND active = ?",false,true).select(:weekly_goal_id))
+      return excludesOutsDT.all.order('weekly_goals.project_umbrella_id DESC')
     end
 
-    def get_todays_tasks
-      return DailyTask.where("is_today_task = ?", true).all
+    def get_daily_tasks wg_id 
+      return DailyTask.where(:daily_tasks => {:active => true}).joins(:weekly_goal).where(:weekly_goals => {:id => wg_id}).all
+      # return DailyTask.where(:daily_tasks => {:active => true}).joins(:weekly_goal => :project).where(:projects => {:id => project_id}).all
+    end
+
+    def get_todays_outstanding_tasks
+      return DailyTask.where("is_today_task = ? AND active = ? AND completed = ?", true, true, false).all
+    end
+
+    def get_todays_completed_tasks
+      return DailyTask.where("is_today_task = ? AND active = ? AND completed = ?", true, true, true).all
     end
 
     def get_unassoc_daily_tasks 

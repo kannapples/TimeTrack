@@ -59,7 +59,8 @@ class WeeklyGoalsController < ApplicationController
 
     respond_to do |format|
       if @weekly_goal.save
-        format.html { redirect_to request.referer, notice: 'Weekly Goal was successfully created.' } #refresh page where 'new' button was clicked
+        format.html
+        #format.html { redirect_to request.referer, notice: 'Weekly Goal was successfully created.' } #refresh page where 'new' button was clicked
         format.json { render :show, status: :created, location: @weekly_goal }
       else
         format.html { render :new }

@@ -1,15 +1,12 @@
 /* MODAL WINDOW FOR NEW/EDIT TASK/GOAL */
-#task-goal-modal-window {
-  background-color: white;
-  width: 50%;
-  height: 50%;
-}
-#task-goal-modal-window .modal-body {
+
+/*#task-goal-modal-window .modal-body {
   display: block;
-}
+}*/
 .modal-body {
 	pointer-events: auto;
 }
+
 
 /* DROPDOWN MENUS FOR TASK AND GOAL BUTTONS */
 .dropdown-menu .task-dropdown-item {
@@ -18,7 +15,10 @@
 	padding-left: 8px;
 }
 .dropdown-menu button:hover, .dropdown-menu .task-dropdown-item:hover {
-	background-color: #5BD35F;	
+	background-color: #E0E0E0;	
+}
+.dropdown-menu a:hover {
+	background-color: inherit;
 }
 .dropdown-menu button {
 	display: block;
@@ -26,4 +26,22 @@
 	border: none;
 	background-color: white;
 	text-align: left;
+}
+
+/* STYLE FOR MODAL ELEMENTS */
+.modal-field {
+	padding-bottom: 1em;
+}
+.modal-field label {
+	display: block;
+}
+.modal-body .modal-footer {
+	
+}
+.modal-actions .btn-secondary {
+	margin-right: 1em;
+	margin-left: 1em;
+}
+.modal-actions .modal-create-task-btn {
+	background-color: #67BFA3;
 }

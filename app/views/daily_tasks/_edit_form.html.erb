@@ -6,42 +6,42 @@
 
 <%= form_for daily_task do |form| %>
 
-  <br><div>
+  <div class="modal-field">
     <%= form.label :project_umbrella %>
     <%=form.select :project_umbrella_id, ProjectUmbrella.all.collect {|pu| [ pu.name, pu.id ] }, :value => daily_task.project_umbrella_id %>
   </div>
 
-  <br><div>
+  <div class="modal-field">
     <%= form.label :project %>
     <%= form.select :project_id, Project.all.collect { | p | [p.name, p.id] }, :value => daily_task.project_id %>
   </div>
 
-  <br><div>
+  <div class="modal-field">
     <%= form.label :weekly_goal %>
     <%=form.select :weekly_goal_id, WeeklyGoal.all.collect {|wg| [ wg.name, wg.id ] }, :value => daily_task.weekly_goal_id %>
   </div>
 
-  <div>
+  <div class="modal-field">
     <%= form.label :name %>
     <%= form.text_field :name, :value => daily_task.name %>
   </div>
 
-  <div>
+  <div class="modal-field">
     <%= form.label :repeat_recurrence %>
-    <%= form.select :repeat_recurrence_id, RepeatRecurrence.all.collect {|wg| [ rr.name, rr.id ] }, :value => daily_task.repeat_recurrence_id %>
+    <%= form.select :repeat_recurrence_id, RepeatRecurrence.all.collect {|rr| [ rr.name, rr.id ] }, :value => daily_task.repeat_recurrence_id %>
   </div>
 
-  <div class="field">
+  <div class="modal-field">
       Add to 'Today's Tasks':
       <%= form.check_box :is_today_task %>
   </div>
 
-  <div>
+  <div class="modal-field">
     <%= form.label :active %>
     <%= form.check_box :active, :value => daily_task.active %>
   </div> 
 
-  <div>
+  <div class="modal-field">
     <%= form.label :completed %>
     <%= form.check_box :completed, :value => daily_task.completed %>
   </div>

@@ -15,10 +15,12 @@ Rails.application.routes.draw do
   get '/create_task_tracker', to: 'trackers#create_task_tracker', as: 'create_task_tracker'
 
   get '/complete_task', to: 'daily_tasks#complete_task', as: 'complete_task'
+  get '/undo_complete_task', to: 'daily_tasks#undo_complete_task', as: 'undo_complete_task'
   get '/delete_task', to: 'daily_tasks#delete_task', as: 'delete_task'
   get '/nightly_task_processing', to: 'daily_tasks#nightly_task_processing', as: 'nightly_task_processing'
   get '/mark_today_task', to: 'daily_tasks#mark_today_task', as: 'mark_today_task'
   get '/remove_today_task', to: 'daily_tasks#remove_today_task', as: 'remove_today_task'
+  get '/hide_completed_tasks', to: 'daily_tasks#hide_completed_tasks', as: 'hide_completed_tasks'
 
   get '/complete_goal', to: 'weekly_goals#complete_goal', as: 'complete_goal'
   get '/new_inherited_task', to: 'weekly_goals#new_inherited_task', as: 'new_inherited_task'
@@ -27,4 +29,6 @@ Rails.application.routes.draw do
   post '/delete_project_and_wgs', to: 'projects#delete_project_and_wgs', as: 'delete_project_and_wgs'
 
   post '/delete_project_umbrella_and_projects', to: 'project_umbrellas#delete_project_umbrella_and_projects', as: 'delete_project_umbrella_and_projects'
+
+  post '/new_dt_inherited_task', to: 'daily_tasks#new_inherited_task', as: 'new_dt_inherited_task'
 end

@@ -1,32 +1,59 @@
 /* GOAL/TASK BOUNDING AREA */
-#goals-tasks {
+#goals-tasks-trackers {
   box-sizing: border-box;
   position: relative;
   margin: auto;
-
-  padding: 10px;
-  width: 95%;
+  padding: 25px;
   text-align: center;
-  background: #439C46;
   margin-bottom: 2em;
 }
-#task-goal-content {
-  margin-bottom: 1.2em;
+
+.goals-tasks-wrapper{
+  border-radius: 1.7em 1.7em 0em 0em;
+  overflow: hidden;
+  width: 100%;
+}
+.goals-tasks-container .goals-tasks-content{
+  border: solid .1em #E0E0E0;
+  border-top: none;
+  margin: 0em 0em 2em 0em;
+  border-radius: 0em 0em 0.5em 0.5em;
+  
+  padding: 1.2em;
+}
+#nav-toggle-btns {
+  text-align: center;
+  margin-top: 6em;
 }
 
-
 /* GOAL TASK HEADER */
-#task-goal-header {
-  margin: 15px 0px;
+#outstanding-goals-tasks-header {
+  padding: 0.3em;
+  margin: 0em;
+  background-color: #EBADAB;
+}
+#completed-goals-tasks-header {
+  padding: 0.3em;
+  margin: 0em;
+  background-color: #CEEBD8;
 }
 #task-goal-header-text {
   margin-bottom: 20px;
 }
+.action-button-container {
+  position: relative;
+  bottom: 95px;
+  display: flex;
+  float: right;
+  justify-content: flex-end;
+}
+.action-button {
+  padding-right: 15px;
+}
 a.add-new-btn {
   background-color: black;
   color: white;
-  margin-left: 10px;
-  margin-bottom: 5px;
+  
 }
 a.add-new-btn:hover {
   color: #5BD35F;
@@ -35,14 +62,14 @@ a.add-new-btn:hover {
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
 }
-#weekly-goals-btn {
+#trackers-btn {
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
 }
 button.goal-task-toggle-btn {
   font-size: 20px;
   width: 6em;
-  height: 2em;
+  height: 3.6em;
   display: inline block;
   margin: -0.1em;
 }
@@ -53,34 +80,90 @@ button.active-task-toggle-btn{
    -moz-box-shadow:    inset 1px 1px 5px #333;
    box-shadow:         inset 1px 1px 5px #333;
 }
+button.goal-task-toggle-btn:focus {
+  outline: none !important;
+}
+
+/* FOCUS STYLING */
+
+.daily-task-btn:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3px #E0E0E0 !important;
+}
+.completed-daily-task-btn:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3px #E0E0E0 !important;
+}
+.task-dropdown-item:focus {
+  outline: none !important;
+}
+
+/* FLOATING ELEMENTS */
+.today-task-clock {
+  float: left;
+  color: #A9A9A9;
+  padding-top: 0.3em;
+  padding-left: 0.3em;
+}
+.wg-task-pu {
+  float: left; 
+  padding-left: 0.5em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  border-bottom-right-radius: .3em;
+  color: #8f8f8f;
+}
+.dt-task-pu {
+  float: left;
+  padding-left: 0.5em;
+  padding-right: 0.8em;
+  padding-bottom: 0.1em;
+  border-bottom-right-radius: .3em;
+  border: none;
+  color: #8f8f8f;
+}
+.content-row {
+  width: 100%;
+}
+.wg-task-p {
+  float: left;
+  padding-left: 0.5em;
+  color: #8f8f8f;
+}
+.nav-button {
+  float: right;
+  margin: 0.5em;
+}
 
 /* GOAL TASK CONTENT */
-
+.button-color-block {
+  background-color: black;
+  width: 0.2em;
+  height: 100%; 
+}
 div.daily-task-cat {
   position: relative;
   box-sizing:border-box;
   padding: 10px;
   height: 100%;
 }
+div.weekly-goal-cat {
+   margin: 10px;
+   margin-top: 0px;
+}
 .inactive-task-content-toggle {
   display: none;
-}
-div.weekly-goal-completed {
-  background-color: #000;
-  position: relative;
-  box-sizing:border-box;
-  color: white;
-  height: 100%;
 }
 .weekly-goal-name {
   font-size: 1.5em;
   font-weight: bold;
+  text-align: center;
 }
-div > .fa-check-circle {
-  opacity: .8;
-  position: absolute;
-  bottom: 0.3em;
-  right: 0.3em;
+.fa-check-circle {
+  float: left;
+  color: #A9A9A9;
+  padding-top: 0.3em;
+  padding-left: 0.3em;
 }
 .task-cat-title {
   display: block;
@@ -90,93 +173,135 @@ div > .fa-check-circle {
   letter-spacing: 3px;
   font-size: 12px;
   color: black;
+} 
+.row .no-left-border {
+  padding-left: 0px;
+  padding-top: 0.05em;
 }
-.task-project {
-  display: block;
-  padding-top: 0px;
-  padding-bottom: 10px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  color: black;
+.daily-task-completed {
+  background-color: #E9E9E9;
 }
-.completed-task-project {
-  display: block;
-  padding-top: 0px;
-  padding-bottom: 10px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  color: white;
-}
-.completed-daily-task {
-  text-decoration: none;
-  color: white;
-}
-button > .today-task-clock {
-  position: absolute;
-  bottom: 0.9em;
-  right: 0.9em;
-}
-.daily-task-menu {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-}
-button.daily-task-btn {
+
+.daily-task-btn {
   height: 100%;
   width: 100%;
-  color: black;
+  color: black;  
+  border: 0.1em solid #707070;
+  display: block;
+}
+
+.weekly-goal-btn {
+  min-height: 3.6em;
+  display: flex;
+  margin: auto;
+}
+.daily-task-btn .row {
+  margin: 0em;
+}
+.daily-task-btn .label-list {
+  padding: 0em;
+}
+.daily-task-btn .content-list {
+  padding: 0em;
+}
+.daily-task {
+  font-weight: bold;
+  padding: 0.4em 0em;
+  margin: auto;
+}
+.row .daily-task-info{
+  display: block;
+  padding:  0.1em 0.5em 0.1em 0.1em;
+  text-align: right;
+  color: #8f8f8f;
+}
+.row .daily-task-label{
+  display: block;
+  padding:  0.1em 0.1em 0.1em 0.5em;
+  text-align: left;  
+  color: #A9A9A9;
+}
+.solid-top-border {
+  border-top: solid 0.1em #E0E0E0;
+}
+.wg-task-info {
+  display: flex;
+  flex-direction: column;
+  float: left;
+  text-align: left;
+}
+.weekly-goal-info {
+  text-align: center;
+  padding-bottom: 1em;
+}
+button.completed-daily-task-btn {
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  color: white;
+  border: 0.1em solid black;
 }
 button.daily-task-btn:hover {
-  background-color: #5BD35F;
-  border-color: #5BD35F;
+  background-color: #D4D4D4;
+  border-color: #D4D4D4;
   color: black;
 }
 button.daily-task-btn:active {
-  background-color: #5BD35F;
-  border-color: #5BD35F;
+  background-color: #white;
+  border-color: #white;
   color: black;
 }
-button.unassoc-task-btn {
-  width: 100%;
-  padding: 0px 15px;
-  color: black;
+.task-dropdown-item {
+  text-decoration:none;  
 }
-button.unassoc-task-btn:hover {
-  background-color: #5BD35F;
-  border-color: #5BD35F;
-  color: black;
-}
-#weekly-goal-container {
-  display: flex;
-  flex-wrap: wrap;
-}
+
 .weekly-goal-task-container {
   display: flex;
   flex-wrap: wrap;
 }
+
+#outstanding-weekly-goals {
+  display: flex;
+  flex-wrap: wrap;
+}
+#completed-weekly-goals {
+  display: flex;
+  flex-wrap: wrap;
+}
+.weekly-goal-completed {
+  background-color: #E9E9E9;
+}
 .weekly-goal-item-third {
-  flex: 30%;
+  flex: 25%;
 }
 .weekly-goal-item-half {
-  flex: 50%;
+  flex: 33%;
 }
 .weekly-goal-item-full {
-  flex: 100%;
-}
-.weekly-goal-inset {
-  margin: 10px;
-  background-color: white;
-  width: 100%;
+  flex: 50%;
 }
 .weekly-goal-content {
   margin: 10px;
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
+  align-content: stretch;
+  border: 0.1em solid #707070;
+  border-left: 0.4em solid #707070;
+  background-color: #F7F7F7;;
 }
 .project-content {
   width: 100%;
+}
+@media (max-width: 1200px) {
+  .weekly-goal-item-third {
+    flex: 33%
+  }
+  .weekly-goal-item-half {
+    flex: 50%;
+  }
+  .weekly-goal-item-full {
+    flex: 100%;
+  }
 }
 @media (max-width: 767px) {
   .weekly-goal-item-third {
