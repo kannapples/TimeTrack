@@ -25,12 +25,8 @@
 
   <!-- BOOTSTRAP - NAVBAR -->
   <nav class="navbar nav-style">
-
     <span class="navbar-brand h1">TimeTrack</span>
-
-        <!-- <%= link_to "NT Process", :method => "post", :controller => "daily_tasks", :action => "nightly_task_processing" %> -->
-
-    
+    <!-- <%= link_to "NT Process", :method => "post", :controller => "daily_tasks", :action => "nightly_task_processing" %> -->
   </nav>
 
 
@@ -71,25 +67,25 @@
 
     <div id="nav-toggle-btns">
       <button id="today-tasks-btn" name="today-tasks-btn" type="button" class="goal-task-toggle-btn active-task-toggle-btn" onclick="taskGoalToggle('today');" >Today Tasks</button>
-      <button id="weekly-goals-btn" type="button" class="goal-task-toggle-btn" onclick="taskGoalToggle('week');">This Week Goals</button>
-      <button id="trackers-btn" type="button" class="goal-task-toggle-btn" onclick="taskGoalToggle('tracker');">Today Trackers</button>
+      <button id="weekly-goals-btn" name="weekly-goals-btn" type="button" class="goal-task-toggle-btn" onclick="taskGoalToggle('week');">This Week Goals</button>
+      <button id="trackers-btn" name="trackers-btn" type="button" class="goal-task-toggle-btn" onclick="taskGoalToggle('tracker');">Today Trackers</button>
     </div> <!-- end nav-toggle-btns -->
 
     <div id="goals-tasks-trackers" class="rounded">
       <!-- DISPLAY TODAYS TASKS -->
       <div id="daily-tasks">  
-        <div class="action-button-container">  
-          <div class="new-btn action-button">
-            <%= link_to new_daily_task_path, class: 'add-new-btn goal-task-new-btn', remote: true do %>
-              <i class="fas fa-plus" data-toggle="tooltip" data-placement="bottom" title="New Daily Task"></i>
+        <div class="action-button-container-goals">  
+          <div class="action-button">
+            <%= link_to new_daily_task_path, remote: true do %>
+              <i class="fas fa-plus action-btn-item" data-toggle="tooltip" data-placement="bottom" title="New Daily Task"></i>
             <% end %>  
           </div>
           <div id="hide-completed" class="action-button" onclick="hideCompletedTaskGoals('task');" data-toggle="tooltip" data-placement="bottom" title="Hide Completed Tasks">
-            <i id="task-eye-icon" class="fas fa-eye-slash"></i>
+            <i id="task-eye-icon" class="fas fa-eye-slash action-btn-item"></i>
           </div>
           <div class="action-button">
             <%= link_to :controller => "projects", :action => "index" do %>
-              <i class="fas fa-list" data-toggle="tooltip" data-placement="bottom" title="See All Projects"></i>
+              <i class="fas fa-list action-btn-item" data-toggle="tooltip" data-placement="bottom" title="See All Projects"></i>
             <% end %>
           </div>
         </div> <!-- end .action-buttons -->
@@ -100,38 +96,42 @@
             <div class="goals-tasks-wrapper"><h4 id="outstanding-goals-tasks-header">Outstanding Tasks</h4></div>
             <div class="row goals-tasks-content">
               <!-- loop through all uncompleted daily tasks -->
-              <% todays_outstanding_tasks.each do |task| %> 
+              <% if todays_outstanding_tasks.count == 0 %>
+                <span class="empty-message">All Daily Tasks have been completed! <i class="fas fa-thumbs-up"></i></span>
+              <% else %>
+                <% todays_outstanding_tasks.each do |task| %> 
 
-                <div class="col-md-4 col-sm-6 daily-task-cat">
-                  <div class="nav-button daily-task-btn rounded " data-toggle="dropdown">                    
-                    <div class="row">
-                      <div class="col-sm-12 no-left-border">                          
-                        <span class="dt-task-pu"><%= task.project.project_umbrella.name %></span>
+                  <div class="col-md-4 col-sm-6 daily-task-cat">
+                    <div class="nav-button daily-task-btn rounded " data-toggle="dropdown">                    
+                      <div class="row">
+                        <div class="col-sm-12 no-left-border">                          
+                          <span class="dt-task-pu"><%= task.project.project_umbrella.name %></span>
+                        </div>
+                        <span class="daily-task col-sm-12"><%= task.name %></span>
+                        <div class="content-row row">
+                          <span class="daily-task-label solid-top-border col-sm-5 col-xs-12">Project: </span>
+                          <span class="daily-task-info solid-top-border col-sm-7 col-xs-12"><%= task.project.name %></span>
+                          
+                          <span class="daily-task-label solid-top-border col-sm-5 col-xs-12">Weekly Goal: </span>
+                          <span class="daily-task-info solid-top-border col-sm-7 col-xs-12"><%= task.weekly_goal.name %></span>
+                        </div> <!-- end .content-row -->
+                      </div> <!-- end row -->
+                    </div> <!-- end .daily-task-btn -->
+                    <div class="dropdown-menu">
+                      <div class="task-dropdown-item-div"><%= link_to "Add Tracker", create_task_tracker_path(task_id: task.id), :class=>"task-dropdown-item", remote: true %></div>
+                      <div class="task-dropdown-item-div">
+                        <% if task.is_today_task == true then %>
+                          <%= link_to "Remove from Today's Tasks", {:controller => "daily_tasks", :action => "remove_today_task", :task_id => task.id}, :class => "task-dropdown-item" %>
+                        <% else %>
+                          <%= link_to "Mark for Today's Tasks", {:controller => "daily_tasks", :action => "mark_today_task", :task_id => task.id}, :class => "task-dropdown-item" %>
+                        <% end %>                                  
                       </div>
-                      <span class="daily-task col-sm-12"><%= task.name %></span>
-                      <div class="content-row row">
-                        <span class="daily-task-label solid-top-border col-sm-5 col-xs-12">Project: </span>
-                        <span class="daily-task-info solid-top-border col-sm-7 col-xs-12"><%= task.project.name %></span>
-                        
-                        <span class="daily-task-label solid-top-border col-sm-5 col-xs-12">Weekly Goal: </span>
-                        <span class="daily-task-info solid-top-border col-sm-7 col-xs-12"><%= task.weekly_goal.name %></span>
-                      </div> <!-- end .content-row -->
-                    </div> <!-- end row -->
-                  </div> <!-- end .daily-task-btn -->
-                  <div class="dropdown-menu">
-                    <div class="task-dropdown-item-div"><%= link_to "Add Tracker", create_task_tracker_path(task_id: task.id), :class=>"task-dropdown-item", remote: true %></div>
-                    <div class="task-dropdown-item-div">
-                      <% if task.is_today_task == true then %>
-                        <%= link_to "Remove from Today's Tasks", {:controller => "daily_tasks", :action => "remove_today_task", :task_id => task.id}, :class => "task-dropdown-item" %>
-                      <% else %>
-                        <%= link_to "Mark for Today's Tasks", {:controller => "daily_tasks", :action => "mark_today_task", :task_id => task.id}, :class => "task-dropdown-item" %>
-                      <% end %>                                  
-                    </div>
-                    <div class="task-dropdown-item-div"><%= link_to "Complete Task", {:controller => "daily_tasks", :action => "complete_task", :task_id => task.id}, :class => "task-dropdown-item" %></div>
-                    <div class="task-dropdown-item-div"><%= link_to 'Edit Task', {:controller => "daily_tasks", :action => "edit", :id => task.id}, :class => "task-dropdown-item", remote: true %></div><!--link to modal window for 'Edit' task functionality -->
-                    <div class="task-dropdown-item-div"><%= link_to "Delete Task", {:controller => "daily_tasks", :action => "delete_task", :task_id => task.id}, data: {confirm: "Are you sure you want to delete this task?"}, :class => "task-dropdown-item"  %></div>
-                  </div> <!-- end dropdown-menu -->
-                </div> <!-- end .daily-task-cat -->
+                      <div class="task-dropdown-item-div"><%= link_to "Complete Task", {:controller => "daily_tasks", :action => "complete_task", :task_id => task.id}, :class => "task-dropdown-item" %></div>
+                      <div class="task-dropdown-item-div"><%= link_to 'Edit Task', {:controller => "daily_tasks", :action => "edit", :id => task.id}, :class => "task-dropdown-item", remote: true %></div><!--link to modal window for 'Edit' task functionality -->
+                      <div class="task-dropdown-item-div"><%= link_to "Delete Task", {:controller => "daily_tasks", :action => "delete_task", :task_id => task.id}, data: {confirm: "Are you sure you want to delete this task?"}, :class => "task-dropdown-item"  %></div>
+                    </div> <!-- end dropdown-menu -->
+                  </div> <!-- end .daily-task-cat -->
+                <% end %>
               <% end %>
             </div> <!-- end row .goals-tasks-content -->
           </div> <!-- end #today-outstanding-tasks-container -->
@@ -139,28 +139,32 @@
             <div class="goals-tasks-wrapper"><h4 id="completed-goals-tasks-header">Completed Tasks</h4></div>
             <div class="row goals-tasks-content" >
               <!-- loop through all completed daily tasks -->
-              <% todays_completed_tasks.each do |task| %>
-                <div class="col-md-4 col-sm-6 daily-task-cat">
-                  <div class="nav-button daily-task-btn rounded daily-task-completed" data-toggle="dropdown">
-                    <div class="row">
-                      <div class="col-sm-12 no-left-border">
-                        <span class="dt-task-pu"><%= task.project.project_umbrella.name %></span>
-                      </div>
-                      <span class="daily-task col-sm-12"><%= task.name %></span>
-                      <div class="content-row row">
-                        <span class="daily-task-label solid-top-border col-sm-5 col-xs-12">Project: </span>
-                        <span class="daily-task-info solid-top-border col-sm-7 col-xs-12"><%= task.weekly_goal.project.name %></span>
+              <% if todays_completed_tasks.count == 0 %>
+                <span class="empty-message">No Daily Tasks have been completed. Time to get to work!</span>
+              <% else %>
+                <% todays_completed_tasks.each do |task| %>                
+                  <div class="col-md-4 col-sm-6 daily-task-cat">
+                    <div class="nav-button daily-task-btn rounded daily-task-completed" data-toggle="dropdown">
+                      <div class="row">
+                        <div class="col-sm-12 no-left-border">
+                          <span class="dt-task-pu"><%= task.project.project_umbrella.name %></span>
+                        </div>
+                        <span class="daily-task col-sm-12"><%= task.name %></span>
+                        <div class="content-row row">
+                          <span class="daily-task-label solid-top-border col-sm-5 col-xs-12">Project: </span>
+                          <span class="daily-task-info solid-top-border col-sm-7 col-xs-12"><%= task.weekly_goal.project.name %></span>
 
-                        <span class="daily-task-label solid-top-border col-sm-5 col-xs-12">Weekly Goal: </span>
-                        <span class="daily-task-info solid-top-border col-sm-7 col-xs-12"><%= task.weekly_goal.name %></span>
-                      </div> <!-- end content-row -->
-                    </div> <!-- end row -->
-                  </div> <!-- end .daily-task-btn -->
-                  <div class="dropdown-menu">
-                    <div class="task-dropdown-item-div"><%= link_to "Undo Complete Task", {:controller => "daily_tasks", :action => "undo_complete_task", :task_id => task.id}, :class => "task-dropdown-item" %>
-                    </div>
-                  </div> <!-- end dropdown-menu -->
-                </div> <!-- end daily-task-cat -->
+                          <span class="daily-task-label solid-top-border col-sm-5 col-xs-12">Weekly Goal: </span>
+                          <span class="daily-task-info solid-top-border col-sm-7 col-xs-12"><%= task.weekly_goal.name %></span>
+                        </div> <!-- end content-row -->
+                      </div> <!-- end row -->
+                    </div> <!-- end .daily-task-btn -->
+                    <div class="dropdown-menu">
+                      <div class="task-dropdown-item-div"><%= link_to "Undo Complete Task", {:controller => "daily_tasks", :action => "undo_complete_task", :task_id => task.id}, :class => "task-dropdown-item" %>
+                      </div>
+                    </div> <!-- end dropdown-menu -->
+                  </div> <!-- end daily-task-cat -->
+                <% end %>
               <% end %>
             </div> <!-- end row .goals-tasks-content -->
           </div> <!-- end #today-completed-tasks-container -->
@@ -170,95 +174,101 @@
 
       <!-- DISPLAY WEEKLY GOALS -->
       <div id="weekly-goals" class="inactive-task-content-toggle">
-        <div class="action-button-container">  
-          <%= link_to new_weekly_goal_path, class: 'btn add-new-btn goal-task-new-btn action-button', remote: true do %>
-            <i id="new-weekly-goal-tooltip" class="fas fa-plus" data-toggle="tooltip" data-placement="top" title="New Weekly Goal"></i>
-          <% end %>  
-          <div id="hide-completed" class="action-button" onclick="hideCompletedTaskGoals('goal');" data-toggle="tooltip" data-placement="top" title="Hide Completed Goals">
-            <i id="goal-eye-icon" class="fas fa-eye-slash"></i>
+        <div class="action-button-container-goals">  
+          <div class="action-button">
+            <%= link_to new_weekly_goal_path, remote: true do %>
+              <i id="new-weekly-goal-tooltip" class="fas fa-plus action-btn-item" data-toggle="tooltip" data-placement="top" title="New Weekly Goal"></i>
+            <% end %>  
+          </div>
+          <div id="hide-completed" class="action-button " onclick="hideCompletedTaskGoals('goal');" data-toggle="tooltip" data-placement="top" title="Hide Completed Goals">
+            <i id="goal-eye-icon" class="fas fa-eye-slash action-btn-item"></i>
           </div>
           <div class="action-button">
             <%= link_to :controller => "projects", :action => "index" do %>
-              <i class="fas fa-list" data-toggle="tooltip" data-placement="bottom" title="See All Projects"></i>
+              <i class="fas fa-list action-btn-item" data-toggle="tooltip" data-placement="bottom" title="See All Projects"></i>
             <% end %>
           </div>
         </div> <!-- end .action-buttons -->
         <div id="content-container">
           <% outstanding_weekly_goals = get_outstanding_weekly_goals %> <!-- for each category, find the associated goals that have not been completed. get_weekly_goals lives in tracker controller-->
-          <% completed_weekly_goals = get_completed_weekly_goals %> <!-- for each category, find the associated goals taht have been completed. lives in tracker controller -->
+          <% active_completed_weekly_goals = get_completed_weekly_goals('active') %> <!-- for each category, find the associated goals taht have been completed. lives in tracker controller -->
           <div id="outstanding-weekly-goals-container" class="goals-tasks-container">
             <div class="goals-tasks-wrapper"><h4 id="outstanding-goals-tasks-header">Outstanding Goals</h4></div>
             <div class="row goals-tasks-content">
-              <div id="outstanding-weekly-goals">                
-                <% outstanding_weekly_goals.each do |goal| %> <!-- loop through all weekly goals -->
-                    <!-- WEEKLY TASK GRID -->
-                  <% if goal.active_task_num > 0 then %>
-                    <% if goal.active_task_num == 3 then %>
-                    <div id="weekly-goal-<%= goal.id %>" class="weekly-goal-item-full weekly-goal-content rounded">
-                    <% elsif goal.active_task_num == 2 then %>
-                    <div id="weekly-goal-<%= goal.id %>" class="weekly-goal-item-half weekly-goal-content rounded">
-                    <% elsif goal.active_task_num == 1 then %>
-                    <div id="weekly-goal-<%= goal.id %>" class="weekly-goal-item-third weekly-goal-content rounded">
-                    <% end %>
-                      <div class="daily-task-menu">
-                        <button type="button" class="nav-button" data-toggle="dropdown">
-                          <%= fa_icon('bars')%>
-                        </button>
-                        <div class="dropdown-menu">
-                          <div class="task-dropdown-item-div"><%= link_to "New Daily Task", {:controller => "weekly_goals", :action => "new_inherited_task", :weekly_goal => goal.id}, :class => "task-dropdown-item" , remote: true %></div>
-                          <div class="task-dropdown-item-div"><%= link_to "Complete Goal", {:controller => "weekly_goals", :action => "complete_goal", :goal_id => goal.id}, :class => "task-dropdown-item" %></div>
-                          <div class="task-dropdown-item-div"><%= link_to 'Edit Goal', {:controller => "weekly_goals", :action => "edit", :id => goal.id}, :class => "task-dropdown-item", remote: true %></div><!--link to modal window for 'Edit' task functionality -->
-                          <div class="task-dropdown-item-div"><%= link_to "Delete Goal", {:controller => "weekly_goals", :action => "delete_goal", :goal_id => goal.id}, data: {confirm: "Are you sure you want to delete this goal?"}, :class => "task-dropdown-item"  %></div>
-                        </div> <!-- end dropdown-menu -->
-                        <div class="wg-task-info">
-                          <span class="wg-task-pu"><%= goal.project.project_umbrella.name %></span>
-                          <span class="wg-task-p"><%= goal.project.name %></span>
-                        </div>
-                      </div> <!-- end .daily-task-menu -->                      
-                      <div class="weekly-goal-info"> 
-                        <span class="weekly-goal-name "><%= goal.name %></span> 
-                      </div> <!-- end .weekly-goal-info -->
-                      <!-- ASSOCIATED DAILY TASKS -->
-                      <% daily_tasks = get_daily_tasks(goal.id) %> <!-- for each weekly task, find the associated daily tasks. get_daily_tasks lives in tracker controller -->
-                      <div class="weekly-goal-task-container"> 
-                        <% daily_tasks.each do |task| %> <!-- loop through all daily tasks -->
-                          <% unless task.completed %>
-                            <div class="weekly-goal-item-third daily-task-cat weekly-goal-cat">
-                              <div class="nav-button daily-task-btn weekly-goal-btn rounded " data-toggle="dropdown">
-                                <% if task.is_today_task == true then %>
-                                  <i class="fas fa-clock today-task-clock" data-toggle="tooltip" data-placement="top" title="Today Task"></i><!-- display clock identifying a task that is marked for today -->
-                                <% end %>
-                                <span class="daily-task col-sm-12"><%= task.name %></span>                                  
-                              </div> <!-- end .daily-task-btn .weekly-goal-btn -->
-                              <div class="dropdown-menu">
-                                <div class="task-dropdown-item-div"><%= link_to "Add Tracker", create_task_tracker_path(task_id: task.id), :class=>"task-dropdown-item", remote: true %></div>
-                                <div class="task-dropdown-item-div">
+              <div id="outstanding-weekly-goals">   
+                <% if outstanding_weekly_goals.count == 0 %>
+                  <span class="empty-message">All Weekly Goals have been completed! <i class="fas fa-thumbs-up"></i></span>
+                <% else %>             
+                  <% outstanding_weekly_goals.each do |goal| %> <!-- loop through all weekly goals -->
+                      <!-- WEEKLY TASK GRID -->
+                    <% if goal.active_task_num > 0 then %>
+                      <% if goal.active_task_num == 3 then %>
+                      <div id="weekly-goal-<%= goal.id %>" class="weekly-goal-item-full weekly-goal-content rounded">
+                      <% elsif goal.active_task_num == 2 then %>
+                      <div id="weekly-goal-<%= goal.id %>" class="weekly-goal-item-half weekly-goal-content rounded">
+                      <% elsif goal.active_task_num == 1 then %>
+                      <div id="weekly-goal-<%= goal.id %>" class="weekly-goal-item-third weekly-goal-content rounded">
+                      <% end %>
+                        <div class="daily-task-menu">
+                          <button type="button" class="nav-button" data-toggle="dropdown">
+                            <%= fa_icon('bars')%>
+                          </button>
+                          <div class="dropdown-menu">
+                            <div class="task-dropdown-item-div"><%= link_to "New Daily Task", {:controller => "weekly_goals", :action => "new_inherited_task", :weekly_goal => goal.id}, :class => "task-dropdown-item" , remote: true %></div>
+                            <div class="task-dropdown-item-div"><%= link_to "Complete Goal", {:controller => "weekly_goals", :action => "complete_goal", :goal_id => goal.id}, :class => "task-dropdown-item" %></div>
+                            <div class="task-dropdown-item-div"><%= link_to 'Edit Goal', {:controller => "weekly_goals", :action => "edit", :id => goal.id}, :class => "task-dropdown-item", remote: true %></div><!--link to modal window for 'Edit' task functionality -->
+                            <div class="task-dropdown-item-div"><%= link_to "Delete Goal", {:controller => "weekly_goals", :action => "delete_goal", :goal_id => goal.id}, data: {confirm: "Are you sure you want to delete this goal?"}, :class => "task-dropdown-item"  %></div>
+                          </div> <!-- end dropdown-menu -->
+                          <div class="wg-task-info">
+                            <span class="wg-task-pu"><%= goal.project.project_umbrella.name %></span>
+                            <span class="wg-task-p"><%= goal.project.name %></span>
+                          </div>
+                        </div> <!-- end .daily-task-menu -->                      
+                        <div class="weekly-goal-info"> 
+                          <span class="weekly-goal-name "><%= goal.name %></span> 
+                        </div> <!-- end .weekly-goal-info -->
+                        <!-- ASSOCIATED DAILY TASKS -->
+                        <% daily_tasks = get_daily_tasks(goal.id) %> <!-- for each weekly task, find the associated daily tasks. get_daily_tasks lives in tracker controller -->
+                        <div class="weekly-goal-task-container"> 
+                          <% daily_tasks.each do |task| %> <!-- loop through all daily tasks -->
+                            <% unless task.completed %>
+                              <div class="weekly-goal-item-third daily-task-cat weekly-goal-cat">
+                                <div class="nav-button daily-task-btn weekly-goal-btn rounded " data-toggle="dropdown">
                                   <% if task.is_today_task == true then %>
-                                    <%= link_to "Remove from Today's Tasks", {:controller => "daily_tasks", :action => "remove_today_task", :task_id => task.id}, :class => "task-dropdown-item" %>
-                                  <% else %>
-                                    <%= link_to "Mark for Today's Tasks", {:controller => "daily_tasks", :action => "mark_today_task", :task_id => task.id}, :class => "task-dropdown-item" %>
-                                  <% end %>                                  
-                                </div>
-                                <div class="task-dropdown-item-div"><%= link_to "Complete Task", {:controller => "daily_tasks", :action => "complete_task", :task_id => task.id}, :class => "task-dropdown-item" %></div>
-                                <div class="task-dropdown-item-div"><%= link_to 'Edit Task', {:controller => "daily_tasks", :action => "edit", :id => task.id}, :class => "task-dropdown-item", remote: true %></div><!--link to modal window for 'Edit' task functionality -->
-                                <div class="task-dropdown-item-div"><%= link_to "Delete Task", {:controller => "daily_tasks", :action => "delete_task", :task_id => task.id}, data: {confirm: "Are you sure you want to delete this task?"}, :class => "task-dropdown-item"  %></div>
-                              </div> <!-- end .dropdown-menu -->
-                            </div> <!-- end .daily-task-cat -->
-                          <% else %>
-                            <div class="weekly-goal-item-third daily-task-cat weekly-goal-cat ">
-                              <div class="nav-button daily-task-btn weekly-goal-btn rounded weekly-goal-completed" data-toggle="dropdown">
-                                <i class="fas fa-check-circle" data-toggle="tooltip" data-placement="top" title="Completed Task"></i>                              
-                                <span class="daily-task "><%= task.name %></span>                                
-                              </div> <!-- end .daily-task-btn -->
-                              <div class="dropdown-menu">
-                                <div class="task-dropdown-item-div"><%= link_to "Undo Complete Task", {:controller => "daily_tasks", :action => "undo_complete_task", :task_id => task.id}, :class => "task-dropdown-item" %>
-                                </div>
-                              </div> <!-- end .dropdown-menu -->                                                          
-                            </div> <!-- end weekly-goal-completed -->
+                                    <i class="fas fa-clock today-task-clock" data-toggle="tooltip" data-placement="top" title="Today Task"></i><!-- display clock identifying a task that is marked for today -->
+                                  <% end %>
+                                  <span class="daily-task col-sm-12"><%= task.name %></span>                                  
+                                </div> <!-- end .daily-task-btn .weekly-goal-btn -->
+                                <div class="dropdown-menu">
+                                  <div class="task-dropdown-item-div"><%= link_to "Add Tracker", create_task_tracker_path(task_id: task.id), :class=>"task-dropdown-item", remote: true %></div>
+                                  <div class="task-dropdown-item-div">
+                                    <% if task.is_today_task == true then %>
+                                      <%= link_to "Remove from Today's Tasks", {:controller => "daily_tasks", :action => "remove_today_task", :task_id => task.id}, :class => "task-dropdown-item" %>
+                                    <% else %>
+                                      <%= link_to "Mark for Today's Tasks", {:controller => "daily_tasks", :action => "mark_today_task", :task_id => task.id}, :class => "task-dropdown-item" %>
+                                    <% end %>                                  
+                                  </div>
+                                  <div class="task-dropdown-item-div"><%= link_to "Complete Task", {:controller => "daily_tasks", :action => "complete_task", :task_id => task.id}, :class => "task-dropdown-item" %></div>
+                                  <div class="task-dropdown-item-div"><%= link_to 'Edit Task', {:controller => "daily_tasks", :action => "edit", :id => task.id}, :class => "task-dropdown-item", remote: true %></div><!--link to modal window for 'Edit' task functionality -->
+                                  <div class="task-dropdown-item-div"><%= link_to "Delete Task", {:controller => "daily_tasks", :action => "delete_task", :task_id => task.id}, data: {confirm: "Are you sure you want to delete this task?"}, :class => "task-dropdown-item"  %></div>
+                                </div> <!-- end .dropdown-menu -->
+                              </div> <!-- end .daily-task-cat -->
+                            <% else %>
+                              <div class="weekly-goal-item-third daily-task-cat weekly-goal-cat ">
+                                <div class="nav-button daily-task-btn weekly-goal-btn rounded weekly-goal-completed" data-toggle="dropdown">
+                                  <i class="fas fa-check-circle" data-toggle="tooltip" data-placement="top" title="Completed Task"></i>                              
+                                  <span class="daily-task "><%= task.name %></span>                                
+                                </div> <!-- end .daily-task-btn -->
+                                <div class="dropdown-menu">
+                                  <div class="task-dropdown-item-div"><%= link_to "Undo Complete Task", {:controller => "daily_tasks", :action => "undo_complete_task", :task_id => task.id}, :class => "task-dropdown-item" %>
+                                  </div>
+                                </div> <!-- end .dropdown-menu -->                                                          
+                              </div> <!-- end weekly-goal-completed -->
+                            <% end %>
                           <% end %>
-                        <% end %>
-                      </div> <!-- end weekly-goal-task-container -->
-                    </div> <!-- end weekly-goal-* -->
+                        </div> <!-- end weekly-goal-task-container -->
+                      </div> <!-- end weekly-goal-* -->
+                    <% end %>
                   <% end %>
                 <% end %>
               </div> <!-- end #outstanding-weekly-goals -->
@@ -267,76 +277,81 @@
           <div id="completed-goals-container" class="goals-tasks-container">
             <div class="goals-tasks-wrapper"><h4 id="completed-goals-tasks-header">Completed Goals</h4></div>
             <div class="row goals-tasks-content" >
-              <div id="completed-weekly-goals">                
-                <% completed_weekly_goals.each do |goal| %> <!-- loop through all weekly goals -->
-                  <!-- WEEKLY TASK GRID -->
-                  <% if goal.active_task_num > 0 then %>
-                    <% if goal.active_task_num == 3 then %>
-                    <div id="weekly-goal-<%= goal.id %>" class="weekly-goal-item-full weekly-goal-content rounded">
-                    <% elsif goal.active_task_num == 2 then %>
-                    <div id="weekly-goal-<%= goal.id %>" class="weekly-goal-item-half weekly-goal-content rounded">
-                    <% elsif goal.active_task_num == 1 then %>
-                    <div id="weekly-goal-<%= goal.id %>" class="weekly-goal-item-third weekly-goal-content rounded">
-                    <% end %>
-                      <div class="daily-task-menu">
-                        <button type="button" class="nav-button" data-toggle="dropdown" data-toggle="tooltip" data-placement="top" title="Completed Task">
-                          <%= fa_icon('bars')%>
-                        </button>
-                        <div class="dropdown-menu">
-                          <div class="task-dropdown-item-div"><%= link_to "New Daily Task", {:controller => "weekly_goals", :action => "new_inherited_task", :weekly_goal => goal.id}, :class => "task-dropdown-item", remote: true %></div>
-                          <div class="task-dropdown-item-div"><%= link_to "Complete Goal", {:controller => "weekly_goals", :action => "complete_goal", :goal_id => goal.id}, :class => "task-dropdown-item" %></div>
-                          <div class="task-dropdown-item-div"><%= link_to 'Edit Goal', {:controller => "weekly_goals", :action => "edit", :id => goal.id}, :class => "task-dropdown-item", remote: true %></div><!--link to modal window for 'Edit' task functionality -->
-                          <div class="task-dropdown-item-div"><%= link_to "Delete Goal", {:controller => "weekly_goals", :action => "delete_goal", :goal_id => goal.id}, data: {confirm: "Are you sure you want to delete this goal?"}, :class => "task-dropdown-item"  %></div>
-                        </div> <!-- end dropdown-menu -->
-                        <div class="wg-task-info">
-                          <span class="wg-task-pu"><%= goal.project.project_umbrella.name %></span>
-                          <span class="wg-task-p daily-task-info"><%= goal.project.name %></span>
-                        </div>
-                      </div> <!-- end .daily-task-menu -->                      
-                      <div class="weekly-goal-info"> 
-                        <span class="weekly-goal-name "><%= goal.name %></span> 
-                      </div> <!-- end .weekly-goal-info -->
+              <div id="completed-weekly-goals"> 
+                <%= active_completed_weekly_goals.count %>
+                <% if active_completed_weekly_goals.count == 0 %>
+                  <span class="empty-message">No Weekly Goals have been completed. Time to get to work!</span>
+                <% else %>               
+                  <% active_completed_weekly_goals.each do |goal| %> <!-- loop through all weekly goals -->
+                    <!-- WEEKLY TASK GRID -->
+                    <!-- <% if goal.active_task_num > 0 then %> -->
+                      <% if goal.active_task_num == 3 then %>
+                      <div id="weekly-goal-<%= goal.id %>" class="weekly-goal-item-full weekly-goal-content rounded">
+                      <% elsif goal.active_task_num == 2 then %>
+                      <div id="weekly-goal-<%= goal.id %>" class="weekly-goal-item-half weekly-goal-content rounded">
+                      <% elsif goal.active_task_num == 1 then %>
+                      <div id="weekly-goal-<%= goal.id %>" class="weekly-goal-item-third weekly-goal-content rounded">
+                      <% end %>
+                        <div class="daily-task-menu">
+                          <button type="button" class="nav-button" data-toggle="dropdown" data-toggle="tooltip" data-placement="top" title="Completed Task">
+                            <%= fa_icon('bars')%>
+                          </button>
+                          <div class="dropdown-menu">
+                            <div class="task-dropdown-item-div"><%= link_to "New Daily Task", {:controller => "weekly_goals", :action => "new_inherited_task", :weekly_goal => goal.id}, :class => "task-dropdown-item", remote: true %></div>
+                            <div class="task-dropdown-item-div"><%= link_to "Complete Goal", {:controller => "weekly_goals", :action => "complete_goal", :goal_id => goal.id}, :class => "task-dropdown-item" %></div>
+                            <div class="task-dropdown-item-div"><%= link_to 'Edit Goal', {:controller => "weekly_goals", :action => "edit", :id => goal.id}, :class => "task-dropdown-item", remote: true %></div><!--link to modal window for 'Edit' task functionality -->
+                            <div class="task-dropdown-item-div"><%= link_to "Delete Goal", {:controller => "weekly_goals", :action => "delete_goal", :goal_id => goal.id}, data: {confirm: "Are you sure you want to delete this goal?"}, :class => "task-dropdown-item"  %></div>
+                          </div> <!-- end dropdown-menu -->
+                          <div class="wg-task-info">
+                            <span class="wg-task-pu"><%= goal.project.project_umbrella.name %></span>
+                            <span class="wg-task-p daily-task-info"><%= goal.project.name %></span>
+                          </div>
+                        </div> <!-- end .daily-task-menu -->                      
+                        <div class="weekly-goal-info"> 
+                          <span class="weekly-goal-name "><%= goal.name %></span> 
+                        </div> <!-- end .weekly-goal-info -->
 
-                      <!-- ASSOCIATED DAILY TASKS -->
-                      <% daily_tasks = get_daily_tasks(goal.id) %> <!-- for each weekly task, find the associated daily tasks. get_daily_tasks lives in tracker controller -->
-                      <div class="weekly-goal-task-container"> 
-                        <% daily_tasks.each do |task| %> <!-- loop through all daily tasks -->
-                          <% unless task.completed %>
-                            <div class="weekly-goal-item-third daily-task-cat weekly-goal-cat">
-                              <div class="nav-button daily-task-btn weekly-goal-btn rounded " data-toggle="dropdown">
-                                <% if task.is_today_task == true then %>
-                                  <i class="fas fa-clock today-task-clock" data-toggle="tooltip" data-placement="top" title="Today Task"></i><!-- display clock identifying a task that is marked for today -->
-                                <% end %>
-                                <span class="daily-task col-sm-12"><%= task.name %></span>                                  
-                              </div> <!-- end .daily-task-btn .weekly-goal-btn -->
-                              <div class="dropdown-menu">
-                                <div class="task-dropdown-item-div"><%= link_to 'Edit Task', {:controller => "daily_tasks", :action => "edit", :id => task.id}, :class => "task-dropdown-item", remote: true %></div><!--link to modal window for 'Edit' task functionality -->
-                                <div class="task-dropdown-item-div">
+                        <!-- ASSOCIATED DAILY TASKS -->
+                        <% daily_tasks = get_daily_tasks(goal.id) %> <!-- for each weekly task, find the associated daily tasks. get_daily_tasks lives in tracker controller -->
+                        <div class="weekly-goal-task-container"> 
+                          <% daily_tasks.each do |task| %> <!-- loop through all daily tasks -->
+                            <% unless task.completed %>
+                              <div class="weekly-goal-item-third daily-task-cat weekly-goal-cat">
+                                <div class="nav-button daily-task-btn weekly-goal-btn rounded " data-toggle="dropdown">
                                   <% if task.is_today_task == true then %>
-                                    <%= link_to "Remove from Today's Tasks", {:controller => "daily_tasks", :action => "remove_today_task", :task_id => task.id}, :class => "task-dropdown-item" %>
-                                  <% else %>
-                                    <%= link_to "Mark for Today's Tasks", {:controller => "daily_tasks", :action => "mark_today_task", :task_id => task.id}, :class => "task-dropdown-item" %>
-                                  <% end %>                                  
-                                </div> <!-- end .task-dropdown-item-div -->
-                                <div class="task-dropdown-item-div"><%= link_to "Complete Task", {:controller => "daily_tasks", :action => "complete_task", :task_id => task.id}, :class => "task-dropdown-item" %></div>
-                                <div class="task-dropdown-item-div"><%= link_to "Delete Task", {:controller => "daily_tasks", :action => "delete_task", :task_id => task.id}, data: {confirm: "Are you sure you want to delete this task?"}, :class => "task-dropdown-item"  %></div>
-                              </div> <!-- end .dropdown-menu -->
-                            </div> <!-- end .daily-task-cat -->
-                          <% else %>
-                            <div class="weekly-goal-item-third daily-task-cat weekly-goal-cat">
-                              <div class="nav-button daily-task-btn weekly-goal-btn rounded weekly-goal-completed" data-toggle="dropdown">
-                                <i class="fas fa-check-circle" data-toggle="tooltip" data-placement="top" title="Completed Task"></i>                              
-                                <span class="daily-task col-sm-12"><%= task.name %></span>                                 
-                              </div> <!-- end .daily-task-btn -->                            
-                              <div class="dropdown-menu">
-                                <div class="task-dropdown-item-div"><%= link_to "Undo Complete Task", {:controller => "daily_tasks", :action => "undo_complete_task", :task_id => task.id}, :class => "task-dropdown-item" %>
-                                </div>
-                              </div> <!-- end dropdown-menu -->                                                          
-                            </div> <!-- end weekly-goal-completed -->
+                                    <i class="fas fa-clock today-task-clock" data-toggle="tooltip" data-placement="top" title="Today Task"></i><!-- display clock identifying a task that is marked for today -->
+                                  <% end %>
+                                  <span class="daily-task col-sm-12"><%= task.name %></span>                                  
+                                </div> <!-- end .daily-task-btn .weekly-goal-btn -->
+                                <div class="dropdown-menu">
+                                  <div class="task-dropdown-item-div"><%= link_to 'Edit Task', {:controller => "daily_tasks", :action => "edit", :id => task.id}, :class => "task-dropdown-item", remote: true %></div><!--link to modal window for 'Edit' task functionality -->
+                                  <div class="task-dropdown-item-div">
+                                    <% if task.is_today_task == true then %>
+                                      <%= link_to "Remove from Today's Tasks", {:controller => "daily_tasks", :action => "remove_today_task", :task_id => task.id}, :class => "task-dropdown-item" %>
+                                    <% else %>
+                                      <%= link_to "Mark for Today's Tasks", {:controller => "daily_tasks", :action => "mark_today_task", :task_id => task.id}, :class => "task-dropdown-item" %>
+                                    <% end %>                                  
+                                  </div> <!-- end .task-dropdown-item-div -->
+                                  <div class="task-dropdown-item-div"><%= link_to "Complete Task", {:controller => "daily_tasks", :action => "complete_task", :task_id => task.id}, :class => "task-dropdown-item" %></div>
+                                  <div class="task-dropdown-item-div"><%= link_to "Delete Task", {:controller => "daily_tasks", :action => "delete_task", :task_id => task.id}, data: {confirm: "Are you sure you want to delete this task?"}, :class => "task-dropdown-item"  %></div>
+                                </div> <!-- end .dropdown-menu -->
+                              </div> <!-- end .daily-task-cat -->
+                            <% else %>
+                              <div class="weekly-goal-item-third daily-task-cat weekly-goal-cat">
+                                <div class="nav-button daily-task-btn weekly-goal-btn rounded weekly-goal-completed" data-toggle="dropdown">
+                                  <i class="fas fa-check-circle" data-toggle="tooltip" data-placement="top" title="Completed Task"></i>                              
+                                  <span class="daily-task col-sm-12"><%= task.name %></span>                                 
+                                </div> <!-- end .daily-task-btn -->                            
+                                <div class="dropdown-menu">
+                                  <div class="task-dropdown-item-div"><%= link_to "Undo Complete Task", {:controller => "daily_tasks", :action => "undo_complete_task", :task_id => task.id}, :class => "task-dropdown-item" %>
+                                  </div>
+                                </div> <!-- end dropdown-menu -->                                                          
+                              </div> <!-- end weekly-goal-completed -->
+                            <% end %>
                           <% end %>
-                        <% end %>
-                      </div> <!-- end weekly-goal-task-container -->
-                    </div> <!-- end weekly-goal-* -->
+                        </div> <!-- end weekly-goal-task-container -->
+                      </div> <!-- end weekly-goal-* -->
+                    <!-- <% end %> -->
                   <% end %>
                 <% end %>
               </div> <!-- end #completed-weekly-goals -->
@@ -351,22 +366,17 @@
 <!-- /////////////////////////////////////////////////// -->
 
       <!-- Modal window for 'New' and 'Edit' tracker functionality -->
-      <div id="tracker-modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div id="modal-dialog" class="modal-dialog modal-sm" role="document">
+      <div id="tracker-modal-window" class="modal fade" tabindex="-1" data-focus-on="input:first" style="display: none;">
+        <div id="modal-dialog" class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title" id="tracker-modal-title">New Tracker</h4>
+              <h4 class="modal-title" id="tracker-modal-title"></h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
-            </div>
+            </div> <!-- end .modal-header -->
             <div id="tracker-modal-window-body" class="modal-body">
-              <!-- form dynamically added in edit.js.erb or new.js.erb -->
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary">Save changes</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
+            </div>     
           </div> <!-- end .modal-content -->
         </div> <!-- end #modal-dialog -->
       </div> <!-- end #tracker-modal-window -->
@@ -376,20 +386,20 @@
           <!-- Tracker Table -->
           <table id="daily-trackers">
             <div class="table-caption">
-              <div class="action-button-container">
+              <div class="action-button-container-goals">
                 <div class="action-button">
-                  <%= link_to new_tracker_path, id: 'index-new-tracker', class: 'btn add-new-btn', remote: true do %>
-                    <i class="fas fa-plus" data-toggle="tooltip" data-placement="top" title="New Tracker"></i>
+                  <%= link_to new_tracker_path, id: 'index-new-tracker', remote: true do %>
+                    <i class="fas fa-plus action-btn-item" data-toggle="tooltip" data-placement="top" title="New Tracker"></i>
                   <% end %>
                 </div>
                 <div id="get-date" class="action-button">
                   <%= link_to "month_index", method: :get, id: "tracker-index-nav-month-tracker-link" do %>
-                    <i class="fas fa-calendar-alt" data-toggle="tooltip" data-placement="bottom" title="View All Trackers"></i>
+                    <i class="fas fa-calendar-alt action-btn-item" data-toggle="tooltip" data-placement="bottom" title="View All Trackers"></i>
                   <% end %>
                 </div>
                 <div class="action-button">
                   <%= link_to :controller => "projects", :action => "index" do %>
-                    <i class="fas fa-list" data-toggle="tooltip" data-placement="bottom" title="See All Projects"></i>
+                    <i class="fas fa-list action-btn-item" data-toggle="tooltip" data-placement="bottom" title="See All Projects"></i>
                   <% end %>
                 </div>
               </div>

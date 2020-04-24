@@ -22,22 +22,25 @@
     <% next_month_year = get_prev_month_year("+") %>
 
     <!-- BOOTSTRAP - NAVBAR -->
-    <nav class="navbar navbar-light bg-light">
-
-      <span class="navbar-brand mb-0 h1"><%= link_to "TimeTrack", "/", method: :get %></span>
-
+    <nav class="navbar nav-style">
+      <span class="navbar-brand h1"><%= link_to "TimeTrack", "/", method: :get %></span>
     </nav>
 
-    <h1 id="month-title"><span id="prev-month-link"><%= link_to "<<", month_index_path(:month=>prev_month_year["month"], :year=>prev_month_year["year"])%></span>  <%= Date::MONTHNAMES[@month] + " " + @year.to_s %>  <span id="next-month-link"><%= link_to ">>" , month_index_path(:month=>next_month_year["month"], :year=>next_month_year["year"])%></span></h1>
-    <button id="new_tracker_btn"type="button" class="btn btn-info btn-md new_btn" data-toggle="modal" data-target="#tracker-modal-window">Add Trackers</button>
-
     <div class="action-button-container">  
+      <div id="month-index-go-home" class="action-button">
+        <%= link_to "/", method: :get do %>
+          <i class="fas fa-home action-btn-item"></i>
+        <% end %>
+      </div>
       <div class="action-button">
         <%= link_to :controller => "projects", :action => "index" do %>
-          <i class="fas fa-list" data-toggle="tooltip" data-placement="bottom" title="See All Projects"></i>
+          <i class="fas fa-list action-btn-item" data-toggle="tooltip" data-placement="bottom" title="See All Projects"></i>
         <% end %>
       </div>
     </div>
+
+    <h1 id="month-title"><span id="prev-month-link"><%= link_to "<<", month_index_path(:month=>prev_month_year["month"], :year=>prev_month_year["year"])%></span>  <%= Date::MONTHNAMES[@month] + " " + @year.to_s %>  <span id="next-month-link"><%= link_to ">>" , month_index_path(:month=>next_month_year["month"], :year=>next_month_year["year"])%></span></h1>
+    <button id="new_tracker_btn"type="button" class="btn btn-info btn-md new_btn" data-toggle="modal" data-target="#tracker-modal-window">Add Trackers</button>
 
     <!-- Modal window for 'New' and 'Edit' tracker functionality -->
     <div id="tracker-modal-window" class="modal hide fade" role="dialog" aria-labelledby="tracker-modal-window" aria-hidden="true">

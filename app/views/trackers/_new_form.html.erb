@@ -1,45 +1,49 @@
 <%= javascript_include_tag "project_selectors" %> <!-- PULL IN FUNCTIONALITY FOR LIMITING SELECTION LISTS BASED ON PREVIOUS SELECTION -->
 
 <!-- INITIALIZATION -->
-    <% tracker = tracker %> <!-- generate local variable from local pulled in from render partial in new.js.erb. local variable isn't recognized if I don't have this line included -->
-    <% if tracker.nil? then tracker = Tracker.new end%> <!-- null handling to satisfy compiler -->
+  <% tracker = tracker %> <!-- generate local variable from local pulled in from render partial in new.js.erb. local variable isn't recognized if I don't have this line included -->
+  <% if tracker.nil? then tracker = Tracker.new end%> <!-- null handling to satisfy compiler -->
 
-    <% @project_umbrellas = ProjectUmbrella.all %>
+  <% @project_umbrellas = ProjectUmbrella.all %>
 
 <!-- FORM FIELDS -->
 <%= form_for tracker do |form| %>
 
+  <div class="modal-field">
     <%= content_tag :div, :class => "td day", :data => {:provide => 'datepicker', 'date-format' => 'yyyy-mm-dd', 'date-autoclose' => 'true'} do
         form.text_field :date, class: 'form-control', placeholder: 'YYYY-MM-DD', value: Time.now.strftime('%Y-%m-%d')
-    end %><br>
-    <div class="td project_umbrella" id="tracker_new_project_umbrella_selector">
-        <%= form.select :project_umbrella_id, options_from_collection_for_select(@project_umbrellas, "id", "name") + options_for_select(["Add New..."]), prompt: "(Select a Project Umbrella)" %>
-    </div><br>
-    <div class="td project" id="tracker_new_project_selector">
-        <%= form.grouped_collection_select :project_id, ProjectUmbrella.order(:name), :projects, :name, :id, :name, {:prompt => "(Select a Project)", :include_blank => "Add New..."} %>
-    </div><br>
-    <div class="td weekly_goal" id="tracker_new_weekly_goal_selector">
-        <%= form.grouped_collection_select :weekly_goal_id, Project.order(:name), :weekly_goals, :name, :id, :name, {:prompt => "(Select a Weekly Goal)", :include_blank => "Add New..."} %>
-    </div><br>
-    <div class="td daily_task" id="tracker_new_daily_task_selector">
-        <%= form.grouped_collection_select :daily_task_id, WeeklyGoal.order(:name), :daily_tasks, :name, :id, :name, {:prompt => "(Select a Daily Task)", :include_blank => "Add New..."} %>
-    </div><br>
-    <div class="td description" id="tracker_description_input">
-        <%=form.text_field :description, class: 'form_new_text_select'%>
-    </div><br>
-    <div class="td hours" id="tracker_hours_input">
-        <%=form.text_field :hours, :size=>"10" %>
-    </div><br>
-    <div class="td start_time" id="tracker_start_time_selector">
-        <%=form.time_select :start_time, {minute_step: 30, :default => {:hour => '10', :minute => '30'}} %>
-    </div><br>
-    <div class="td end_time" id="tracker_end_time_selector">
-        <%=form.time_select :end_time, {minute_step: 30} %>
-    </div><br>
-    <div class="td payment" id="tracker_payment_input">
-        <%=form.text_field :payment, :size=>"10" %>
-    </div><br>
-    <div class="td actions" id="tracker_submit">
-        <%= form.submit %>
+    end %>
+  </div>
+  <div class="modal-field" id="tracker_new_project_umbrella_selector">
+      <%= form.select :project_umbrella_id, options_from_collection_for_select(@project_umbrellas, "id", "name") + options_for_select(["Add New..."]), prompt: "(Select a Project Umbrella)" %>
+  </div>
+  <div class="modal-field" id="tracker_new_project_selector">
+      <%= form.grouped_collection_select :project_id, ProjectUmbrella.order(:name), :projects, :name, :id, :name, {:prompt => "(Select a Project)", :include_blank => "Add New..."} %>
+  </div>
+  <div class="modal-field" id="tracker_new_weekly_goal_selector">
+      <%= form.grouped_collection_select :weekly_goal_id, Project.order(:name), :weekly_goals, :name, :id, :name, {:prompt => "(Select a Weekly Goal)", :include_blank => "Add New..."} %>
+  </div>
+  <div class="modal-field" id="tracker_new_daily_task_selector">
+      <%= form.grouped_collection_select :daily_task_id, WeeklyGoal.order(:name), :daily_tasks, :name, :id, :name, {:prompt => "(Select a Daily Task)", :include_blank => "Add New..."} %>
+  </div>
+  <div class="modal-field" id="tracker_description_input">
+      <%=form.text_field :description, class: 'form_new_text_select'%>
+  </div>
+  <div class="modal-field" id="tracker_hours_input">
+      <%=form.text_field :hours, :size=>"10" %>
+  </div>
+  <div class="modal-field" id="tracker_start_time_selector">
+      <%=form.time_select :start_time, {minute_step: 30, :default => {:hour => '10', :minute => '30'}} %>
+  </div>
+  <div class="modal-field" id="tracker_end_time_selector">
+      <%=form.time_select :end_time, {minute_step: 30} %>
+  </div>
+  <div class="modal-field" id="tracker_payment_input">
+      <%=form.text_field :payment, :size=>"10" %>
+  </div>
+  <div class="modal-actions modal-footer">
+      <%= form.submit 'Create Tracker', :class => 'btn btn-secondary modal-create-task-btn' %>
+    
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
     </div>
-<% end %>
+<% end %> 

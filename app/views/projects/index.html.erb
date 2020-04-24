@@ -22,24 +22,28 @@
   <p id="notice"><%= notice %></p>
 
   <!-- BOOTSTRAP - NAVBAR -->
-  <nav class="navbar navbar-light bg-light">
-
-    <span class="navbar-brand mb-0 h1"><%= link_to "TimeTrack", "/", method: :get %></span>
-
-    
+  <nav class="navbar nav-style">
+    <span class="navbar-brand h1 action-button"><%= link_to "TimeTrack", "/", class: "action-btn-item", method: :get %></span> 
   </nav>
-      
 
-
-
-  <h1>Project Umbrellas</h1>
-<div class="action-button-container">
-      <div id="project-view-all-trackers" class="action-button">
-        <%= link_to "month_index", method: :get, id: "tracker-index-nav-month-tracker-link" do %>
-          <i class="fas fa-calendar-alt" data-toggle="tooltip" data-placement="bottom" title="View All Trackers"></i>
-        <% end %>
-      </div>
+  <div class="action-button-container">
+    <div id="project-go-home" class="action-button">
+      <%= link_to "/", method: :get do %>
+        <i class="fas fa-home action-btn-item" data-toggle="tooltip" data-placement="bottom" title="Home"></i>
+      <% end %>
     </div>
+    <div id="project-view-all-trackers" class="action-button">
+      <%= link_to "month_index", method: :get, id: "tracker-index-nav-month-tracker-link" do %>
+        <i class="fas fa-calendar-alt action-btn-item" data-toggle="tooltip" data-placement="bottom" title="View All Trackers"></i>
+      <% end %>
+    </div>   
+  </div>
+      
+  <br><br><br><br>
+  <h1>Project Umbrellas</h1>
+  <%= link_to new_project_umbrella_path do %>
+    <i class="fas fa-plus action-btn-item" data-toggle="tooltip" data-placement="top" title="New Project Umbrella"></i>
+  <% end %>
   <table>
     <thead>
       <tr>
@@ -57,8 +61,14 @@
                 <%= project.name %><br>
               <% end %> 
           </td>
-          <td><%= link_to 'Edit', edit_project_umbrella_path(project_umbrella) %></td>
-          <td><%= link_to 'Destroy', project_umbrella, method: :delete, data: { confirm: 'Are you sure?' }, remote: true %></td> <!--link to modal window for 'Destroy' task functionality -->
+          <td><%= link_to edit_project_umbrella_path(project_umbrella) do %>
+                <i class="far fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
+              <% end %>
+          </td>
+          <td><%= link_to project_umbrella, method: :delete, data: { confirm: 'Are you sure?' }, remote: true do %>
+              <i class="far fa-trash-alt" data-toggle="tooltip" data-placement="top" title="Delete"></i>
+            <% end %>
+          </td> <!--link to modal window for 'Destroy' task functionality -->
         </tr>
       <% end %>
     </tbody>
@@ -66,7 +76,7 @@
 
   <br><br>
 
-  <%= link_to 'New Project Umbrella', new_project_umbrella_path %>
+  
 
   <br><br>
 
@@ -106,8 +116,14 @@
                 <%= task.name %><br>
               <% end %>
           </td>
-          <td><%= link_to 'Edit', edit_project_path(project) %></td>
-          <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }, remote: true %></td>
+          <td><%= link_to edit_project_path(project) do %>
+            <i class="far fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
+            <% end %>
+          </td>
+          <td><%= link_to project, method: :delete, data: { confirm: 'Are you sure?' }, remote: true do %>
+              <i class="far fa-trash-alt" data-toggle="tooltip" data-placement="top" title="Delete"></i>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>
@@ -161,8 +177,14 @@
                 <%= task.name %><br>
               <% end %>
           </td>
-          <td><%= link_to 'Edit', edit_weekly_goal_path(weekly_goal) %></td>
-          <td><%= link_to 'Destroy', weekly_goal, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to edit_weekly_goal_path(weekly_goal) do %>
+              <i class="far fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
+            <% end %>
+          </td>
+          <td><%= link_to weekly_goal, method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <i class="far fa-trash-alt" data-toggle="tooltip" data-placement="top" title="Delete"></i>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

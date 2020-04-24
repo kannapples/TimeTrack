@@ -13,7 +13,7 @@
 //= require rails-ujs
 //= require jquery
 //= require bootstrap-datepicker
-//= require turbolinks
+
 //= require_tree .
 
 
@@ -59,10 +59,10 @@ function hideCompletedTaskGoals(mode) {
 
   if (div_obj.hasClass('inactive-task-content-toggle')) {
     div_obj.removeClass('inactive-task-content-toggle');
-    $('#'+mode+'-eye-icon').replaceWith('<i id="'+mode+'-eye-icon" class="fas fa-eye-slash"></i>');
+    $('#'+mode+'-eye-icon').replaceWith('<i id="'+mode+'-eye-icon" class="fas fa-eye-slash action-btn-item"></i>');
   } else {
     div_obj.addClass('inactive-task-content-toggle');
-    $('#'+mode+'-eye-icon').replaceWith('<i id="'+mode+'-eye-icon" class="fas fa-eye"></i>');
+    $('#'+mode+'-eye-icon').replaceWith('<i id="'+mode+'-eye-icon" class="fas fa-eye action-btn-item"></i>');
   }
 };
 

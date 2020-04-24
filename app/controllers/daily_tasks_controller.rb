@@ -1,7 +1,7 @@
 class DailyTasksController < ApplicationController
-  before_action :set_daily_task, only: [:show, :edit, :update, :destroy]
+  before_action :set_daily_task, only: [:show, :edit, :update, :destroy, :complete_task, :undo_complete_task]
 
-  helper_method :complete_task
+  # helper_method :complete_task, :undo_complete_task
 
   
 
@@ -170,7 +170,7 @@ class DailyTasksController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_daily_task
-      @daily_task = DailyTask.find(params[:id])
+      @daily_task = DailyTask.find(params[:task_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

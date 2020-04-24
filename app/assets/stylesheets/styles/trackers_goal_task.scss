@@ -40,23 +40,33 @@
 #task-goal-header-text {
   margin-bottom: 20px;
 }
+.action-button-container-goals {
+  position: relative;
+  bottom: 165px;
+  display: flex;
+  float: right;
+  justify-content: flex-end;
+}
 .action-button-container {
   position: relative;
-  bottom: 95px;
   display: flex;
   float: right;
   justify-content: flex-end;
 }
 .action-button {
-  padding-right: 15px;
+  border-radius: 0.2em;
 }
-a.add-new-btn {
-  background-color: black;
-  color: white;
-  
+.action-btn-item {
+  padding: 10px;
+  color: black;
 }
-a.add-new-btn:hover {
-  color: #5BD35F;
+.action-button:hover {
+  background-color: white;
+  border: solid 1px black;
+  color: black;
+}
+.action-button a:hover {
+  background-color: white;
 }
 #today-tasks-btn {
   border-top-left-radius: 8px;
@@ -65,6 +75,10 @@ a.add-new-btn:hover {
 #trackers-btn {
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
+}
+#weekly-goals-btn {
+  border-top-right-radius: 0.1px;
+  border-bottom-right-radius: 0.1px;
 }
 button.goal-task-toggle-btn {
   font-size: 20px;
@@ -136,6 +150,9 @@ button.goal-task-toggle-btn:focus {
 }
 
 /* GOAL TASK CONTENT */
+.empty-message {
+  text-align: center;
+}
 .button-color-block {
   background-color: black;
   width: 0.2em;

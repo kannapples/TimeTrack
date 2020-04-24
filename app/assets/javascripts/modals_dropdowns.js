@@ -256,4 +256,7 @@ window.onload = function(){
   taskGoalToggle('today');
 }
 
+// document.addEventListener("turbolinks:load", function() {
+//   taskGoalToggle('today');
+// })
 

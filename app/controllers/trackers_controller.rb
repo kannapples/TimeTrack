@@ -187,9 +187,17 @@ class TrackersController < ApplicationController
       return includesOutsDT.all.order('weekly_goals.project_umbrella_id DESC')
     end
 
-    def get_completed_weekly_goals 
-      excludesOutsDT = WeeklyGoal.where('weekly_goals.id NOT IN (?)', DailyTask.where("completed = ? AND active = ?",false,true).select(:weekly_goal_id))
+    def get_completed_weekly_goals(type)
+      active_flag = true
+      if type == 'active' then 
+        active_flag = true
+      else 
+        active_flag = false
+      end
+      
+      excludesOutsDT = WeeklyGoal.where('(weekly_goals.id NOT IN (?)) AND active = ?', DailyTask.where("completed = ? AND active = ?",false,true).select(:weekly_goal_id), active_flag);
       return excludesOutsDT.all.order('weekly_goals.project_umbrella_id DESC')
+     
     end
 
     def get_daily_tasks wg_id 
